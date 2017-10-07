@@ -1,5 +1,5 @@
 applications:
-- services
+- services:
   - ElephantSQL-r2
   disk_quota: 1024M
   host: itucsdb1701
