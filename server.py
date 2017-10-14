@@ -30,7 +30,7 @@ def home_page():
 
 @app.route('/initdb')
 def initialize_database():
-    with dbapi2.connect(app.config['dns']) as connection:
+    with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
         query = """DROP TABLE IF EXISTS COUNTER"""
@@ -49,10 +49,10 @@ def initialize_database():
 
 @app.route('/count')
 def counter_page():
-    with dbapi2.connect(app.config['dns']) as connection:
+    with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = "UPDATE COUNTER SET N++"
+        query = "UPDATE COUNTER SET N = N + 1"
         cursor.execute(query)
         connection.commit()
 
@@ -73,6 +73,6 @@ if __name__ == '__main__':
         app.config['dsn'] = get_elephantsql_dsn(VCAP_SERVICES)
     else:
         app.config['dsn'] = """user='vagrant' password='vagrant'
-                               host='localhost' port=54321 dbname='itucsdb'"""
+                               host='localhost' port=5432 dbname='itucsdb'"""
     app.run(host='0.0.0.0', port=port, debug=debug)
 
