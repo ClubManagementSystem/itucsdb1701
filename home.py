@@ -10,7 +10,6 @@ from flask import render_template
 from flask import request
 from classes import User
 from passlib.apps import custom_app_context as pwd_context
-from server import dsn
 SECRET_KEY = 'cigdem'
 
 link1 = Blueprint('link1',__name__)

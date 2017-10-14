@@ -8,7 +8,6 @@ from flask.helpers import url_for
 from flask import Flask
 from flask import render_template
 from flask import request
-from home import dsn
 
 class User:
     def __init__(self, name, number, email, psw):
