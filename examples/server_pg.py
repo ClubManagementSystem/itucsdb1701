@@ -32,7 +32,7 @@ def home_page():
 
 @app.route('/initdb')
 def initialize_database():
-    with dbapi2.connect(app.config['dsn']) as connection:
+    with dbapi2.connect(app.config['dns']) as connection:
         cursor = connection.cursor()
 
         query = """DROP TABLE IF EXISTS COUNTER"""

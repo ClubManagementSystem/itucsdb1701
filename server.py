@@ -7,10 +7,13 @@ from flask import redirect
 from flask.helpers import url_for
 from flask import Flask
 from flask import render_template
-
+from home import link1
 
 app = Flask(__name__)
+app.register_blueprint(link1)
+app.secret_key = 'cigdem'
 
+dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='itucsdb'"""
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -21,11 +24,6 @@ def get_elephantsql_dsn(vcap_services):
     dsn = """user='{}' password='{}' host='{}' port={}
              dbname='{}'""".format(user, password, host, port, dbname)
     return dsn
-
-@app.route('/')
-def home_page():
-    now = datetime.datetime.now()
-    return render_template('home.html', current_time=now.ctime())
 
 
 @app.route('/initdb')
