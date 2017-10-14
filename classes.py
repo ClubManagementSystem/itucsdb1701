@@ -23,7 +23,4 @@ class UserList:
         self.dbfile = dbfile
         self.last_key = None
 
-    def addUser(self, user):
-        with dbapi2.connect(self.dbfile) as connection:
-            cursor = connection.cursor()
-            query = "INSERT INTO"
+
