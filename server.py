@@ -8,12 +8,12 @@ from flask.helpers import url_for
 from flask import Flask
 from flask import render_template
 from home import link1
+from classes import UserList
 
 app = Flask(__name__)
 app.register_blueprint(link1)
 app.secret_key = 'cigdem'
 
-dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='itucsdb'"""
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -31,18 +31,19 @@ def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS COUNTER"""
+        query = """DROP TABLE IF EXISTS USERDB"""
+        cursor.execute(query)
+        query = """CREATE TABLE USERDB (ID SERIAL PRIMARY KEY,
+         NAME VARCHAR(40) NOT NULL,NUMBER BIGINT,
+        EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
         cursor.execute(query)
 
-        query = """CREATE TABLE COUNTER (N INTEGER)"""
-        cursor.execute(query)
-
-        query = """INSERT INTO COUNTER (N) VALUES (0)"""
-        cursor.execute(query)
+       # query = """INSERT INTO COUNTER (N) VALUES (0)"""
+        #cursor.execute(query)
 
         connection.commit()
 
-    return redirect(url_for('home_page'))
+    return redirect(url_for('link1.home_page'))
 
 
 @app.route('/count')
@@ -72,5 +73,6 @@ if __name__ == '__main__':
     else:
         app.config['dsn'] = """user='vagrant' password='vagrant'
                                host='localhost' port=5432 dbname='itucsdb'"""
+    app.store = UserList(os.path.join(os.path.dirname(__file__),app.config['dsn']))
     app.run(host='0.0.0.0', port=port, debug=debug)
 

@@ -4,16 +4,6 @@
 {% block content %}
 
 
-  {% with messages = get_flashed_messages() %}
-   {% if messages %}
-   <div class="alert alert-warning"><strong>
-      {% for message in messages %}
-         {{ message }}
-      {% endfor %}
-      </strong></div>
-   {% endif %}
-{% endwith %}
-
  <form  method = "POST" action= " {{ url_for('link1.register') }}">
   <div class="container">
 

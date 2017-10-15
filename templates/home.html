@@ -2,7 +2,6 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-    <h1><b>TURGUT KORAY BESTE CIGDEM</b></h1>
 	 <form method= "POST" action= " {{ url_for('link1.login') }}">
 
   <div class="container">
@@ -15,7 +14,7 @@
   </div>
 
   <div class="container">
-    <b><span class="psw">Want to join? <a href="{{ url_for('link1.signup') }}">SIGN UP!</a></span></b>
+    <b><span class="text">Want to join? <a  style = "color: green;" href="{{ url_for('link1.signup') }}">SIGN UP!</a></span></b>
   </div>
 </form>
 
