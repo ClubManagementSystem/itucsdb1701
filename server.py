@@ -38,28 +38,10 @@ def initialize_database():
         EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
         cursor.execute(query)
 
-       # query = """INSERT INTO COUNTER (N) VALUES (0)"""
-        #cursor.execute(query)
-
         connection.commit()
 
     return redirect(url_for('link1.home_page'))
 
-
-@app.route('/count')
-def counter_page():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = "UPDATE COUNTER SET N = N + 1"
-        cursor.execute(query)
-        connection.commit()
-
-        query = "SELECT N FROM COUNTER"
-        cursor.execute(query)
-        count = cursor.fetchone()[0]
-
-    return "This page was accessed %d times." % count
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
