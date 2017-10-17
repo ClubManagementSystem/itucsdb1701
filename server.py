@@ -13,7 +13,7 @@ from classes import UserList
 app = Flask(__name__)
 app.register_blueprint(link1)
 app.secret_key = 'cigdem'
-
+login_manager = LoginManager()
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -40,7 +40,7 @@ def initialize_database():
 
        # query = """INSERT INTO COUNTER (N) VALUES (0)"""
         #cursor.execute(query)
-
+        login_manager.init_app(app)
         connection.commit()
 
     return redirect(url_for('link1.home_page'))
