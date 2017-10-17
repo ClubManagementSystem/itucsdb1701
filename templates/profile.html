@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+  Hi {{ current_user.name }}!
+ <li><a href="/logout"><b>Logout</b></a></li>
+{% endif %} <br>
+
+{% endblock %}
