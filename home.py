@@ -6,11 +6,13 @@ import psycopg2 as dbapi2
 from flask import redirect, Blueprint, flash
 from flask.helpers import url_for
 from flask import Flask
-from flask import render_template
+from flask import render_template, Response
 from flask import request, current_app
 from classes import User
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
+from flask_login import login_manager, login_user, logout_user
+
 
 link1 = Blueprint('link1',__name__)
 dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='itucsdb'"""
@@ -23,12 +25,13 @@ def home_page():
 
 
 @link1.route('/login', methods = ['GET', 'POST'])
-@login_required
 def login():
     if request.method == "POST":
         Flag = current_app.store.verify_user(request.form['uname'], request.form['psw'])
         if Flag == 0:
-            return render_template('login.html', uname = request.form['uname'])
+            user = User(request.form['uname'],9999, "zzz", "zzz").get_user(User(request.form['uname'],9999, "zzz", "zzz").get_id())
+            login_user(user)
+            return render_template('profile.html')
         elif Flag == -1:
             flash('Wrong password!')
         else:
@@ -41,6 +44,12 @@ def login():
 @link1.route('/signup', methods = ['GET', 'POST'])
 def signup():
         return render_template('signup.html')
+
+@link1.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return Response('<p>Logged out</p>')
 
 @link1.route('/register', methods = ['GET', 'POST'])
 def register():

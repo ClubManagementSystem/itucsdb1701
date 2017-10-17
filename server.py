@@ -5,15 +5,29 @@ import re
 import psycopg2 as dbapi2
 from flask import redirect
 from flask.helpers import url_for
-from flask import Flask
+from flask import Flask, flash
 from flask import render_template
 from home import link1
-from classes import UserList
+from classes import UserList, User
+from flask_login import login_manager
+from flask_login.login_manager import LoginManager
 
 app = Flask(__name__)
 app.register_blueprint(link1)
 app.secret_key = 'cigdem'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "users.login"
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User("zzz",9999, "zzz", "zzz").get_user(user_id)
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    # do stuff
+    flash("UYE OL DA GEL")
+    return render_template('signup.html')
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -39,6 +53,7 @@ def initialize_database():
         cursor.execute(query)
 
         connection.commit()
+
 
     return redirect(url_for('link1.home_page'))
 
