@@ -10,6 +10,7 @@ from flask import render_template
 from flask import request, current_app
 from classes import User
 from passlib.apps import custom_app_context as pwd_context
+from flask_login.utils import login_required
 
 link1 = Blueprint('link1',__name__)
 dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='itucsdb'"""
@@ -22,6 +23,7 @@ def home_page():
 
 
 @link1.route('/login', methods = ['GET', 'POST'])
+@login_required
 def login():
     if request.method == "POST":
         Flag = current_app.store.verify_user(request.form['uname'], request.form['psw'])
@@ -33,7 +35,8 @@ def login():
             flash('No such user!')
         return redirect(url_for('link1.home_page'))
     else:
-        return render_template('login.html', uname = "NoName")
+        flash('UNAUTHORIZED USER!!!')
+        return redirect(url_for('link1.home_page'))
 
 @link1.route('/signup', methods = ['GET', 'POST'])
 def signup():

@@ -41,12 +41,12 @@ class UserList:
             usr = cursor.fetchone()
             print (usr)
             if usr == None:
-                return -2
+                return -2 # user yok
 
             else:
                 if pwd_context.verify(upsw,usr[1]):
-                    return 0
+                    return 0 # sifre dogru
                 else:
-                    return -1
+                    return -1 # sifre yanlis
 
 

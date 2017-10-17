@@ -13,7 +13,7 @@ from classes import UserList
 app = Flask(__name__)
 app.register_blueprint(link1)
 app.secret_key = 'cigdem'
-login_manager = LoginManager()
+
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -38,28 +38,10 @@ def initialize_database():
         EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
         cursor.execute(query)
 
-       # query = """INSERT INTO COUNTER (N) VALUES (0)"""
-        #cursor.execute(query)
-        login_manager.init_app(app)
         connection.commit()
 
     return redirect(url_for('link1.home_page'))
 
-
-@app.route('/count')
-def counter_page():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-
-        query = "UPDATE COUNTER SET N = N + 1"
-        cursor.execute(query)
-        connection.commit()
-
-        query = "SELECT N FROM COUNTER"
-        cursor.execute(query)
-        count = cursor.fetchone()[0]
-
-    return "This page was accessed %d times." % count
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
