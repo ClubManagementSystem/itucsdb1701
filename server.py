@@ -10,6 +10,7 @@ from flask import render_template
 from home import link1
 from club import link2
 from user import link3
+from admin import link4
 from classes import UserList, User
 from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
@@ -20,6 +21,7 @@ app = Flask(__name__)
 app.register_blueprint(link1)
 app.register_blueprint(link2)
 app.register_blueprint(link3)
+app.register_blueprint(link4)
 app.secret_key = 'cigdem'
 login_manager = LoginManager()
 login_manager.init_app(app)

@@ -33,6 +33,15 @@ def clubregister():
         addclub(name,type,exp,uid)
         return redirect(url_for('link1.home_page'))
 
+@link2.route('/clubProfile/<int:id>', methods = ['GET', 'POST'])
+def clubProfile(id):
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT * FROM CLUBDB WHERE (ID = %s)"""
+        cursor.execute(query, (id,))
+        club = cursor.fetchone()
+    return render_template('clubProfile.html', club = club)
+
 
 def addclub(n,t,e,i):
     with dbapi2._connect(current_app.config['dsn']) as connection:
