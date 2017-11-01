@@ -5,15 +5,32 @@
 {% if current_user.is_authenticated %}
 
 
-  <div class="container-fluid">
+ <div class="container-fluid">
     <ul class="nav navbar-nav navbar-right">
       <span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!
       <a href="#"><span class="glyphicon glyphicon-log-out"></span>Log out</a>
     </ul>
-  </div>
+ </div>
+<header>
+    <h3>Profile Information</h3>
+</header>
+<br><b>Name: </b> {{current_user.name}}</br>
+<br><b>Number: </b> {{current_user.number}}</br>
+<br><b>Email: </b> {{current_user.email}}</br>
+<br><b>My Student Clubs: </b></br>
 {% for c in clubnames %}
-<p> {{c}} </p> <br>
+	{% if c==0 %}
+	<br> No membership in any club. </br>
+	{% endif %}
+
+	<br><ul><li> {{c}} </ul></li>
+
 {% endfor %}
+<div class="container-fluid">
+    <ul class="nav navbar-nav navbar-left">
+    	<a href="{{ url_for('link3.editProfile') }}"><span class="glyphicon glyphicon-edit"></span>Edit</a>
+    </ul>
+ </div>
 
 {% endif %} <br>
 {% endblock %}

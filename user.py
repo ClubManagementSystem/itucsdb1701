@@ -41,3 +41,9 @@ def getclubname(id):
             cursor.execute(query,(id))
             na=cursor.fetchone()
             return na
+@link3.route('/edit')
+@login_required
+def editProfile():
+
+    return render_template('edit.html')
+
