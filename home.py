@@ -11,7 +11,7 @@ from flask import request, current_app
 from classes import User
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
-from flask_login import login_manager, login_user, logout_user
+from flask_login import login_manager, login_user, logout_user, confirm_login
 from urllib.parse import urlparse, urljoin
 from user import link3
 
@@ -41,6 +41,7 @@ def login():
             next = url_for('link3.userProfile')
             if not is_safe_url(next):
                 return abort(400)
+            confirm_login()
             return redirect(url_for('link3.userProfile'))
         elif Flag == -1:
             flash('Wrong password!')

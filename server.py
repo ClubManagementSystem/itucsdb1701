@@ -14,6 +14,7 @@ from classes import UserList, User
 from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
 from passlib.apps import custom_app_context as pwd_context
+from datetime import timedelta
 
 app = Flask(__name__)
 app.register_blueprint(link1)
@@ -100,5 +101,7 @@ if __name__ == '__main__':
     else:
         app.config['dsn'] = """user='vagrant' password='vagrant'
                                host='localhost' port=5432 dbname='itucsdb'"""
+
+    REMEMBER_COOKIE_DURATION = timedelta(seconds = 10)
     app.store = UserList(os.path.join(os.path.dirname(__file__),app.config['dsn']))
     app.run(host='0.0.0.0', port=port, debug=debug)
