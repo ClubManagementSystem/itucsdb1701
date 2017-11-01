@@ -14,7 +14,6 @@ from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user,current_user
 
 link2 = Blueprint('link2',__name__)
-link3 = Blueprint('link3',__name__)
 
 
 @link2.route('/clubapp')
@@ -41,5 +40,3 @@ def addclub(n,t,e,i):
             query = """INSERT INTO CLUBDB (NAME,TYPE,EXP,CM) VALUES (%s, %s, %s, %s)"""
             cursor.execute(query,(n,t,e,i))
             return
-
-

@@ -8,7 +8,8 @@ from flask.helpers import url_for
 from flask import Flask, flash
 from flask import render_template
 from home import link1
-from club import link2, link3
+from club import link2
+from user import link3
 from classes import UserList, User
 from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
