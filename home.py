@@ -12,6 +12,7 @@ from classes import User
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user
+from urllib.parse import urlparse, urljoin
 
 
 link1 = Blueprint('link1',__name__)
@@ -23,6 +24,11 @@ def home_page():
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
 
 @link1.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -31,6 +37,9 @@ def login():
         if Flag == 0:
             user = User(request.form['uname'],9999, "zzz", "zzz").get_user(User(request.form['uname'],9999, "zzz", "zzz").get_id())
             login_user(user)
+            next = url_for('link1.userProfile')
+            if not is_safe_url(next):
+                return abort(400)
             return render_template('profile.html')
         elif Flag == -1:
             flash('Wrong password!')
@@ -40,6 +49,10 @@ def login():
     else:
         flash('UNAUTHORIZED USER!!!')
         return redirect(url_for('link1.home_page'))
+
+@link1.route('/profile')
+def userProfile():
+    render_template('profile.html')
 
 @link1.route('/signup', methods = ['GET', 'POST'])
 def signup():
