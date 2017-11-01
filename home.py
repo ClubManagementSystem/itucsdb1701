@@ -41,7 +41,7 @@ def login():
             next = url_for('link3.userProfile')
             if not is_safe_url(next):
                 return abort(400)
-            return render_template('profile.html')
+            return redirect(url_for('link3.userProfile'))
         elif Flag == -1:
             flash('Wrong password!')
         else:

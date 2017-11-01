@@ -18,8 +18,7 @@ link3 = Blueprint('link3',__name__)
 @link3.route('/profile')
 @login_required
 def userProfile():
-<<<<<<< HEAD
-    clr=userclub(id)
+    clr=userclub(current_user.get_id())
     print("burdayımmm")
     print(clr)
     return render_template('profile.html')
@@ -32,7 +31,3 @@ def userclub(id):
             cursor.execute(query,(id))
             arr=cursor.fetchall()
             return arr
-
-=======
-    return render_template('profile.html')
->>>>>>> branch 'master' of https://github.com/itucsdb1701/itucsdb1701.git
