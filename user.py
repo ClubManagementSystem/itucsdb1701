@@ -16,5 +16,6 @@ from flask_login import login_manager, login_user, logout_user,current_user
 link3 = Blueprint('link3',__name__)
 
 @link3.route('/profile')
+@login_required
 def userProfile():
-    render_template('profile.html')
+    return render_template('profile.html')

@@ -37,11 +37,11 @@ def login():
         Flag = current_app.store.verify_user(request.form['uname'], request.form['psw'])
         if Flag == 0:
             user = User(request.form['uname'],9999, "zzz", "zzz").get_user(User(request.form['uname'],9999, "zzz", "zzz").get_id())
-            login_user(user)
+            login_user(user, remember=True)
             next = url_for('link3.userProfile')
             if not is_safe_url(next):
                 return abort(400)
-            return render_template('profile.html')
+            return redirect(url_for('link3.userProfile'))
         elif Flag == -1:
             flash('Wrong password!')
         else:
