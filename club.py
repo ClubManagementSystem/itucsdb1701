@@ -9,6 +9,7 @@ from flask import Flask
 from flask import render_template, Response
 from flask import request, current_app
 from classes import User
+from home import link1
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user,current_user
@@ -33,13 +34,17 @@ def clubregister():
         addclub(name,type,exp,uid)
         return redirect(url_for('link1.home_page'))
 
-@link2.route('/clubProfile/<int:id>', methods = ['GET', 'POST'])
+@link2.route('/clubProfile/<int:id>/')
 def clubProfile(id):
-    with dbapi2.connect(app.config['dsn']) as connection:
+    with dbapi2.connect(current_app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """SELECT * FROM CLUBDB WHERE (ID = %s)"""
         cursor.execute(query, (id,))
         club = cursor.fetchone()
+        if club == None:
+            flash("Yok boyle bir kulup")
+            return redirect(url_for('link1.home_page'))
+        print(club)
     return render_template('clubProfile.html', club = club)
 
 

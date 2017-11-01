@@ -2,31 +2,17 @@
 {% block title %} Club Application {% endblock %}
 
 {% block content %}
-
-
- <form  method = "POST" action= " {{ url_for('link2.clubregister') }}">
+<form>
   <div class="container">
 
-    <label><b>Club Name</b></label>
-    <input type="text" placeholder="Club Name" name="name" required><br>
+     <label><b>Club Name</b></label>
+     <pr>{{club[1]}}</pr><br>
 
-	<label><b>Club Type</b></label>
-	<select class="selectmenu" name="type">
-	<option selected disabled class="hideoption">Select Club Type</option>
-	<option>Profession</option>
-	<option>Sport</option>
-	<option>Culture/Art</option>
-	</select>
-	<br>
+	   <label><b>Club Type</b></label>
+	   <pr>{{club[2]}}</pr><br>
 
     <label><b>Club Definition</b></label>
-    <textarea rows"4" cols"50"  placeholder="Enter definition here" name="exp" required></textarea><br>
-
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-
-    <div >
-      <button type="submit" class="signupbtn">Apply</button>
-    </div>
+    <pr>{{club[3]}}</pr>
   </div>
 </form>
 {% endblock %}
