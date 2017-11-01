@@ -16,5 +16,19 @@ from flask_login import login_manager, login_user, logout_user,current_user
 link3 = Blueprint('link3',__name__)
 
 @link3.route('/profile')
+@login_required
 def userProfile():
-    render_template('profile.html')
+    clr=userclub(id)
+    print("burdayımmm")
+    print(clr)
+    return render_template('profile.html')
+
+
+def userclub(id):
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT * FROM CLUBMEM WHERE (USERID=%s)"""
+            cursor.execute(query,(id))
+            arr=cursor.fetchall()
+            return arr
+
