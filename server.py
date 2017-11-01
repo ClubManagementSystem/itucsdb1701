@@ -10,7 +10,7 @@ from flask import render_template
 from home import link1
 from club import link2, link3
 from classes import UserList, User
-from flask_login import login_manager
+from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
 from passlib.apps import custom_app_context as pwd_context
 
@@ -72,7 +72,7 @@ def initialize_database():
         cursor.execute(query)
 
         query = """ CREATE TABLE CLUBDB (ID SERIAL PRIMARY KEY, NAME VARCHAR(40) NOT NULL, TYPE VARCHAR(40) NOT NULL,
-        EXP VARCHAR(2000), ACTIVE INTEGER DEFAULT 0 ) """
+        EXP VARCHAR(2000), ACTIVE INTEGER DEFAULT 0, CM INT REFERENCES USERDB(ID) ) """
         cursor.execute(query)
 
         query = """DROP TABLE IF EXISTS CLUBMEM CASCADE"""
