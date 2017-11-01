@@ -92,6 +92,13 @@ def initialize_database():
         cursor.execute(query)
         connection.commit()
 
+        query = """DROP TABLE IF EXISTS APPTAB CASCADE"""
+        cursor.execute(query)
+
+        query = """CREATE TABLE APPTAB(CLUBID INT REFERENCES CLUBDB(ID), USERID INT REFERENCES USERDB(ID))"""
+        cursor.execute(query)
+        connection.commit()
+
 
 
     return redirect(url_for('link1.home_page'))
