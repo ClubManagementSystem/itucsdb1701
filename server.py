@@ -12,6 +12,7 @@ from club import link2, link3
 from classes import UserList, User
 from flask_login import login_manager
 from flask_login.login_manager import LoginManager
+from passlib.apps import custom_app_context as pwd_context
 
 app = Flask(__name__)
 app.register_blueprint(link1)
@@ -48,13 +49,37 @@ def initialize_database():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS USERDB"""
+        query = """DROP TABLE IF EXISTS USERDB CASCADE"""
         cursor.execute(query)
         query = """CREATE TABLE USERDB (ID SERIAL PRIMARY KEY,
          NAME VARCHAR(40) NOT NULL,NUMBER BIGINT,
         EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
         cursor.execute(query)
 
+        query = """INSERT INTO USERDB(NAME,PSW,LEVEL) VALUES(%s, %s, %s)   """
+        cursor.execute(query,('admin', pwd_context.encrypt('admin'), 1,))
+
+        query = """INSERT INTO USERDB(NAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s,%s)   """
+        cursor.execute(query,('koray', pwd_context.encrypt('123'),12345, 'koray@itu.edu.tr',))
+
+        query = """INSERT INTO USERDB(NAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s,%s)   """
+        cursor.execute(query,('turgut', pwd_context.encrypt('123'),12345, 'turgut@itu.edu.tr',))
+
+        query = """INSERT INTO USERDB(NAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s,%s)   """
+        cursor.execute(query,('beste', pwd_context.encrypt('123'),12345, 'beste@itu.edu.tr',))
+
+        query = """DROP TABLE IF EXISTS CLUBDB CASCADE"""
+        cursor.execute(query)
+
+        query = """ CREATE TABLE CLUBDB (ID SERIAL PRIMARY KEY, NAME VARCHAR(40) NOT NULL, TYPE VARCHAR(40) NOT NULL,
+        EXP VARCHAR(2000), ACTIVE INTEGER DEFAULT 0 ) """
+        cursor.execute(query)
+
+        query = """DROP TABLE IF EXISTS CLUBMEM CASCADE"""
+        cursor.execute(query)
+
+        query = """CREATE TABLE CLUBMEM (CLUBID INT REFERENCES CLUBDB(ID), USERID INT REFERENCES USERDB(ID), LEVEL INTEGER DEFAULT 0)"""
+        cursor.execute(query)
         connection.commit()
 
 
