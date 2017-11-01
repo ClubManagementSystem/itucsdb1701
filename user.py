@@ -19,15 +19,25 @@ link3 = Blueprint('link3',__name__)
 @login_required
 def userProfile():
     clr=userclub(current_user.get_id())
-    print("burdayımmm")
-    print(clr)
-    return render_template('profile.html')
+    clubnames = []
+    for i in clr:
+        cn = getclubname(i)
+        clubnames.append(cn[0])
+    return render_template('profile.html',clubnames = clubnames)
 
 
 def userclub(id):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query = """SELECT * FROM CLUBMEM WHERE (USERID=%s)"""
+            query = """SELECT CLUBID FROM CLUBMEM WHERE (USERID=%s)"""
             cursor.execute(query,(id))
             arr=cursor.fetchall()
             return arr
+
+def getclubname(id):
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT NAME FROM CLUBDB WHERE (ID=%s)"""
+            cursor.execute(query,(id))
+            na=cursor.fetchone()
+            return na

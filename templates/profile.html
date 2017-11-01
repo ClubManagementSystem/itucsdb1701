@@ -3,7 +3,17 @@
 
 {% block content %}
 {% if current_user.is_authenticated %}
-  Hi {{ current_user.name }}!
- <li><a href="/logout"><b>Logout</b></a></li>
+
+
+  <div class="container-fluid">
+    <ul class="nav navbar-nav navbar-right">
+      <span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!
+      <a href="#"><span class="glyphicon glyphicon-log-out"></span>Log out</a>
+    </ul>
+  </div>
+{% for c in clubnames %}
+<p> {{c}} </p> <br>
+{% endfor %}
+
 {% endif %} <br>
 {% endblock %}
