@@ -19,12 +19,19 @@ class User(UserMixin):
         self.number = number
         self.email = email
         self.psw = psw
-        self.level = 0
+        with dbapi2._connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT LEVEL FROM USERDB WHERE(NAME = %s) """
+            cursor.execute(query,(self.name,))
+            lvl = cursor.fetchone()
+            if lvl:
+                self.level = lvl[0]
+            else:
+                self.level = 0
 
     def get_id(self):
         with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            print(self.name)
             query = "SELECT ID FROM USERDB WHERE (NAME = %s)"
             cursor.execute(query, (self.name,))
             usr = cursor.fetchone()
@@ -77,5 +84,3 @@ class UserList:
                     return 0 # sifre dogru
                 else:
                     return -1 # sifre yanlis
-
-
