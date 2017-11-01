@@ -22,7 +22,8 @@ app.register_blueprint(link3)
 app.secret_key = 'cigdem'
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "users.login"
+login_manager.login_view = 'link1.home_page'
+login_manager.fresh_view = 'link1.home_page'
 
 @login_manager.user_loader
 def load_user(user_id):
