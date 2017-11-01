@@ -88,7 +88,7 @@ def initialize_database():
         query = """DROP TABLE IF EXISTS SOCMED CASCADE"""
         cursor.execute(query)
 
-        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID), FACEBOOK VARCHAR(100), TWITTER VARCHAR(100), MAIL VARCHAR(100))"""
+        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID), TYPE VARCHAR(20), LINK VARCHAR(100))"""
         cursor.execute(query)
         connection.commit()
 
