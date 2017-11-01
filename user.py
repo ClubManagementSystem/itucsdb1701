@@ -41,9 +41,42 @@ def getclubname(id):
             cursor.execute(query,(id))
             na=cursor.fetchone()
             return na
+
 @link3.route('/edit')
 @login_required
 def editProfile():
-
     return render_template('edit.html')
+
+
+@link3.route('/edit_profile',methods=['GET', 'POST'])
+@login_required
+def updateProfile():
+    if request.method == "POST":
+        userpsw0 = request.form['psw']
+        userpwd1 = request.form['psw-repeat']
+        useremail = request.form['email']
+        if userpsw0 != None:
+            if userpsw0 != userpwd1:
+                flash('Passwords do not match!')
+                return redirect(url_for('link3.editProfile'))
+            else:
+                userpsw = pwd_context.encrypt(userpsw0)
+                userid=current_user.get_id()
+                with dbapi2._connect(current_app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """UPDATE USERDB SET PSW=%s WHERE(ID=%s)"""
+                    cursor.execute(query,(userpsw,userid,))
+        if useremail!= None:
+            userid=current_user.get_id()
+            with dbapi2._connect(current_app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """UPDATE USERDB SET EMAIL=%s WHERE(ID=%s)"""
+                cursor.execute(query,(useremail,userid,))
+        else:
+            return redirect(url_for('link3.userProfile'))
+    return redirect(url_for('link3.userProfile'))
+
+
+
+
 

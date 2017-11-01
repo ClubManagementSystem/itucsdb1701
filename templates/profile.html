@@ -12,7 +12,7 @@
 <br><b>Email: </b> {{current_user.email}}</br>
 <br><b>My Student Clubs: </b></br>
 {% for c in clubnames %}
-	{% if c==0 %}
+	{% if c==none: %}
 	<br> No membership in any club. </br>
 	{% endif %}
 
