@@ -8,12 +8,15 @@ from flask.helpers import url_for
 from flask import Flask, flash
 from flask import render_template
 from home import link1
+from club import link2, link3
 from classes import UserList, User
 from flask_login import login_manager
 from flask_login.login_manager import LoginManager
 
 app = Flask(__name__)
 app.register_blueprint(link1)
+app.register_blueprint(link2)
+app.register_blueprint(link3)
 app.secret_key = 'cigdem'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -72,4 +75,3 @@ if __name__ == '__main__':
                                host='localhost' port=5432 dbname='itucsdb'"""
     app.store = UserList(os.path.join(os.path.dirname(__file__),app.config['dsn']))
     app.run(host='0.0.0.0', port=port, debug=debug)
-
