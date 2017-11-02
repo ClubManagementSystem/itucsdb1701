@@ -90,7 +90,7 @@ def initialize_database():
         query = """DROP TABLE IF EXISTS SOCMED CASCADE"""
         cursor.execute(query)
 
-        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID), TYPE VARCHAR(20), LINK VARCHAR(100))"""
+        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID), TYPESOC VARCHAR(20), LINK VARCHAR(100))"""
         cursor.execute(query)
         connection.commit()
 
@@ -101,10 +101,7 @@ def initialize_database():
         cursor.execute(query)
         connection.commit()
 
-
-
     return redirect(url_for('link1.home_page'))
-
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')

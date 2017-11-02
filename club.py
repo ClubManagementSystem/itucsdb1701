@@ -29,9 +29,10 @@ def clubregister():
         name = request.form['name']
         type = request.form['type']
         exp = request.form['exp']
-
+        typesoc = request.form['typesoc']
+        link = request.form['link']
         uid = current_user.get_id()
-        addclub(name,type,exp,uid)
+        addclub(name,type,exp,uid,typesoc,link)
         return redirect(url_for('link1.home_page'))
 
 @link2.route('/clubProfile/<int:id>/')
@@ -45,12 +46,24 @@ def clubProfile(id):
             flash("Yok boyle bir kulup")
             return redirect(url_for('link1.home_page'))
         print(club)
+
     return render_template('clubProfile.html', club = club)
 
-
-def addclub(n,t,e,i):
+def addclub(n,t,e,i,ts,l):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
             query = """INSERT INTO CLUBDB (NAME,TYPE,EXP,CM) VALUES (%s, %s, %s, %s)"""
-            cursor.execute(query,(n,t,e,i))
+            cursor.execute(query,(n,t,e,i,))
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT ID FROM CLUBDB WHERE (NAME = %s)"""
+            cursor.execute(query,(n,))
+            clubid = cursor.fetchone()
+            print(clubid[0])
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """INSERT INTO SOCMED (CLUBID,TYPESOC,LINK) VALUES (%s, %s, %s)"""
+            cursor.execute(query,(clubid[0],ts,l,))
             return
+
+
