@@ -37,17 +37,25 @@ def clubregister():
 
 @link2.route('/clubProfile/<int:id>/')
 def clubProfile(id):
+    userId = current_user.get_id()
     with dbapi2.connect(current_app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """SELECT * FROM CLUBDB WHERE (ID = %s)"""
         cursor.execute(query, (id,))
         club = cursor.fetchone()
+
         if club == None:
             flash("Yok boyle bir kulup")
             return redirect(url_for('link1.home_page'))
-        print(club)
 
-    return render_template('clubProfile.html', club = club)
+        query = """SELECT COUNT(*) FROM CLUBMEM WHERE (CLUBID = %s AND USERID = %s)"""
+        cursor.execute(query,(id, userId,))
+        ismember = cursor.fetchone()[0]
+
+        query = """SELECT COUNT(*) FROM APPTAB WHERE (CLUBID = %s AND USERID = %s)"""
+        cursor.execute(query,(id, userId,))
+        isapplied = cursor.fetchone()[0]
+    return render_template('clubProfile.html', club = club, ismember = ismember, isapplied = isapplied)
 
 def addclub(n,t,e,i,ts,l):
     with dbapi2._connect(current_app.config['dsn']) as connection:
@@ -66,4 +74,13 @@ def addclub(n,t,e,i,ts,l):
             cursor.execute(query,(clubid[0],ts,l,))
             return
 
-
+@link2.route('/registerToClub/<int:clubId>', methods = ['GET', 'POST'])
+def registerToClub(clubId):
+    if request.method == 'POST':
+        userId = current_user.get_id()
+        with dbapi2._connect(current_app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO APPTAB (CLUBID,USERID) VALUES (%s, %s)"""
+                cursor.execute(query,(clubId, userId,))
+                flash("ISTEK GONDERILDI")
+        return redirect(url_for('link2.clubProfile', id = clubId))

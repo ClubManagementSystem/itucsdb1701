@@ -15,4 +15,17 @@
     <pr>{{club[3]}}</pr>
   </div>
 </form>
+<form method="POST" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
+  {% if not ismember and not isapplied %}
+<button type="submit">register</button>
+  {% endif %}
+
+  {% if not ismember and isapplied %}
+<button type="submit" disabled>applied</button>
+  {% endif %}
+
+  {% if ismember and not isapplied %}
+<button type="submit" disabled>already member</button>
+  {% endif %}
+</form>
 {% endblock %}
