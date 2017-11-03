@@ -41,6 +41,7 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav nav-tabs">
 					<li><a href="/"><b>Home</b></a></li>
+					<li><a href="/clubProfile/1"><b>Clubs</b></a></li>
 					<li class='navbar-right'>
 						{% if current_user.is_authenticated %}
 							<a href="{{ url_for('link1.logout') }}"><span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!

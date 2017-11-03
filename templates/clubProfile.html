@@ -2,6 +2,8 @@
 {% block title %} Club Application {% endblock %}
 
 {% block content %}
+<a href="{{ url_for('link2.clubProfileNext', arg=club[0]) }}"><span class="glyphicon glyphicon-arrow-right pull-right"></span></a>
+<a href="{{ url_for('link2.clubProfilePrevious', arg=club[0]) }}"><span class="glyphicon glyphicon-arrow-left pull-left"></span></a>
 <form>
   <div class="container">
 
@@ -16,6 +18,7 @@
   </div>
 </form>
 <form method="POST" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
+  {% if current_user.is_authenticated %}
   {% if not ismember and not isapplied %}
 <button type="submit">register</button>
   {% endif %}
@@ -28,4 +31,38 @@
 <button type="submit" disabled>already member</button>
   {% endif %}
 </form>
+{% if ismember and level == 1 and applicants %}
+<h1>APPLICANTS</h1>
+<div class="table-container">
+							<table class="table table-filter">
+								<tbody>
+									{% for user in applicants %}
+									<tr>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left"> <img
+													src="/static/logog.png" class="media-photo">
+												</a>
+												<div class="media-body">
+													<h4 class="title pull-left">{{user[1]}}</h4>
+												</div>
+											</div>
+										</td>
+										<td>
+											<div class="pull-right action-buttons">
+												<form method="POST" action="{{ url_for('link2.welcomeApply', clubId=club[0], userId=user[0]) }}"><button type="submit" class="glyphicon glyphicon-ok"></button></form>
+												<form method="POST" action="{{ url_for('link2.deleteApply', clubId=club[0], userId=user[0]) }}"><button type="submit" class="glyphicon glyphicon-remove"></button></form>
+											</div>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+{% endif %}
+
+{% if level == 1 and not applicants %}
+<h1>There is no applicant</h1>
+{% endif %}
+{% endif %}
 {% endblock %}
