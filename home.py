@@ -23,7 +23,10 @@ dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='it
 @link1.route('/')
 def home_page():
     if current_user.is_authenticated:
-        return redirect(url_for('link3.userProfile'))
+        if current_user.level == 1:
+            return redirect(url_for('link4.admin_home'))
+        else:
+            return redirect(url_for('link3.userProfile'))
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
@@ -44,7 +47,10 @@ def login():
             if not is_safe_url(next):
                 return abort(400)
             confirm_login()
-            return redirect(url_for('link3.userProfile'))
+            if current_user.level == 1:
+                return redirect(url_for('link4.admin_home'))
+            else:
+                return redirect(url_for('link3.userProfile'))
         elif Flag == -1:
             flash('Wrong password!')
         else:
@@ -62,6 +68,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
+    flash('You logged out!')
     return redirect(url_for('link1.home_page'))
 
 @link1.route('/register', methods = ['GET', 'POST'])
