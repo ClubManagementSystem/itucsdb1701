@@ -62,7 +62,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    return Response('<p>Logged out</p>')
+    return redirect(url_for('link1.home_page'))
 
 @link1.route('/register', methods = ['GET', 'POST'])
 def register():
