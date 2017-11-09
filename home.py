@@ -11,7 +11,7 @@ from flask import request, current_app
 from classes import User
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
-from flask_login import login_manager, login_user, logout_user, confirm_login
+from flask_login import login_manager, login_user, logout_user, confirm_login,current_user
 from urllib.parse import urlparse, urljoin
 from user import link3
 
@@ -22,6 +22,8 @@ dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='it
 
 @link1.route('/')
 def home_page():
+    if current_user.is_authenticated:
+        return redirect(url_for('link3.userProfile'))
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
