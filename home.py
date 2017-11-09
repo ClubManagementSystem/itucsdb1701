@@ -81,9 +81,22 @@ def register():
             return redirect(url_for('link1.signup'))
         else:
             userName = request.form['name']
+            if checkusername(userName) == False:
+                flash('Username is taken!')
+                return redirect(url_for('link1.signup'))
             userNumber = request.form['studentno']
             useremail = request.form['email']
             userpsw = pwd_context.encrypt(userpsw0)
             nuser = User(userName,userNumber,useremail,userpsw)
             current_app.store.add_user(nuser)
         return render_template('home.html')
+
+def checkusername(name):
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """ SELECT COUNT(*) FROM CLUBDB WHERE (NAME = %s) """
+        cursor.execute(query,(name,))
+        if cursor.fetchone()[0] != 0:
+            return True
+        else:
+            return False

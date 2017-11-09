@@ -33,6 +33,12 @@ def acceptApp(id):
             cursor = connection.cursor()
             query = """UPDATE CLUBDB SET ACTIVE=1 WHERE (ID = %s) """
             cursor.execute(query,(id,))
+            query = """ SELECT CM FROM CLUBDB WHERE (ID = %s) """
+            cursor.execute(query,(id,))
+            cmid = cursor.fetchone()[0]
+            cmlevel = 1
+            query = """ INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES(%s,%s,%s) """
+            cursor.execute(query,(id,cmid,cmlevel,))
         return redirect(url_for('link4.admin_home'))
     else:
         flash("Permission Denied")
