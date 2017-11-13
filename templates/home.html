@@ -3,8 +3,19 @@
 
 {% block content %}
 	 <form method= "POST" action= " {{ url_for('link1.login') }}">
-
-  <div class="container">
+		   <div class="container" align="center">
+		   <div class="login">
+		   	<h1 class="login-heading">
+		       <strong>Welcome.</strong> Please login.</h1>
+		         <input type="text" name="uname" placeholder="Username" required="required" class="input-txt" />
+		           <input type="password" name="psw" placeholder="Password" required="required" class="input-txt" />
+		           <div class="login-footer">
+		              <a href="#" class="lnk">
+		             <button type="submit" class="btn btn--right">Sign in  </button></div> </a>
+								     <span class="login-heading" style="font-size: 1.3em;">Want to join? <a  class="login-heading" style = "color:green; font-size: 1.5em;"href="{{ url_for('link1.signup') }}"><b>SIGN UP!</b></a></span>
+		   </div>
+		 </div>
+  <!-- <div class="container">
     <label><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" required> <br>
 
@@ -12,10 +23,7 @@
     <input type="password" placeholder="Enter Password" name="psw" required> <br>
     <button type="submit">Login</button>
   </div>
-
-  <div class="container">
-    <b><span class="text">Want to join? <a  style = "color: green;" href="{{ url_for('link1.signup') }}">SIGN UP!</a></span></b>
-  </div>
+-->
 </form>
 
 
