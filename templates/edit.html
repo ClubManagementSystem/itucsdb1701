@@ -4,20 +4,22 @@
 {% if current_user.is_authenticated %}
 
  <form  method = "POST" action= " {{ url_for('link3.updateProfile') }}">
-  <div class="container">
 
-    <label><b>Email</b></label>
-    <input type="email"  placeholder="Enter New Email" name="email"><br>
+   <div class="container" align = "center">
+     <div class="login">
+    <!-- <label><b>Email</b></label> -->
+    <input type="email"  placeholder="Enter New Email" class="input-txt" name="email"><br>
 
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter New Password" name="psw"><br>
+    <!-- <label><b>Password</b></label> -->
+    <input type="password" placeholder="Enter New Password" class="input-txt" name="psw"><br>
 
-    <label><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat New Password" name="psw-repeat"><br>
+    <!-- <label><b>Repeat Password</b></label> -->
+    <input type="password" placeholder="Repeat New Password" class="input-txt" name="psw-repeat"><br>
 
     <div >
-      <button type="submit" class="signupbtn">update</button>
+      <br><button type="submit" class="signupbtn">Update</button>
     </div>
+  </div>
   </div>
 </form>
 

@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 
 <!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/w3.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/login7.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/component.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap-toggle.min.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/ourstyle.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.min.css')}}" />
 <!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'css/lavishr.css')}}" /> -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/w3.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/nivo-slider.css') }}" />
 
@@ -17,17 +19,10 @@
 </head>
 <body>
 	<!-- Navigation -->
-	  {% with messages = get_flashed_messages() %}
-   {% if messages %}
-   <div class="alert alert-warning"><strong>
-      {% for message in messages %}
-        <center> {{ message }} </center>
-      {% endfor %}
-      </strong></div>
-   {% endif %}
-{% endwith %}
+
 
 <div id="header">
+	{% if current_user.is_authenticated %}
 	<form method="post" action="#" class="search" style="margin-right: 1%">
 		<fieldset>
 			<legend>Search</legend>
@@ -35,6 +30,7 @@
 			<span class="glyphicon glyphicon-search" style="vertical-align:middle; horizontal-align:middle; right: 3px"></span>
 		</fieldset>
 	</form>
+	{% endif %}
 
 	<div class="inner cf">
 
@@ -58,13 +54,32 @@
 
 		</div>
 		{% if current_user.is_authenticated %}
-		<li class="nav navbar-right"><a href="{{ url_for('link1.logout') }}"><span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!
-			<span class="glyphicon glyphicon-log-out"></span>Log out</a> </li>
+		<li style="color: #E88E0C" class="nav navbar-right"><span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!&nbsp;&nbsp;
+			<a style="color: #E88E0C" href="{{ url_for('link1.logout') }}"><button title="Logout" class="w3-button w3-padding-small w3-orange w3-circle"><span class="glyphicon glyphicon-log-out"></span></button></a> </li>
 	{% endif %}
 	</div>
 
 </div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="w3-card w3-orange w3-display-container">
+	{% for message in messages %}
+  <center>
+ 	 <strong>
+ <p>{{ message }}</strong></center></p>
+ {% endfor %}
+ </strong>
+ <span onclick="this.parentElement.style.display='none'"
+ class="w3-button w3-padding-small w3-orange w3-right">&times;</span>
+</div>
 
+<!-- <div class="alert alert-warning"><strong>
+	{% for message in messages %}
+		<center> {{ message }} </center>
+	{% endfor %}
+	</strong></div> -->
+{% endif %}
+{% endwith %}
 	<!-- <nav class="navbar nav-tabs" role="navigation">
 		<div class="container">
 		Brand and toggle get grouped for better mobile display
