@@ -2,7 +2,24 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-	 <form method= "POST" action= " {{ url_for('link1.login') }}">
+	<img src="../static/clava_colorful_resized_v3.png" align="middle" alt="clava"><br>
+<!-- 	<img src="../static/line_colorful_sisko_v2.png" align="middle" alt="line"> -->
+
+	<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+		<form  method = "POST" action= " {{ url_for('link1.login') }}">
+		<div class="input-group" >
+      	<input type="text" class="form-control" placeholder="Search for..."  name="name">
+      	<span class="input-group-btn">
+        	<button class="btn btn-default"  type="submit">Go!</button>
+      	</span>
+    	</div><!-- /input-group -->
+		</form>
+		    </div><!-- /.col-lg-4 -->
+</div><!-- /.row -->
+
+<!-- GECICI OLARAK KONULDU BURAYA. KALDIRILACAK -->
+<form method= "POST" action= " {{ url_for('link1.login') }}">
 		   <div class="container" align="center">
 		   <div class="login">
 		   	<h1 class="login-heading">
@@ -15,16 +32,6 @@
 								     <span class="login-heading" style="font-size: 1.3em;">Want to join? <a  class="login-heading" style = "color:green; font-size: 1.5em;"href="{{ url_for('link1.signup') }}"><b>SIGN UP!</b></a></span>
 		   </div>
 		 </div>
-  <!-- <div class="container">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required> <br>
-
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required> <br>
-    <button type="submit">Login</button>
-  </div>
--->
 </form>
-
 
 {% endblock %}
