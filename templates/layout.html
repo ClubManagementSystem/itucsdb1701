@@ -63,10 +63,11 @@
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 <div class="w3-card w3-orange w3-display-container">
+
 	{% for message in messages %}
   <center>
  	 <strong>
- <p>{{ message }}</strong></center></p>
+ <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">&nbsp;</span>{{ message }}</strong></center></p>
  {% endfor %}
  </strong>
  <span onclick="this.parentElement.style.display='none'"
