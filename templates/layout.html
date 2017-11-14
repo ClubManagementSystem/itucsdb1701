@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 
 <!-- Bootstrap Core CSS -->
-
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/login7.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/component.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap-toggle.min.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/ourstyle.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.min.css')}}" />
-<link rel="stylesheet" href="{{ url_for('static', filename = 'css/lavishr.css')}}" />
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'css/lavishr.css')}}" /> -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/nivo-slider.css') }}" />
 
 <title>{% block title %}{% endblock %}</title>
 </head>
@@ -24,9 +26,48 @@
       </strong></div>
    {% endif %}
 {% endwith %}
-	<nav class="navbar nav-tabs" role="navigation">
+
+<div id="header">
+	<form method="post" action="#" class="search" style="margin-right: 1%">
+		<fieldset>
+			<legend>Search</legend>
+			<input type="text" name="search" value="" />
+			<span class="glyphicon glyphicon-search" style="vertical-align:middle; horizontal-align:middle; right: 3px"></span>
+		</fieldset>
+	</form>
+
+	<div class="inner cf">
+
+		<div id="navigation">
+			<ul>
+				<li class="current-menu-item"><a href="/">Home</a></li>
+				<li>
+					<a href="#">Dropdown</a>
+					<ul>
+						<li><a href="#">&raquo; menu option one</a></li>
+						<li><a href="#">&raquo; menu option two</a></li>
+						<li><a href="#">&raquo; menu option three</a></li>
+						<li><a href="#">&raquo; menu option four</a></li>
+						<li><a href="#">&raquo; menu option five</a></li>
+					</ul>
+				</li>
+				<li><a href="/clubProfile/1">Clubs</a></li>
+
+
+			</ul>
+
+		</div>
+		{% if current_user.is_authenticated %}
+		<li class="nav navbar-right"><a href="{{ url_for('link1.logout') }}"><span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!
+			<span class="glyphicon glyphicon-log-out"></span>Log out</a> </li>
+	{% endif %}
+	</div>
+
+</div>
+
+	<!-- <nav class="navbar nav-tabs" role="navigation">
 		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
+		Brand and toggle get grouped for better mobile display
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-example-navbar-collapse-1">
@@ -36,11 +77,12 @@
 				</button>
 				<a class="navbar-brand"  href="/"><img src="static/logob.png"></a>
 			</div>
-			<!-- Collect the nav links, forms, and other content for toggling -->
+			Collect the nav links, forms, and other content for toggling
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav nav-tabs">
 					<li><a href="/"><b>Home</b></a></li>
+					<li><a href="/clubProfile/1"><b>Clubs</b></a></li>
 					<li class='navbar-right'>
 						{% if current_user.is_authenticated %}
 							<a href="{{ url_for('link1.logout') }}"><span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!
@@ -51,11 +93,11 @@
 
 				</ul>
 			</div>
-			<!-- /.navbar-collapse -->
+			 /.navbar-collapse
 		</div>
-		<!-- /.container -->
+		 /.container
 
-	</nav>
+	</nav> -->
 
 	<script type="text/javascript" src='static/js/jquery.js'></script>
 	<script type="text/javascript"
@@ -104,7 +146,7 @@
   padding: 1rem;
   text-align: center;">
     <footer>
-  <div id="datetime"> <b> &copy TURGUT KORAY BESTE CIGDEM </b>  <i>{{ current_time }}</i></div>
+  <div id="datetime"> <b> &copy TURGUT KORAY BESTE</b>  <i>{{ current_time }}</i></div>
     </footer>
     </div>
 

@@ -22,7 +22,7 @@ app.register_blueprint(link1)
 app.register_blueprint(link2)
 app.register_blueprint(link3)
 app.register_blueprint(link4)
-app.secret_key = 'cigdem'
+app.secret_key = 'gallifrey'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'link1.home_page'

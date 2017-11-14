@@ -11,7 +11,7 @@ from flask import request, current_app
 from classes import User
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
-from flask_login import login_manager, login_user, logout_user, confirm_login
+from flask_login import login_manager, login_user, logout_user, confirm_login,current_user
 from urllib.parse import urlparse, urljoin
 from user import link3
 
@@ -22,6 +22,11 @@ dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='it
 
 @link1.route('/')
 def home_page():
+    if current_user.is_authenticated:
+        if current_user.level == 1:
+            return redirect(url_for('link4.admin_home'))
+        else:
+            return redirect(url_for('link3.userProfile'))
     now = datetime.datetime.now()
     return render_template('home.html', current_time=now.ctime())
 
@@ -42,7 +47,10 @@ def login():
             if not is_safe_url(next):
                 return abort(400)
             confirm_login()
-            return redirect(url_for('link3.userProfile'))
+            if current_user.level == 1:
+                return redirect(url_for('link4.admin_home'))
+            else:
+                return redirect(url_for('link3.userProfile'))
         elif Flag == -1:
             flash('Wrong password!')
         else:
@@ -60,7 +68,8 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    return Response('<p>Logged out</p>')
+    flash('You logged out!')
+    return redirect(url_for('link1.home_page'))
 
 @link1.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -72,9 +81,22 @@ def register():
             return redirect(url_for('link1.signup'))
         else:
             userName = request.form['name']
+            if checkusername(userName) == False:
+                flash('Username is taken!')
+                return redirect(url_for('link1.signup'))
             userNumber = request.form['studentno']
             useremail = request.form['email']
             userpsw = pwd_context.encrypt(userpsw0)
             nuser = User(userName,userNumber,useremail,userpsw)
             current_app.store.add_user(nuser)
         return render_template('home.html')
+
+def checkusername(name):
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """ SELECT COUNT(*) FROM CLUBDB WHERE (NAME = %s) """
+        cursor.execute(query,(name,))
+        if cursor.fetchone()[0] != 0:
+            return True
+        else:
+            return False

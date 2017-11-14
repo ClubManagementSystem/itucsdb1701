@@ -25,3 +25,33 @@ def admin_home():
         app = cursor.fetchall()
         print(app)
         return render_template('admin.html', app = app)
+
+@link4.route('/acceptApp/<int:id>/')
+def acceptApp(id):
+    if current_user.level == 1:
+        with dbapi2.connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """UPDATE CLUBDB SET ACTIVE=1 WHERE (ID = %s) """
+            cursor.execute(query,(id,))
+            query = """ SELECT CM FROM CLUBDB WHERE (ID = %s) """
+            cursor.execute(query,(id,))
+            cmid = cursor.fetchone()[0]
+            cmlevel = 1
+            query = """ INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES(%s,%s,%s) """
+            cursor.execute(query,(id,cmid,cmlevel,))
+        return redirect(url_for('link4.admin_home'))
+    else:
+        flash("Permission Denied")
+        return redirect(url_for('link3.userProfile'))
+
+@link4.route('/declineApp/<int:id>/')
+def declineApp(id):
+    if current_user.level == 1:
+        with dbapi2.connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """DELETE FROM CLUBDB WHERE (ID = %s) """
+            cursor.execute(query,(id,))
+        return redirect(url_for('link4.admin_home'))
+    else:
+        flash("Permission Denied")
+        return redirect(url_for('link3.userProfile'))
