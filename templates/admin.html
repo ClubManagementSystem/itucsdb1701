@@ -28,12 +28,13 @@ class="trash"><span class="glyphicon glyphicon-ok"></span></a></td>
 <td><a href="declineApp/{{a[0]}}"
 class="trash"><span class="glyphicon glyphicon-trash"></span></a></td>
 </tr>
+{% endfor %}
 </table>
 </div>
-{% endfor %}
+
 {% else %}
 <div class="alert alert-info">
-  <strong>Info!</strong> There is no pending club applications!
+  <strong><span class="glyphicon glyphicon-info-sign"></span></strong> There is no pending club applications!
 </div>
 {% endif %}
 {% else %}

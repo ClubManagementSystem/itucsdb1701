@@ -94,7 +94,7 @@ a:hover{
 
     {% endif %}
       </ul>
-      <form class="navbar-form navbar-right" method="POST" action="#" role="search">
+      <form class="navbar-form navbar-right" method="POST" action="{{ url_for('link1.search') }}" role="search">
       			<div class="input-group" >
       	<input  type="text" class="form-control" placeholder="Search a club..."  name="keyword">
       	<span class="input-group-btn" style="color:E88E0C">

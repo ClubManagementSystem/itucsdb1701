@@ -90,6 +90,28 @@ def register():
             nuser = User(userName,userrealname,userNumber,useremail,userpsw)
             current_app.store.add_user(nuser)
         return render_template('home.html')
+    else:
+        flash("Unauthorized Access")
+        return redirect(url_for('link1.home_page'))
+
+@link1.route("/search", methods = ['GET', 'POST'])
+def search():
+    if request.method == "POST":
+        keyword = request.form['keyword']
+        arr = get_clubs() # 0 -> id, 1 -> name, 2 -> type
+        result = [s for s in arr if keyword in s[1]]
+        return render_template('search.html',keyword = keyword, result = result)
+    else:
+        flash("Unauthorized Access")
+        return redirect(url_for('link1.home_page'))
+
+def get_clubs():
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """ SELECT ID, NAME, TYPE FROM CLUBDB WHERE (ACTIVE = 1) """
+        cursor.execute(query)
+        arr = cursor.fetchall()
+        return arr
 
 def checkusername(name):
     with dbapi2.connect(current_app.config['dsn']) as connection:
