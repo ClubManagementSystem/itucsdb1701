@@ -49,7 +49,7 @@ def declineApp(id):
     if current_user.level == 1:
         with dbapi2.connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query = """DELETE FROM CLUBDB WHERE (ID = %s) """
+            query = """DELETE FROM CLUBDB WHERE (ID = %s)"""
             cursor.execute(query,(id,))
         return redirect(url_for('link4.admin_home'))
     else:

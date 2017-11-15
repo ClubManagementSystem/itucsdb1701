@@ -19,7 +19,7 @@ link2 = Blueprint('link2',__name__)
 @link2.route('/clubs')
 def clubs():
     return render_template('clubs.html')
-    
+
 @link2.route('/clubapp')
 @login_required
 def club_application():
@@ -30,12 +30,18 @@ def club_application():
 def clubregister():
     if request.method == "POST":
         name = request.form['name']
-        type = request.form['type']
+        typ = request.form['type']
         exp = request.form['exp']
-        typesoc = request.form['typesoc']
-        link = request.form['link']
+        typesoc1 = request.form.get('typesoc1')
+        typesoc2 = request.form.get('typesoc2')
+        l1 = request.form['link1']
+        l2 = request.form['link2']
         uid = current_user.get_id()
-        addclub(name,type,exp,uid,typesoc,link)
+        addclub(name,typ,exp,uid,typesoc1,typesoc2,l1,l2)
+        flash("Registration is completed and it is waiting for admin confirmation.")
+        return redirect(url_for('link3.userProfile'))
+    else:
+        flash("Access Denied")
         return redirect(url_for('link1.home_page'))
 
 @link2.route('/clubProfile/<int:id>/')
@@ -83,22 +89,29 @@ def clubProfilePrevious(arg):
     arg = str(arg_i)
     return redirect(url_for('link2.clubProfile', id = arg))
 
-def addclub(n,t,e,i,ts,l):
+def addclub(n,t,e,i,ts1,ts2,l1,l2):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
             query = """INSERT INTO CLUBDB (NAME,TYPE,EXP,CM) VALUES (%s, %s, %s, %s)"""
             cursor.execute(query,(n,t,e,i,))
-    with dbapi2.connect(current_app.config['dsn']) as connection:
-            cursor = connection.cursor()
             query = """SELECT ID FROM CLUBDB WHERE (NAME = %s)"""
             cursor.execute(query,(n,))
             clubid = cursor.fetchone()
-            print(clubid[0])
-    with dbapi2._connect(current_app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """INSERT INTO SOCMED (CLUBID,TYPESOC,LINK) VALUES (%s, %s, %s)"""
-            cursor.execute(query,(clubid[0],ts,l,))
-            return
+            print("2")
+    if l1 and ts1:
+            with dbapi2._connect(current_app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO SOCMED (CLUBID,TYPESOC,LINK) VALUES (%s, %s, %s)"""
+                cursor.execute(query,(clubid[0],ts1,l1,))
+                return
+    if l2 and ts2:
+            with dbapi2._connect(current_app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO SOCMED (CLUBID,TYPESOC,LINK) VALUES (%s, %s, %s)"""
+                cursor.execute(query,(clubid[0],ts2,l2,))
+                return
+    return
+
 
 @link2.route('/registerToClub/<int:clubId>', methods = ['GET', 'POST'])
 @login_required
