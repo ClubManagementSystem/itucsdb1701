@@ -16,7 +16,10 @@ from flask_login import login_manager, login_user, logout_user,current_user
 
 link2 = Blueprint('link2',__name__)
 
-
+@link2.route('/clubs')
+def clubs():
+    return render_template('clubs.html')
+    
 @link2.route('/clubapp')
 @login_required
 def club_application():
