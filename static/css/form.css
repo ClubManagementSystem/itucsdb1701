@@ -47,6 +47,6 @@ button, label { cursor: pointer; }
 input[type=text],
 input[type=password],
 textarea {
-	color: #888;
+	color: #000;
 	font: 12px Helvetica, Arial, sans-serif;
 }

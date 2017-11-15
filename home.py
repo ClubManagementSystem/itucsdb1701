@@ -40,7 +40,7 @@ def login():
     if request.method == "POST":
         Flag = current_app.store.verify_user(request.form['uname'], request.form['psw'])
         if Flag == 0:
-            user = User(request.form['uname'],9999, "zzz", "zzz").get_user(User(request.form['uname'],9999, "zzz", "zzz").get_id())
+            user = User(request.form['uname'],"zzz",9999, "zzz", "zzz").get_user(User(request.form['uname'],"zzz", 9999, "zzz", "zzz").get_id())
             login_user(user)
             next = url_for('link3.userProfile')
             if not is_safe_url(next):
@@ -85,8 +85,9 @@ def register():
                 return redirect(url_for('link1.signup'))
             userNumber = request.form['studentno']
             useremail = request.form['email']
+            userrealname = request.form['rname']
             userpsw = pwd_context.encrypt(userpsw0)
-            nuser = User(userName,userNumber,useremail,userpsw)
+            nuser = User(userName,userrealname,userNumber,useremail,userpsw)
             current_app.store.add_user(nuser)
         return render_template('home.html')
 

@@ -3,15 +3,20 @@
 
 {% block content %}
 
-
  <form  method = "POST" action= " {{ url_for('link1.register') }}">
   <div class="container" align = "center">
     <div class="login">
-
+        <h1 class="w3-xlarge"> <strong>Sign Up</strong> </h1> <br>
     <!-- <label><b>Name - Surname</b></label> -->
     <div class="input-group">
-			   <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
-         <input type="text" placeholder="Name Surname" name="name" class="input-txt" required><br>
+			   <span class="input-group-addon"><i class="glyphicon glyphicon-font" aria-hidden="true"></i></span>
+         <input type="text" placeholder="Name Surname" name="rname" class="input-txt" required><br>
+    </div>
+    <!-- <label><b>Student Number</b></label> -->
+    <br>
+    <div class="input-group">
+         <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+         <input type="text" placeholder="Username" name="name" class="input-txt" required><br>
     </div>
     <!-- <label><b>Student Number</b></label> -->
     <br>

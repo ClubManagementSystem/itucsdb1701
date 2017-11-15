@@ -30,13 +30,13 @@ login_manager.fresh_view = 'link1.home_page'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User("zzz",9999, "zzz", "zzz").get_user(user_id)
+    return User("zzz","zzz", 9999, "zzz", "zzz").get_user(user_id)
 
 @login_manager.unauthorized_handler
 def unauthorized():
     # do stuff
-    flash("UYE OL DA GEL")
-    return render_template('signup.html')
+    flash("Unauthorized Access. Please Sign In or Sign Up!")
+    return redirect(url_for('link1.home_page'))
 
 def get_elephantsql_dsn(vcap_services):
     """Returns the data source name for ElephantSQL."""
@@ -57,21 +57,21 @@ def initialize_database():
         query = """DROP TABLE IF EXISTS USERDB CASCADE"""
         cursor.execute(query)
         query = """CREATE TABLE USERDB (ID SERIAL PRIMARY KEY,
-         NAME VARCHAR(40) NOT NULL,NUMBER BIGINT,
+         NAME VARCHAR(40) NOT NULL, REALNAME VARCHAR(50) NOT NULL,NUMBER BIGINT,
         EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
         cursor.execute(query)
 
-        query = """INSERT INTO USERDB(NAME,PSW,LEVEL) VALUES(%s, %s, %s)   """
-        cursor.execute(query,('admin', pwd_context.encrypt('admin'), 1,))
+        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,LEVEL) VALUES(%s, %s, %s, %s)   """
+        cursor.execute(query,('admin','Admin', pwd_context.encrypt('admin'), 1,))
 
-        query = """INSERT INTO USERDB(NAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s,%s)   """
-        cursor.execute(query,('koray', pwd_context.encrypt('123'),12345, 'koray@itu.edu.tr',))
+        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
+        cursor.execute(query,('koray','Bulent Koray Oz', pwd_context.encrypt('123'),12345, 'koray@itu.edu.tr',))
 
-        query = """INSERT INTO USERDB(NAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s,%s)   """
-        cursor.execute(query,('turgut', pwd_context.encrypt('123'),12345, 'turgut@itu.edu.tr',))
+        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
+        cursor.execute(query,('turgut','Turgut Can Aydinalev', pwd_context.encrypt('123'),12345, 'turgut@itu.edu.tr',))
 
-        query = """INSERT INTO USERDB(NAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s,%s)   """
-        cursor.execute(query,('beste', pwd_context.encrypt('123'),12345, 'beste@itu.edu.tr',))
+        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
+        cursor.execute(query,('beste','Beste Burcu Bayhan', pwd_context.encrypt('123'),12345, 'beste@itu.edu.tr',))
 
         query = """DROP TABLE IF EXISTS CLUBDB CASCADE"""
         cursor.execute(query)
