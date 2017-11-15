@@ -2,36 +2,39 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-	<img src="../static/clava_colorful_resized_v3.png" align="middle" alt="clava"><br>
-<!-- 	<img src="../static/line_colorful_sisko_v2.png" align="middle" alt="line"> -->
+	<img src="../static/clava_colorful_resized_v3.png" align="middle" alt="clava"><br><br><br>
 
 	<div class="row">
     <div class="col-lg-6 col-lg-offset-3">
 		<form  method = "POST" action= " {{ url_for('link1.login') }}">
 		<div class="input-group" >
-      	<input type="text" class="form-control" placeholder="Search for..."  name="name">
+      	<input type="text" class="form-control" placeholder="Search for a club..."  name="keyword">
       	<span class="input-group-btn">
-        	<button class="btn btn-default"  type="submit">Go!</button>
+        	<button class="btn btn-default"  type="submit">Search!</button>
       	</span>
     	</div><!-- /input-group -->
 		</form>
 		    </div><!-- /.col-lg-4 -->
 </div><!-- /.row -->
 
-<!-- GECICI OLARAK KONULDU BURAYA. KALDIRILACAK -->
-<form method= "POST" action= " {{ url_for('link1.login') }}">
-		   <div class="container" align="center">
-		   <div class="login">
-		   	<h1 class="login-heading">
-		       <strong>Welcome.</strong> Please login.</h1>
-		         <input type="text" name="uname" placeholder="Username" required="required" class="input-txt" />
-		           <input type="password" name="psw" placeholder="Password" required="required" class="input-txt" />
-		           <div class="login-footer">
-		              <a href="#" class="lnk">
-		             <button type="submit" class="btn btn--right">Sign in  </button></div> </a>
-								     <span class="login-heading" style="font-size: 1.3em;">Want to join? <a  class="login-heading" style = "color:green; font-size: 1.5em;"href="{{ url_for('link1.signup') }}"><b>SIGN UP!</b></a></span>
-		   </div>
-		 </div>
-</form>
+	<br><br><br><img src="../static/line_colorful_v2.png" align="middle" alt="line"><br><br><br>
+
+	<center><strong>Upcoming Events</strong><br><br>
+
+	<div class="row">
+		{% for event in events %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="..." alt="...">
+      <div class="caption">
+        <h3>event.name</h3>
+        <p>event.exp</p>
+        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+      </div>
+    </div>
+  </div>
+
+{%endfor%}
+</div>
 
 {% endblock %}

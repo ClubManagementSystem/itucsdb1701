@@ -22,13 +22,12 @@ dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='it
 
 @link1.route('/')
 def home_page():
-    if current_user.is_authenticated:
-        if current_user.level == 1:
-            return redirect(url_for('link4.admin_home'))
-        else:
-            return redirect(url_for('link3.userProfile'))
-    now = datetime.datetime.now()
-    return render_template('home.html', current_time=now.ctime())
+    if current_user.is_authenticated and current_user.level == 1:
+        return redirect(url_for('link4.admin_home'))
+    else:
+        #return redirect(url_for('link3.userProfile'))
+        now = datetime.datetime.now()
+        return render_template('home.html', current_time=now.ctime())
 
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
