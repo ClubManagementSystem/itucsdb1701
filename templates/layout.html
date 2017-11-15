@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search_v4.css') }}" />
 
 <title>{% block title %}{% endblock %}</title>
+<link rel="shortcut icon" type="image/png" href="../static/logo_colorful_c_v3.png">
 </head>
 <style>
 a:hover{
@@ -37,16 +38,16 @@ a:hover{
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="w3-hover-ccc"><a style="color: #E88E0C" href="/clubs">Clubs</a></li>
+        <li class="w3-hover-ccc"><a style="color: #E88E0C" href="/clubs"><strong>Clubs</strong></a></li>
       </ul>
-      
+
       <ul class="nav navbar-nav navbar-right">
-        
+
         {% if current_user.is_authenticated %}
-    <li><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="glyphicon glyphicon-user"></span>Hi {{ current_user.name }}!</a></li>
-    <li><a style="color: #E88E0C" href="{{ url_for('link1.logout') }}"><button title="Logout" class="w3-button w3-padding-small w3-orange w3-circle"><span class="glyphicon glyphicon-log-out"></span></button></a> 
+    <li><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;<strong> {{ current_user.rname }}</strong></a></li>
+    <li><a style="color: #E88E0C" href="{{ url_for('link1.logout') }}"><button title="Logout" class="w3-button w3-padding-small w3-orange w3-circle"><span class="glyphicon glyphicon-log-out"></span></button></a>
     </li>
-  
+
 
     {% endif %}
         {% if current_user.is_anonymous %}
@@ -69,25 +70,24 @@ a:hover{
                     <div class="form-group">
                        <label class="sr-only">Password</label>
                        <input type="password" name="psw" class="form-control" placeholder="Password" required>
-                                             <div class="help-block text-right"><a href="">Forget the password ?</a></div>
-                    </div>
+                                             <!-- <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                    </div> -->
                     <div class="form-group">
-                       <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                       <button type="submit" class="btn btn-block">Sign in</button>
                     </div>
-                    <div class="checkbox">
+                    <!-- <div class="checkbox">
                        <label>
                        <input type="checkbox"> keep me logged-in
                        </label>
-                    </div>
+                    </div> -->
                  </form>
               </div>
               <div class="bottom text-center">
                 <span class="login-heading" style="font-size: 1.3em;">Want to join? <br>
-                  <a  class="login-heading" style = "color:green; font-size: 1.5em;" href="{{ url_for('link1.signup') }}"><b>SIGN UP!</b></a>
-                </span>
+									<a href="{{ url_for('link1.signup') }}"><img alt="Sign Up" src="../static/signup2.png"></a>
+								</span>
                 </div>
           </div>
-           
         </li>
       </ul>
     </li>
@@ -96,9 +96,9 @@ a:hover{
       </ul>
       <form class="navbar-form navbar-right" method="POST" action="#" role="search">
       			<div class="input-group" >
-      	<input type="text" class="form-control" placeholder="Search for a club..."  name="keyword">
-      	<span class="input-group-btn">
-        	<button class="btn btn-default"  type="submit"><a class="glyphicon glyphicon-search" ></a></button>
+      	<input  type="text" class="form-control" placeholder="Search a club..."  name="keyword">
+      	<span class="input-group-btn" style="color:E88E0C">
+        	<button class="btn"  type="submit"><a class="glyphicon glyphicon-search"></a></button>
       	</span>
     </div><!-- /input-group -->
 		</div>
@@ -114,7 +114,7 @@ a:hover{
  <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">&nbsp;</span>{{ message }}</strong></center></p>
  {% endfor %}
  </strong>
- 
+
 <!-- </div>
 <div class="w3-button w3-padding-small w3-orange w3-right"><span onclick="this.parentElement.style.display='none'"
  >&times;</span>
@@ -154,7 +154,7 @@ a:hover{
 			});
 		});
 	</script>
-	
+
 	<!-- Page Content -->
 
 	<div class="container">
@@ -171,7 +171,8 @@ a:hover{
 	<!-- /.container -->
 </body>
 
-<div id ="footer" style = "  position: absolute;
+
+<!-- <div id ="footer" style = "position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
@@ -179,7 +180,7 @@ a:hover{
   text-align: center;">
 
   <b> &copy TURGUT KORAY BESTE</b>  <i>{{ current_time }}</i>
-    
-   </div>
+
+   </div> -->
 
 </html>

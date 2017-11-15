@@ -5,44 +5,60 @@
 
 
  <form  method = "POST" action= " {{ url_for('link2.clubregister') }}">
-  <div class="container">
+  <div class="container" align="center">
+  <div class="login">
+    <h1 class="w3-xlarge"> <strong>Register a Student Club <strong> </h1> <br>
+    <div class="input-group">
+			   <span class="input-group-addon"><i class="glyphicon glyphicon-tag" aria-hidden="true"></i></span>
+    <input type="text" class="input-txt" placeholder="Club Name" name="name" required><br>
+  </div>
 
-    <label><b>Club Name</b></label>
-    <input type="text" placeholder="Club Name" name="name" required><br>
-
-	<label><b>Club Type</b></label>
-	<select class="selectmenu" name="type">
+  <br>
+  <div class="input-group">
+       <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin" aria-hidden="true"></i></span>
+    <textarea rows"4" cols"50" class="input-txt"  placeholder="Club Definition" name="exp" required></textarea><br>
+  </div>
+  <br>
+  <div class="input-group">
+       <span class="input-group-addon"><i class="glyphicon glyphicon-tasks" aria-hidden="true"></i></span>
+  <select class="w3-select w3-orange" name="type">
 	<option selected disabled class="hideoption">Select Club Type</option>
 	<option>Profession</option>
 	<option>Sport</option>
 	<option>Culture/Art</option>
 	</select>
+</div>
 	<br>
 
-    <label><b>Club Definition</b></label>
-    <textarea rows"4" cols"50"  placeholder="Enter definition here" name="exp" required></textarea><br>
 
-	<label><b>Club Social Media</b></label>
-	<select class="selectmenu" name="typesoc">
-	<option selected disabled class="hideoption">Option 1</option>
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+	<select class="w3-select w3-orange" name="typesoc">
+	<option selected disabled class="hideoption">Select a Social Media</option>
 	<option>Facebook</option>
 	<option>Twitter</option>
 	</select>
-	<input type="text" placeholder="Link" name="link"><br>
-	<label><b>Club Social Media</b></label>
-	<select class="selectmenu" name="typesoc">
-	<option selected disabled class="hideoption">Option 2</option>
+  <input type="text" placeholder="Link" class="input-txt" name="link"><br>
+</div>
+
+<br>
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+	<select class="w3-select w3-orange" name="typesoc">
+	<option selected disabled class="hideoption">Select a Social Media</option>
 	<option>Facebook</option>
 	<option>Twitter</option>
 	</select>
-	<input type="text" placeholder="Link" name="link"><br>
-
+	<input type="text" class="input-txt" placeholder="Link" name="link"><br>
+</div>
+  <br>
 
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
 
     <div >
-      <button type="submit" class="signupbtn">Apply</button>
+      <button type="submit" class="btn">Apply</button>
     </div>
   </div>
+</div>
 </form>
 {% endblock %}

@@ -14,8 +14,9 @@ from flask import current_app
 dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='itucsdb'"""
 
 class User(UserMixin):
-    def __init__(self, name, number, email, psw):
+    def __init__(self, name,rname, number, email, psw):
         self.name = name
+        self.rname = rname
         self.number = number
         self.email = email
         self.psw = psw
@@ -40,10 +41,10 @@ class User(UserMixin):
     def get_user(self, id):
         with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query = "SELECT NAME, NUMBER, EMAIL, PSW, LEVEL FROM USERDB WHERE (ID = %s)"
+            query = "SELECT NAME,REALNAME, NUMBER, EMAIL, PSW FROM USERDB WHERE (ID = %s)"
             cursor.execute(query, (id,))
             bla =cursor.fetchone()
-            usr = User(bla[0], bla[1], bla[2], bla[3])
+            usr = User(bla[0], bla[1], bla[2], bla[3], bla[4])
             return usr
 
 class UserList:
@@ -54,8 +55,8 @@ class UserList:
     def add_user(self, newuser):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()
-            query = "INSERT INTO USERDB (NAME, NUMBER, EMAIL, PSW) VALUES (%s, %s, %s, %s)"
-            cursor.execute(query, (newuser.name,newuser.number, newuser.email, newuser.psw))
+            query = "INSERT INTO USERDB (NAME,REALNAME, NUMBER, EMAIL, PSW) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(query, (newuser.name, newuser.rname, newuser.number, newuser.email, newuser.psw))
             connection.commit()
             self.last_key = cursor.lastrowid
 

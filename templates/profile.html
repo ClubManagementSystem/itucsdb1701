@@ -3,16 +3,16 @@
 
 {% block content %}
 {% if current_user.is_authenticated %}
-
+<h1 class="w3-xlarge"> <strong>User Profile <strong> </h1> <br>
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="w3-card-4">
 
 <header class="w3-container w3-orange">
-    <h1 class = "w3-large">{{current_user.name}}</h1>
+    <h1 class = "w3-xlarge">{{current_user.rname}}</h1>
 </header>
 
-
 <ul class="w3-ul w3-hoverable">
+  <li><span class="glyphicon glyphicon-user" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.name}}</li>
   <li><span class="glyphicon glyphicon-education" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.number}}</li>
   <li><span class="glyphicon glyphicon-envelope" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.email}}</li>
   <li><strong><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;My Student Clubs</strong>
@@ -28,8 +28,8 @@
 
 </ul>
 
-<a href="{{ url_for('link3.editProfile') }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</a>
-
+<a href="{{ url_for('link3.editProfile') }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit Profile</a>
+<a href="{{ url_for('link2.club_application') }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-plus"></span>&nbsp;Club Registration</a>
 </div>
 </div>
 <!--

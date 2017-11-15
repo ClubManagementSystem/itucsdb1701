@@ -204,7 +204,7 @@ background: #444;}
 				padding-left: 25px;
 			}
 
-		.text .meta { color: #cbcbcb; }
+		.text .meta { color: #000000; }
 
 	.posts .post + .post { margin-top: 50px; }
 	.post {}
