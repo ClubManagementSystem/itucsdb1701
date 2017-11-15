@@ -4,6 +4,35 @@
 {% block content %}
 {% if current_user.is_authenticated %}
 
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="w3-card-4">
+
+<header class="w3-container w3-orange">
+    <h1 class = "w3-large">{{current_user.name}}</h1>
+</header>
+
+
+<ul class="w3-ul w3-hoverable">
+  <li><span class="glyphicon glyphicon-education" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.number}}</li>
+  <li><span class="glyphicon glyphicon-envelope" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.email}}</li>
+  <li><strong><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;My Student Clubs</strong>
+    {% if clubnames %}
+    {% for c in clubnames %}
+    	<br>
+      <span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c}}</li>
+    {% endfor %}
+    {% else %}
+    <br> No membership in any club.
+    {% endif %}
+  </li>
+
+</ul>
+
+<a href="{{ url_for('link3.editProfile') }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</a>
+
+</div>
+</div>
+<!--
 <header>
     <h3>Profile Information</h3>
 </header>
@@ -19,11 +48,12 @@
 	<br><ul><li> {{c}} </ul></li>
 
 {% endfor %}
+
 <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
     	<a href="{{ url_for('link3.editProfile') }}"><span class="glyphicon glyphicon-edit"></span>Edit</a>
     </ul>
  </div>
 
-{% endif %} <br>
+{% endif %} <br> -->
 {% endblock %}
