@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search_v4.css') }}" />
 
 <title>{% block title %}{% endblock %}</title>
-<link rel="shortcut icon" type="image/png" href="../static/logo_colorful_c_v3.png">
+<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename = 'logo_colorful_c_v3.png') }}">
 </head>
 <style>
 a:hover{
@@ -32,7 +32,7 @@ a:hover{
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a style="color: #E88E0C;" class="brand-logo" href="/"><img src="../static/logo_colorful_c_v3.png"></a>
+      <a style="color: #E88E0C;" class="brand-logo" href="/"><img src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

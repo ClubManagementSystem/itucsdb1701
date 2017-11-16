@@ -20,7 +20,7 @@
   <li><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<strong>My Student Clubs</strong>
     {% if clubnames %}
     {% for c in clubnames %}
-      <p><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c}}</p>
+      <p><a href="clubProfile/{{c[0]}}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
     {% endfor %}
     {% else %}
     <p> No membership in any club. </p>

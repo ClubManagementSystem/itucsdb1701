@@ -99,7 +99,7 @@ def search():
     if request.method == "POST":
         keyword = request.form['keyword']
         arr = get_clubs() # 0 -> id, 1 -> name, 2 -> type
-        result = [s for s in arr if keyword in s[1]]
+        result = [s for s in arr if keyword.lower() in s[1].lower()]
         return render_template('search.html',keyword = keyword, result = result)
     else:
         flash("Unauthorized Access")

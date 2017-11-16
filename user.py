@@ -22,7 +22,7 @@ def userProfile():
     clubnames = []
     for i in clr:
         cn = getclubname(i)
-        clubnames.append(cn[0])
+        clubnames.append(tuple([i[0],cn[0]]))
     return render_template('profile.html',clubnames = clubnames)
 
 
@@ -75,8 +75,3 @@ def updateProfile():
         else:
             return redirect(url_for('link3.userProfile'))
     return redirect(url_for('link3.userProfile'))
-
-
-
-
-
