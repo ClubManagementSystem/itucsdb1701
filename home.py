@@ -116,9 +116,10 @@ def get_clubs():
 def checkusername(name):
     with dbapi2.connect(current_app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """ SELECT COUNT(*) FROM CLUBDB WHERE (NAME = %s) """
-        cursor.execute(query,(name,))
-        if cursor.fetchone()[0] != 0:
+        query = """ SELECT COUNT(*) FROM USERDB WHERE (NAME = %s) """
+        count = cursor.execute(query,(name,))
+        print(count)
+        if cursor.fetchone()[0] == 0:
             return True
         else:
             return False
