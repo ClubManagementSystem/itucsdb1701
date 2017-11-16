@@ -83,21 +83,21 @@ def initialize_database():
         query = """DROP TABLE IF EXISTS CLUBMEM CASCADE"""
         cursor.execute(query)
 
-        query = """CREATE TABLE CLUBMEM (CLUBID INT REFERENCES CLUBDB(ID), USERID INT REFERENCES USERDB(ID), LEVEL INTEGER DEFAULT 0)"""
+        query = """CREATE TABLE CLUBMEM (CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, USERID INT REFERENCES USERDB(ID), LEVEL INTEGER DEFAULT 0)"""
         cursor.execute(query)
         connection.commit()
 
         query = """DROP TABLE IF EXISTS SOCMED CASCADE"""
         cursor.execute(query)
 
-        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID), TYPESOC VARCHAR(20), LINK VARCHAR(100))"""
+        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, TYPESOC VARCHAR(20), LINK VARCHAR(100))"""
         cursor.execute(query)
         connection.commit()
 
         query = """DROP TABLE IF EXISTS APPTAB CASCADE"""
         cursor.execute(query)
 
-        query = """CREATE TABLE APPTAB(CLUBID INT REFERENCES CLUBDB(ID), USERID INT REFERENCES USERDB(ID))"""
+        query = """CREATE TABLE APPTAB(CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, USERID INT REFERENCES USERDB(ID))"""
         cursor.execute(query)
         connection.commit()
 

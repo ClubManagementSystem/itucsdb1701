@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block title %}Search{% endblock %}
+{% block content %}
+
+<div class="w3-container">
+<h1 class="w3-xlarge"> Search results for "{{keyword}}" </h1>
+<br>
+{% if result %}
+<table class="w3-table-all w3-hoverable w3-centered">
+<thead>
+<tr  class ="w3-orange">
+<th><strong>Club Name</strong></th>
+<th><strong>Club Type</strong></th>
+</tr>
+</thead>
+{% for r in result %}
+<tr>
+<td><a href="clubProfile/{{r[0]}}" style="display:block;">{{r[1]}}</a> </td>
+<td><a href="clubProfile/{{r[0]}}" style="display:block;">{{r[2]}}</a> </td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<div class="alert alert-warning">No results found</div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search_v4.css') }}" />
 
 <title>{% block title %}{% endblock %}</title>
-<link rel="shortcut icon" type="image/png" href="../static/logo_colorful_c_v3.png">
+<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename = 'logo_colorful_c_v3.png') }}">
 </head>
 <style>
 a:hover{
@@ -32,7 +32,7 @@ a:hover{
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a style="color: #E88E0C;" class="brand-logo" href="/"><img src="../static/logo_colorful_c_v3.png"></a>
+      <a style="color: #E88E0C;" class="brand-logo" href="/"><img src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -84,7 +84,7 @@ a:hover{
               </div>
               <div class="bottom text-center">
                 <span class="login-heading" style="font-size: 1.3em;">Want to join? <br>
-									<a href="{{ url_for('link1.signup') }}"><img alt="Sign Up" src="../static/signup2.png"></a>
+									<a href="{{ url_for('link1.signup') }}"><img class="w3-opacity w3-hover-opacity-off" alt="Sign Up" src="{{ url_for('static', filename = 'signup2.png') }}"></a>
 								</span>
                 </div>
           </div>
@@ -94,7 +94,7 @@ a:hover{
 
     {% endif %}
       </ul>
-      <form class="navbar-form navbar-right" method="POST" action="#" role="search">
+      <form class="navbar-form navbar-right" method="POST" action="{{ url_for('link1.search') }}" role="search">
       			<div class="input-group" >
       	<input  type="text" class="form-control" placeholder="Search a club..."  name="keyword">
       	<span class="input-group-btn" style="color:E88E0C">
