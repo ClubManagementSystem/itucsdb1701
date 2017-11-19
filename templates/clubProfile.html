@@ -2,67 +2,46 @@
 {% block title %} Club Profile Page {% endblock %}
 
 {% block content %}
-<a href="{{ url_for('link2.clubProfileNext', arg=club[0]) }}"><span class="glyphicon glyphicon-arrow-right pull-right"></span></a>
-<a href="{{ url_for('link2.clubProfilePrevious', arg=club[0]) }}"><span class="glyphicon glyphicon-arrow-left pull-left"></span></a>
-<form>
-  <div class="container">
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="w3-card-4">
 
-     <label><b>Club Name</b></label>
-     <pr>{{club[1]}}</pr><br>
+<header class="w3-container w3-orange">
+  <br>
+    <h1 class = "w3-large"><strong>{{club[1]}}</strong></h1>
+  <br>
+</header>
 
-	   <label><b>Club Type</b></label>
-	   <pr>{{club[2]}}</pr><br>
+<ul class="w3-ul w3-hoverable">
+  <li><span class="glyphicon glyphicon-user" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{club[2]}}</li>
+  <li><span class="glyphicon glyphicon-education" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{club[3]}}</li>
+  <li><span class="glyphicon glyphicon-envelope" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.email}}</li>
+  <li><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<strong>My Student Clubs</strong>
+    {% if clubnames %}
+    {% for c in clubnames %}
+      <p><a href="clubProfile/{{c[0]}}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
+    {% endfor %}
+    {% else %}
+    <p> No membership in any club. </p>
+    {% endif %}
+  </li>
+</ul>
+{% if current_user.is_authenticated %}
+<form method="POST" class="w3-button w3-block w3-dark-grey" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
 
-    <label><b>Club Definition</b></label>
-    <pr>{{club[3]}}</pr>
-  </div>
+  	{% if not ismember and not isapplied %}
+		<button type="submit">register</button>
+  	{% endif %}
+
+  	{% if not ismember and isapplied %}
+		<button type="submit" disabled>applied</button>
+  	{% endif %}
+
+  	{% if ismember and not isapplied %}
+		<button type="submit" disabled>already member</button>
+  	{% endif %}
+
 </form>
-<form method="POST" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
-  {% if current_user.is_authenticated %}
-  {% if not ismember and not isapplied %}
-<button type="submit">register</button>
-  {% endif %}
-
-  {% if not ismember and isapplied %}
-<button type="submit" disabled>applied</button>
-  {% endif %}
-
-  {% if ismember and not isapplied %}
-<button type="submit" disabled>already member</button>
-  {% endif %}
-</form>
-{% if ismember and level == 1 and applicants %}
-<h1>APPLICANTS</h1>
-<div class="table-container">
-							<table class="table table-filter">
-								<tbody>
-									{% for user in applicants %}
-									<tr>
-										<td>
-											<div class="media">
-												<a href="#" class="pull-left"> <img
-													src="/static/logog.png" class="media-photo">
-												</a>
-												<div class="media-body">
-													<h4 class="title pull-left">{{user[1]}}</h4>
-												</div>
-											</div>
-										</td>
-										<td>
-											<div class="pull-right action-buttons">
-												<form method="POST" action="{{ url_for('link2.welcomeApply', clubId=club[0], userId=user[0]) }}"><button type="submit" class="glyphicon glyphicon-ok"></button></form>
-												<form method="POST" action="{{ url_for('link2.deleteApply', clubId=club[0], userId=user[0]) }}"><button type="submit" class="glyphicon glyphicon-remove"></button></form>
-											</div>
-										</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
 {% endif %}
-
-{% if level == 1 and not applicants %}
-<h1>There is no applicant</h1>
-{% endif %}
-{% endif %}
+</div>
+</div>
 {% endblock %}

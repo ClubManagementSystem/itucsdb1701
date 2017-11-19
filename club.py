@@ -18,7 +18,14 @@ link2 = Blueprint('link2',__name__)
 
 @link2.route('/clubs')
 def clubs():
-    return render_template('clubs.html')
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT ID, NAME, TYPE FROM CLUBDB WHERE (ACTIVE = 1)"""
+        cursor.execute(query)
+        clubs = cursor.fetchall()
+        return render_template('clubs.html', clubs = clubs)
+    flash("Database e baglanilamadi")
+    return render_template('home.html')
 
 @link2.route('/clubapp')
 @login_required
