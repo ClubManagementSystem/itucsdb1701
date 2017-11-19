@@ -2,7 +2,9 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-	<img src="../static/clava_colorful_resized_v3.png" align="middle" alt="clava"><br><br><br>
+<div class="w3-animate-zoom">
+
+	<img src="{{ url_for('static', filename = 'clava_colorful_resized_v3.png') }}" align="middle" alt="clava"><br><br><br>
 
 	<div class="row">
     <div class="col-lg-6 col-lg-offset-3">
@@ -17,24 +19,32 @@
 		    </div><!-- /.col-lg-4 -->
 </div><!-- /.row -->
 
-	<br><br><br><img src="../static/line_colorful_v2.png" align="middle" alt="line"><br><br><br>
+	<br><br><br><img src="{{url_for('static', filename = 'line_colorful_v2.png') }}" align="middle" alt="line"><br><br><br>
 
-	<center><strong>Upcoming Events</strong><br><br>
+	<center><div class="w3-large"><strong style="color: #E88E0C;">Upcoming Events</strong></div><br><br>
 
 	<div class="row">
 		{% for event in events %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-      <img src="..." alt="...">
-      <div class="caption">
-        <h3>event.name</h3>
-        <p>event.exp</p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
+			<header class="w3-container w3-orange">
+				<div class="w3-display-container">
+				<div class="w3-display-left"><div class="w3-large"><span class="fa fa-eercast fa-spin" aria-hidden="true"></span></div></div>
+			    <h1 class = "w3-large"><strong>{{event[1]}}</strong></h1>
+					<h1 class = "w3-medium w3-opacity" style="text-shadow:1px 1px 0 #444"><b>by {{event[0]}} </b></h1>
+					<div class="w3-display-right"><div class="w3-large"><span class="fa fa-eercast fa-spin" aria-hidden="true"></span></div></div>
+				</div>
+			</header>
+			<ul class="w3-ul w3-hoverable">
+			  <li><span class="glyphicon glyphicon-pushpin" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[2]}}</li>
+			  <li><span class="glyphicon glyphicon-calendar" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[3]}}</li>
+			  <li><span class="glyphicon glyphicon-home" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[4]}}</li>
+				<li><span class="glyphicon glyphicon-time" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[5]}}</li>
+			</ul>
     </div>
   </div>
-
 {%endfor%}
+</div>
 </div>
 
 {% endblock %}

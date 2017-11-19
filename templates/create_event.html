@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block title %} Create Event {% endblock %}
+
+{% block content %}
+ <form  method = "POST" action= "/register_event/{{cid}}/">
+  <div class="container" align = "center">
+    <div class="login">
+        <h1 class="w3-xlarge"> <strong>Create an Event for {{cname}}</strong> </h1> <br>
+    <div class="input-group">
+			   <span class="input-group-addon"><i class="glyphicon glyphicon-font" aria-hidden="true"></i></span>
+         <input type="text" placeholder="Event Name" name="name" class="input-txt" required><br>
+    </div>
+    <br>
+    <div class="input-group">
+         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></span>
+         <input type="date" min="{{today}}" placeholder="Event Date" name="date" class="input-txt" required><br>
+    </div>
+    <br>
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-time" aria-hidden="true"></i></span>
+    <input type="time" placeholder="Event Time" name="time" class="input-txt" required><br>
+  </div>
+    <br>
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
+    <input type="text"  placeholder="Location" name="location" class="input-txt" required><br>
+    </div>
+    <br>
+    <div class="input-group">
+         <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin" aria-hidden="true"></i></span>
+      <textarea maxlength="2000" rows"4" cols"50" class="input-txt"  placeholder="Event Details" name="exp" required></textarea><br>
+    </div>
+    <br>
+      <button type="submit" class="btn">Sign Up</button>
+    </div>
+  </div>
+  </div>
+</form>
+{% endblock %}

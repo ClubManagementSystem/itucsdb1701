@@ -30,7 +30,7 @@ def userclub(id):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
             query = """SELECT CLUBID FROM CLUBMEM WHERE (USERID=%s)"""
-            cursor.execute(query,(id))
+            cursor.execute(query,(id,))
             arr=cursor.fetchall()
             return arr
 
@@ -38,7 +38,7 @@ def getclubname(id):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
             query = """SELECT NAME FROM CLUBDB WHERE (ID=%s)"""
-            cursor.execute(query,(id))
+            cursor.execute(query,(id,))
             na=cursor.fetchone()
             return na
 

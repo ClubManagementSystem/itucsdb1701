@@ -14,7 +14,7 @@ from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user, confirm_login,current_user
 from urllib.parse import urlparse, urljoin
 from user import link3
-
+from event import getevent
 
 link1 = Blueprint('link1',__name__)
 dsn = """user='vagrant' password='vagrant' host='localhost' port=5432 dbname='itucsdb'"""
@@ -25,9 +25,8 @@ def home_page():
     if current_user.is_authenticated and current_user.level == 1:
         return redirect(url_for('link4.admin_home'))
     else:
-        #return redirect(url_for('link3.userProfile'))
-        now = datetime.datetime.now()
-        return render_template('home.html', current_time=now.ctime())
+        arr = getevent(0) # CLUB NAME, EVENT NAME, EVENT EXP, DATE, LOCATION
+        return render_template('home.html', events = arr)
 
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
@@ -89,7 +88,7 @@ def register():
             userpsw = pwd_context.encrypt(userpsw0)
             nuser = User(userName,userrealname,userNumber,useremail,userpsw)
             current_app.store.add_user(nuser)
-        return render_template('home.html')
+        return redirect(url_for('link1.home_page'))
     else:
         flash("Unauthorized Access")
         return redirect(url_for('link1.home_page'))
