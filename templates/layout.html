@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/nivo-slider.css') }}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/login_popover_v2.css') }}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search_v4.css') }}" />
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>{% block title %}{% endblock %}</title>
 <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename = 'logo_colorful_c_v3.png') }}">
 </head>
@@ -32,7 +32,7 @@ a:hover{
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a style="color: #E88E0C;" class="brand-logo" href="/"><img src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
+      <a style="color: #E88E0C;" class="brand-logo" href="/"><img class="w3-opacity w3-hover-opacity-off" src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -44,8 +44,8 @@ a:hover{
       <ul class="nav navbar-nav navbar-right">
 
         {% if current_user.is_authenticated %}
-    <li><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;<strong> {{ current_user.rname }}</strong></a></li>
-    <li><a style="color: #E88E0C" href="{{ url_for('link1.logout') }}"><button title="Logout" class="w3-button w3-padding-small w3-orange w3-circle"><span class="glyphicon glyphicon-log-out"></span></button></a>
+    <li class="w3-hover-sepia"><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;<strong> {{ current_user.rname }}</strong></a></li>
+    <li class="w3-hover-opacity"><a style="color: #FF3A00" href="{{ url_for('link1.logout') }}"><span title="Logout" class="glyphicon glyphicon-log-out"></span></a>
     </li>
 
 
