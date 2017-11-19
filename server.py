@@ -11,17 +11,20 @@ from home import link1
 from club import link2
 from user import link3
 from admin import link4
+from event import link5
 from classes import UserList, User
 from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
 from passlib.apps import custom_app_context as pwd_context
 from datetime import timedelta
+from flask_login.utils import login_required
 
 app = Flask(__name__)
 app.register_blueprint(link1)
 app.register_blueprint(link2)
 app.register_blueprint(link3)
 app.register_blueprint(link4)
+app.register_blueprint(link5)
 app.secret_key = 'gallifrey'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -50,58 +53,73 @@ def get_elephantsql_dsn(vcap_services):
 
 
 @app.route('/initdb')
+@login_required
 def initialize_database():
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
+    if current_user.level == 1:
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
 
-        query = """DROP TABLE IF EXISTS USERDB CASCADE"""
-        cursor.execute(query)
-        query = """CREATE TABLE USERDB (ID SERIAL PRIMARY KEY,
-         NAME VARCHAR(40) NOT NULL, REALNAME VARCHAR(50) NOT NULL,NUMBER BIGINT,
-        EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
-        cursor.execute(query)
+            query = """DROP TABLE IF EXISTS USERDB CASCADE"""
+            cursor.execute(query)
+            query = """CREATE TABLE USERDB (ID SERIAL PRIMARY KEY,
+             NAME VARCHAR(40) NOT NULL, REALNAME VARCHAR(50) NOT NULL,NUMBER BIGINT,
+            EMAIL VARCHAR(50), PSW VARCHAR(200), LEVEL INTEGER DEFAULT 0) """
+            cursor.execute(query)
 
-        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,LEVEL) VALUES(%s, %s, %s, %s)   """
-        cursor.execute(query,('admin','Admin', pwd_context.encrypt('admin'), 1,))
+            query = """INSERT INTO USERDB(NAME,REALNAME,PSW,LEVEL) VALUES(%s, %s, %s, %s)   """
+            cursor.execute(query,('admin','Admin', pwd_context.encrypt('admin'), 1,))
 
-        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
-        cursor.execute(query,('koray','Bulent Koray Oz', pwd_context.encrypt('123'),12345, 'koray@itu.edu.tr',))
+            query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
+            cursor.execute(query,('koray','Bulent Koray Oz', pwd_context.encrypt('123'),12345, 'koray@itu.edu.tr',))
 
-        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
-        cursor.execute(query,('turgut','Turgut Can Aydinalev', pwd_context.encrypt('123'),12345, 'turgut@itu.edu.tr',))
+            query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
+            cursor.execute(query,('turgut','Turgut Can Aydinalev', pwd_context.encrypt('123'),12345, 'turgut@itu.edu.tr',))
 
-        query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
-        cursor.execute(query,('beste','Beste Burcu Bayhan', pwd_context.encrypt('123'),12345, 'beste@itu.edu.tr',))
+            query = """INSERT INTO USERDB(NAME,REALNAME,PSW,NUMBER,EMAIL) VALUES(%s, %s, %s, %s, %s)   """
+            cursor.execute(query,('beste','Beste Burcu Bayhan', pwd_context.encrypt('123'),12345, 'beste@itu.edu.tr',))
 
-        query = """DROP TABLE IF EXISTS CLUBDB CASCADE"""
-        cursor.execute(query)
+            query = """DROP TABLE IF EXISTS CLUBDB CASCADE"""
+            cursor.execute(query)
 
-        query = """ CREATE TABLE CLUBDB (ID SERIAL PRIMARY KEY, NAME VARCHAR(40) NOT NULL, TYPE VARCHAR(40) NOT NULL,
-        EXP VARCHAR(2000), ACTIVE INTEGER DEFAULT 0, CM INT REFERENCES USERDB(ID) ) """
-        cursor.execute(query)
+            query = """ CREATE TABLE CLUBDB (ID SERIAL PRIMARY KEY, NAME VARCHAR(40) NOT NULL, TYPE VARCHAR(40) NOT NULL,
+            EXP VARCHAR(2000), ACTIVE INTEGER DEFAULT 0, CM INT REFERENCES USERDB(ID) ) """
+            cursor.execute(query)
 
-        query = """DROP TABLE IF EXISTS CLUBMEM CASCADE"""
-        cursor.execute(query)
+            query = """DROP TABLE IF EXISTS CLUBMEM CASCADE"""
+            cursor.execute(query)
 
-        query = """CREATE TABLE CLUBMEM (CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, USERID INT REFERENCES USERDB(ID), LEVEL INTEGER DEFAULT 0)"""
-        cursor.execute(query)
-        connection.commit()
+            query = """CREATE TABLE CLUBMEM (CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, USERID INT REFERENCES USERDB(ID), LEVEL INTEGER DEFAULT 0)"""
+            cursor.execute(query)
+            connection.commit()
 
-        query = """DROP TABLE IF EXISTS SOCMED CASCADE"""
-        cursor.execute(query)
+            query = """DROP TABLE IF EXISTS SOCMED CASCADE"""
+            cursor.execute(query)
 
-        query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, TYPESOC VARCHAR(20), LINK VARCHAR(100))"""
-        cursor.execute(query)
-        connection.commit()
+            query = """CREATE TABLE SOCMED (CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, TYPESOC VARCHAR(20), LINK VARCHAR(100))"""
+            cursor.execute(query)
+            connection.commit()
 
-        query = """DROP TABLE IF EXISTS APPTAB CASCADE"""
-        cursor.execute(query)
+            query = """DROP TABLE IF EXISTS APPTAB CASCADE"""
+            cursor.execute(query)
 
-        query = """CREATE TABLE APPTAB(CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, USERID INT REFERENCES USERDB(ID))"""
-        cursor.execute(query)
-        connection.commit()
+            query = """CREATE TABLE APPTAB(CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, USERID INT REFERENCES USERDB(ID))"""
+            cursor.execute(query)
+            connection.commit()
+
+            query = """DROP TABLE IF EXISTS EVENT CASCADE"""
+            cursor.execute(query)
+
+            query = """ CREATE TABLE EVENT (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE ,NAME VARCHAR(40) NOT NULL,
+            EXP VARCHAR(200), DATE TIMESTAMP NOT NULL, LOCATION VARCHAR(20)) """
+            cursor.execute(query)
+
+        flash("Database initialized.")
+
+    else:
+        flash("Admin autherization is required.")
 
     return redirect(url_for('link1.home_page'))
+
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
