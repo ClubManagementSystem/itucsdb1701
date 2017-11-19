@@ -53,9 +53,9 @@ def get_elephantsql_dsn(vcap_services):
 
 
 @app.route('/initdb')
-@login_required
+#@login_required
 def initialize_database():
-    if current_user.level == 1:
+    if current_user.is_authenticated == False:
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor = connection.cursor()
 
