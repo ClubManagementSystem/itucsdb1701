@@ -82,7 +82,16 @@ def clubProfile(id):
             query = """SELECT USERID, NAME FROM USERDB, APPTAB WHERE (USERID = USERDB.ID AND CLUBID = %s)"""
             cursor.execute(query,(id,))
             applicant = cursor.fetchall()
-    return render_template('clubProfile.html', club = club, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant)
+
+        query = """SELECT CLUBMEM.LEVEL, REALNAME, EMAIL FROM CLUBMEM, USERDB WHERE (CLUBID = %s AND USERID = USERDB.ID AND CLUBMEM.LEVEL > 0) ORDER BY CLUBMEM.LEVEL ASC"""
+        cursor.execute(query,(id,))
+        board = cursor.fetchall()
+
+        query = """SELECT USERID, REALNAME FROM CLUBMEM, USERDB WHERE (CLUBID = %s AND USERID = USERDB.ID)"""
+        cursor.execute(query,(id,))
+        members = cursor.fetchall()
+
+    return render_template('clubProfile.html', club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
 
 @link2.route('/next/<arg>')
 def clubProfileNext(arg):
@@ -154,3 +163,11 @@ def deleteApply(clubId, userId):
                 query = """DELETE FROM APPTAB WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(clubId, userId,))
     return redirect(url_for('link2.clubProfile', id = clubId))
+
+@link2.route('/assignBoard/<clubId>', methods = ['GET', 'POST'])
+def assignBoard(clubId):
+#     if request.method == 'POST':
+#         print(request.form[0])
+#     else:
+#         flash("method error")
+    return redirect(url_for('link2.clubs'))
