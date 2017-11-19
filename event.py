@@ -14,4 +14,5 @@ from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user, confirm_login,current_user
 from urllib.parse import urlparse, urljoin
 
+
 link5 = Blueprint('link5',__name__)
