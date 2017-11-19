@@ -51,11 +51,14 @@ def get_elephantsql_dsn(vcap_services):
              dbname='{}'""".format(user, password, host, port, dbname)
     return dsn
 
+@app.route('/initdb/<int:key>/<int:kay>')
+def initdbVerification(key,kay):
+    if (ord(app.secret_key[0]) - kay) == key:
+        initialize_database()
+    return redirect(url_for('link1.home_page'))
 
-@app.route('/initdb')
-#@login_required
+
 def initialize_database():
-    if current_user.is_authenticated == False:
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor = connection.cursor()
 
@@ -115,10 +118,7 @@ def initialize_database():
 
         flash("Database initialized.")
 
-    else:
-        flash("Admin autherization is required.")
-
-    return redirect(url_for('link1.home_page'))
+        return redirect(url_for('link1.home_page'))
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ from flask import render_template, Response
 from flask import request, current_app
 from classes import User
 from home import link1
+from event import getevent
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user,current_user
@@ -54,6 +55,7 @@ def clubregister():
 @link2.route('/clubProfile/<int:id>/')
 def clubProfile(id):
     userId = current_user.get_id()
+    events = getevent(id)
     with dbapi2.connect(current_app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """SELECT * FROM CLUBDB WHERE (ID = %s)"""
@@ -91,7 +93,7 @@ def clubProfile(id):
         cursor.execute(query,(id,))
         members = cursor.fetchall()
 
-    return render_template('clubProfile.html', club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
+    return render_template('clubProfile.html', events = events, club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
 
 @link2.route('/next/<arg>')
 def clubProfileNext(arg):
@@ -152,6 +154,8 @@ def welcomeApply(clubId, userId):
 
                 query = """INSERT INTO CLUBMEM (CLUBID, USERID, LEVEL) VALUES (%s, %s, 0)"""
                 cursor.execute(query,(clubId, userId,))
+    else:
+        flash("Unaccepted method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
 
 @link2.route('/deleteApply/<clubId>/<userId>', methods = ['GET', 'POST'])
@@ -162,12 +166,18 @@ def deleteApply(clubId, userId):
                 cursor = connection.cursor()
                 query = """DELETE FROM APPTAB WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(clubId, userId,))
+    else:
+        flash("Unaccepted method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
 
-@link2.route('/assignBoard/<clubId>', methods = ['GET', 'POST'])
+@link2.route('/assignBoard/<int:clubId>', methods = ['GET', 'POST'])
+@login_required
 def assignBoard(clubId):
-#     if request.method == 'POST':
-#         print(request.form[0])
-#     else:
-#         flash("method error")
-    return redirect(url_for('link2.clubs'))
+    if request.method == 'POST':
+        with dbapi2._connect(current_app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """UPDATE CLUBMEM SET LEVEL = %s WHERE(CLUBID = %s AND USERID = %s)"""
+                cursor.execute(query,(request.form['role'],clubId, request.form['member'],))
+    else:
+        flash("method error")
+    return redirect(url_for('link2.clubProfile', id = clubId))

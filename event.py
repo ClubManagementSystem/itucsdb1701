@@ -55,3 +55,17 @@ def getevent(id):
                 a = tuple(a)
                 editedarr.append(a)
             return editedarr;
+    else:
+        with dbapi2.connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """ SELECT NAME,EXP,DATE,LOCATION FROM EVENT WHERE (CLUBID = %s) ORDER BY DATE """
+            cursor.execute(query,(id,))
+            arr = cursor.fetchall()
+            editedarr = []
+            for a in arr:
+                a = list(a)
+                a.append(a[2].strftime("%H:%M"))
+                a[2] = a[2].strftime("%d %B %Y, %A")
+                a = tuple(a)
+                editedarr.append(a)
+            return editedarr;

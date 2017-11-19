@@ -2,7 +2,7 @@
 {% block title %} Club Profile Page {% endblock %}
 
 {% block content %}
-{% if level == 1 %}
+{% if level >= 1 %}
 <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
 {% else %}
@@ -47,23 +47,22 @@
 <form method="POST" class="w3-button w3-block w3-dark-grey" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
 
   	{% if not ismember and not isapplied %}
-		<button type="submit">register</button>
+		<button type="submit" style="background: none; border:none;padding:0">register</button>
   	{% endif %}
 
   	{% if not ismember and isapplied %}
-		<button type="submit" disabled>applied</button>
-  	{% endif %}
-
-  	{% if ismember and not isapplied %}
-		<button type="submit" disabled>already member</button>
+		<button type="submit" style="background: none; border:none;padding:0" disabled>Waitin for Confirmation</button>
   	{% endif %}
 
 </form>
 {% endif %}
 </div>
 
-{% if level == 1 %}
+{% if level >= 1 %}
 </div>
+ {% endif %}
+{% if level == 1 %}
+<!-- Assign Board Member -->
 <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
 		<header class="w3-container w3-orange">
@@ -72,38 +71,128 @@
   			<br>
 		</header>
 
-<form  method = "POST" action= " {{ url_for('link2.assignBoard' ,clubId = club[0]) }}">
+<form  method="POST" action= " {{ url_for('link2.assignBoard' ,clubId=club[0]) }}">
 	<br>
     <!-- <label><b>Name - Surname</b></label> -->
     <div class="input-group">
        <span class="input-group-addon"><i class="glyphicon glyphicon-tasks" aria-hidden="true"></i></span>
-  <select class="w3-select w3-orange" name="role" required>
-  	<option selected disabled>Select Role</option>
-	<option value = "2">Vice Chairman</option>
-	<option value = "3">Secretary</option>
-	<option value = "4">Accountant</option>
-	<option value = "5">Clerk</option>
-	</select><br>
+  		<select class="w3-select w3-orange" name="role" required>
+  			<option selected disabled>Select Role</option>
+			<option value = "2">Vice Chairman</option>
+			<option value = "3">Secretary</option>
+			<option value = "4">Accountant</option>
+			<option value = "5">Clerk</option>
+		</select>
+		<br>
     </div>
-    <!-- <label><b>Student Number</b></label> -->
     <br>
     <div class="input-group">
        <span class="input-group-addon"><i class="glyphicon glyphicon-tasks" aria-hidden="true"></i></span>
-  <select class="w3-select w3-orange" name="role" required>
-  	<option selected disabled>Member</option>
-  	{% for m in members %}
-		<option>{{ m[1] }}</option>
-	{% endfor %}
-	</select><br>
+  		<select class="w3-select w3-orange" name="member" required>
+  		<option selected disabled>Member</option>
+  		{% for m in members %}
+  		{% if current_user.get_id()[0] != m[0] %}
+			<option value = "{{m[0]}}">{{ m[1] }}</option>
+  		{% endif %}
+		{% endfor %}
+		</select><br>
     </div>
-	<br	>
-    <div>
-      <button type="submit" class="btn">Assign</button>
-    </div>
+	<br>
+    <button type="submit" class="btn">Assign</button>
 </form>
-
     </div>
   </div>
 {% endif%}
+<!-- / Assign Board Member -->
+<!-- Member Applications -->
+{% if level >= 1 %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+		<header class="w3-container w3-orange">
+  			<br>
+    		<h1 class = "w3-large"><strong>Member Applicantions</strong></h1>
+  			<br>
+		</header>
+
+	<br>
+    <!-- <label><b>Name - Surname</b></label> -->
+    {%if applicants %}
+	<div class="table-container" >
+	<table class="table table-hover text-center" border="1">
+	<thead>
+	<tr>
+	<th class = "text-center"> Name-Surname </th>
+	<th class = "text-center"> Accept</th>
+	<th class = "text-center"> Decline</th>
+	</tr>
+	</thead>
+	{% for a in applicants %}
+		<tr>
+		<td>{{a[1]}} </td>
+		<td><form  method="POST" action="{{ url_for('link2.welcomeApply', clubId = club[0], userId = a[0])}}"><button type = "submit" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-ok"></span></button></form></td>
+		<td><form  method="POST" action="{{ url_for('link2.deleteApply', clubId = club[0], userId = a[0])}}"><button type = "submit"
+		class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash"></span></button></form></td>
+		</tr>
+	{% endfor %}
+	</table>
+	</div>
+
+	{% else %}
+	<div class="alert alert-info">
+  		<strong><span class="glyphicon glyphicon-info-sign"></span></strong> There is no pending member applications!
+  	</div>
+	{% endif %}
+
+    </div>
+  </div>
+  {% endif%}
+  <!-- / Member Applications -->
+  <!-- Manage Events -->
+{% if level >= 1 %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+		<header class="w3-container w3-orange">
+  			<br>
+    		<h1 class = "w3-large"><strong>Events</strong></h1>
+  			<br>
+		</header>
+
+	<br>
+    <!-- <label><b>Name - Surname</b></label> -->
+    {%if events %}
+	<div class="table-container" >
+	<table class="table table-hover text-center" border="1">
+	<thead>
+	<tr>
+	<th class = "text-center"> Event Name </th>
+	<th class = "text-center"> Explanation </th>
+	<th class = "text-center"> Time </th>
+	<th class = "text-center"> Location </th>
+	</tr>
+	</thead>
+	{% for e in events %}
+		<tr>
+		<td>{{e[0]}} </td>
+		<td>{{e[1]}}</td>
+		<td>{{e[2]}}</td>
+		<td>{{e[3]}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	</div>
+
+	{% else %}
+	<div class="alert alert-info">
+  		<strong><span class="glyphicon glyphicon-info-sign"></span></strong> There is no upcoming event!
+  	</div>
+	{% endif %}
+	<div class="w3-button w3-block w3-dark-grey" >
+		<a href="{{ url_for('link5.create_event', id=club[0]) }}"><span class="glyphicon glyphicon-pencil"></span> Create Event</a>
+	</div>
+    </div>
+  </div>
+  {% endif%}
+  <!-- / Manage Events -->
+
 
 {% endblock %}
