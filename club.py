@@ -75,6 +75,8 @@ def clubProfile(id):
         level = cursor.fetchone()
         if level:
             level = level[0]
+        else:
+            level = 0
         query = """SELECT COUNT(*) FROM APPTAB WHERE (CLUBID = %s AND USERID = %s)"""
         cursor.execute(query,(id, userId,))
         isapplied = cursor.fetchone()[0]
@@ -92,7 +94,8 @@ def clubProfile(id):
         query = """SELECT USERID, REALNAME FROM CLUBMEM, USERDB WHERE (CLUBID = %s AND USERID = USERDB.ID)"""
         cursor.execute(query,(id,))
         members = cursor.fetchall()
-
+        print("-----")
+        print(level)
     return render_template('clubProfile.html', events = events, club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
 
 @link2.route('/next/<arg>')

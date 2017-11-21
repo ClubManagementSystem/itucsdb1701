@@ -44,7 +44,7 @@ a:hover{
       <ul class="nav navbar-nav navbar-right">
 
         {% if current_user.is_authenticated %}
-    <li class="w3-hover-sepia"><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;<strong> {{ current_user.rname }}</strong></a></li>
+    <li class="w3-hover-sepia"><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="fa fa-user-circle fa-lg"></span>&nbsp;<strong> {{ current_user.rname }}</strong></a></li>
     <li class="w3-hover-opacity"><a style="color: #FF3A00" href="{{ url_for('link1.logout') }}"><span title="Logout" class="glyphicon glyphicon-log-out"></span></a>
     </li>
 
