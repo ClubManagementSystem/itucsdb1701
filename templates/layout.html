@@ -32,13 +32,13 @@ a:hover{
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a style="color: #E88E0C;" class="brand-logo" href="/"><img class="w3-opacity w3-hover-opacity-off" src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
+      <a style="color: #E88E0C;" class="brand-logo" href="{{ url_for('link1.home_page') }}"><img class="w3-opacity w3-hover-opacity-off" src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="w3-hover-ccc"><a style="color: #E88E0C" href="/clubs"><strong>Clubs</strong></a></li>
+        <li class="w3-hover-ccc"><a style="color: #E88E0C" href="{{ url_for('link2.clubs') }}"><strong>Clubs</strong></a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

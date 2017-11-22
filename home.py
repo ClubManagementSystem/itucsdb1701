@@ -50,12 +50,12 @@ def login():
             else:
                 return redirect(url_for('link3.userProfile'))
         elif Flag == -1:
-            flash('Wrong password!')
+            flash('Wrong Password!')
         else:
-            flash('No such user!')
+            flash('No Such User!')
         return redirect(url_for('link1.home_page'))
     else:
-        flash('UNAUTHORIZED USER!!!')
+        flash('Unauthorized Access!')
         return redirect(url_for('link1.home_page'))
 
 @link1.route('/signup', methods = ['GET', 'POST'])
@@ -66,7 +66,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    flash('You logged out!')
+    flash('You Logged Out!')
     return redirect(url_for('link1.home_page'))
 
 @link1.route('/register', methods = ['GET', 'POST'])

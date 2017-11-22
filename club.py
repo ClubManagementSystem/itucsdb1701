@@ -25,7 +25,7 @@ def clubs():
         cursor.execute(query)
         clubs = cursor.fetchall()
         return render_template('clubs.html', clubs = clubs)
-    flash("Database e baglanilamadi")
+    flash("Can not connect to the DB.")
     return render_template('home.html')
 
 @link2.route('/clubapp')
@@ -63,7 +63,7 @@ def clubProfile(id):
         club = cursor.fetchone()
 
         if club == None:
-            flash("Yok boyle bir kulup")
+            flash("Wrong Club URL!")
             return redirect(url_for('link1.home_page'))
 
         query = """SELECT COUNT(*) FROM CLUBMEM WHERE (CLUBID = %s AND USERID = %s)"""
@@ -94,8 +94,6 @@ def clubProfile(id):
         query = """SELECT USERID, REALNAME FROM CLUBMEM, USERDB WHERE (CLUBID = %s AND USERID = USERDB.ID)"""
         cursor.execute(query,(id,))
         members = cursor.fetchall()
-        print("-----")
-        print(level)
     return render_template('clubProfile.html', events = events, club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
 
 @link2.route('/next/<arg>')
@@ -143,7 +141,7 @@ def registerToClub(clubId):
                 cursor = connection.cursor()
                 query = """INSERT INTO APPTAB (CLUBID,USERID) VALUES (%s, %s)"""
                 cursor.execute(query,(clubId, userId,))
-                flash("ISTEK GONDERILDI")
+                flash("Request has been sent.")
         return redirect(url_for('link2.clubProfile', id = clubId))
 
 @link2.route('/welcomeApply/<clubId>/<userId>', methods = ['GET', 'POST'])
@@ -158,7 +156,7 @@ def welcomeApply(clubId, userId):
                 query = """INSERT INTO CLUBMEM (CLUBID, USERID, LEVEL) VALUES (%s, %s, 0)"""
                 cursor.execute(query,(clubId, userId,))
     else:
-        flash("Unaccepted method.")
+        flash("Unaccepted Method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
 
 @link2.route('/deleteApply/<clubId>/<userId>', methods = ['GET', 'POST'])
@@ -170,7 +168,7 @@ def deleteApply(clubId, userId):
                 query = """DELETE FROM APPTAB WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(clubId, userId,))
     else:
-        flash("Unaccepted method.")
+        flash("Unaccepted Method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
 
 @link2.route('/assignBoard/<int:clubId>', methods = ['GET', 'POST'])
@@ -182,5 +180,5 @@ def assignBoard(clubId):
                 query = """UPDATE CLUBMEM SET LEVEL = %s WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(request.form['role'],clubId, request.form['member'],))
     else:
-        flash("method error")
+        flash("Method Error.")
     return redirect(url_for('link2.clubProfile', id = clubId))
