@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+{% block title %}Club Balance Page{% endblock %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+
+<form  method = "POST" action= "/AddClubBalance/{{cid}}">
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="w3-container">
+<div class="w3-display-container">
+    <div class="login">
+    <div class="input-group">
+			   <span class="input-group-addon"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i></span>
+         <input type="number" step="0.01" placeholder="Amount" name="amount" class="input-txt" required><br>
+    </div>
+    <div class="input-group">
+    <span class="input-group-addon"><i class="fa fa-quote-left fa-fw" aria-hidden="true"></i></span>
+    <input type="text" placeholder="Explanation" name="expl" class="input-txt" required><br>
+  </div>
+
+  <div class="w3-display-right"><button type="submit" class="w3-btn w3-orange w3-round-xxlarge">Add</button></div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </form>
+
+
+
+{%if allamounts %}
+<div class="w3-container">
+<br><br>
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="table-container" >
+<h1 class="w3-xlarge"> <strong>{{cname}} Balance Sheet</strong> </h1> <br>
+<table class="w3-table-all w3-small w3-centered">
+
+{% for a in allamounts %}
+{% if a[0] > 0 %}
+<tr class="w3-light-green">
+{% else %}
+<tr class="w3-deep-orange">
+{% endif %}
+<td>{{a[0]}} <i class="fa fa-try" aria-hidden="true"></i></td>
+<td>{{a[1]}} </td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+<br>
+<div class="w3-large">
+{% if balance > 0 %}
+<div class="w3-text-green">
+{% else %}
+<div class="w3-text-red">
+{% endif %}
+ <i class="fa fa-shopping-bag" aria-hidden="true"></i>  {{balance}} <i class="fa fa-try" aria-hidden="true"></i> </div>
+</div> </div>
+<br>
+</div>
+{% else %}
+<div class="alert alert-info">
+  <strong><span class="glyphicon glyphicon-info-sign"></span></strong> There is balance information!
+</div>
+{% endif %}
+{% endif %}
+
+{% endblock %}

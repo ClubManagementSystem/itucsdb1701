@@ -14,7 +14,7 @@ from event import getevent
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user,current_user
-
+from user import getclubname
 link2 = Blueprint('link2',__name__)
 
 @link2.route('/clubs')
@@ -182,3 +182,52 @@ def assignBoard(clubId):
     else:
         flash("Method Error.")
     return redirect(url_for('link2.clubProfile', id = clubId))
+
+@link2.route('/AddClubBalance/<int:clubId>', methods = ['GET', 'POST'])
+@login_required
+def AddClubBalance(clubId):
+    if request.method == "POST":
+        amount = request.form['amount']
+        expl = request.form['expl']
+        addtobalance(clubId,amount,expl)
+        flash("Income/Expense amount is added to the balance sheet.")
+        return redirect(url_for('link2.clubBalance', clubId=clubId))
+    else:
+        flash("Access Denied")
+        return redirect(url_for('link2.clubBalance', clubId=clubId))
+
+
+@link2.route('/clubBalance/<int:clubId>')
+@login_required
+def clubBalance(clubId):
+    balance = totalbalance(clubId)
+    allamounts = balanceSheet(clubId)
+    cname = getclubname(clubId)[0]
+    return render_template('clubbalance.html', balance = balance, allamounts=allamounts, cid = clubId, cname = cname)
+
+def totalbalance(clubId):
+     with dbapi2._connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT SUM (AMOUNT) FROM BALANCE WHERE CLUBID = %s"""
+        cursor.execute(query,(clubId,))
+        arr = cursor.fetchone()
+        if arr == None:
+            return 0
+        return arr[0]
+
+def addtobalance(clubId,amount,expl):
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """INSERT INTO BALANCE (CLUBID,AMOUNT,EXPL) VALUES (%s, %s, %s)"""
+        cursor.execute(query,(clubId,amount,expl,))
+        return
+
+def balanceSheet(clubId):
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT AMOUNT,EXPL FROM BALANCE WHERE CLUBID = %s"""
+        cursor.execute(query,(clubId,))
+        arr = cursor.fetchall()
+        return arr
+
+
