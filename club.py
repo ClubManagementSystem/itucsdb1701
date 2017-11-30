@@ -177,6 +177,13 @@ def assignBoard(clubId):
     if request.method == 'POST':
         with dbapi2._connect(current_app.config['dsn']) as connection:
                 cursor = connection.cursor()
+                query = """ SELECT * FROM CLUBMEM WHERE (LEVEL = %s) """
+                cursor.execute(query, (request.form['role'],))
+                temp = cursor.fetchone()
+                if temp:
+                    query = """ UPDATE CLUBMEM SET LEVEL = 0 WHERE (LEVEL = %s) """
+                    cursor.execute(query, (request.form['role'],))
+
                 query = """UPDATE CLUBMEM SET LEVEL = %s WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(request.form['role'],clubId, request.form['member'],))
     else:
