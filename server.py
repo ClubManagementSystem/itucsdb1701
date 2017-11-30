@@ -123,6 +123,31 @@ def initialize_database():
             EXPL VARCHAR(200)) """
             cursor.execute(query)
 
+            query = """ INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('ceyda', 'Ceyda Aladag', 123456, 'ceyda@itu.edu.tr', '$6$rounds=656000$2pciOKNmxUaBMP9o$E/9Gs1CKiuCE9wtqxOr3kQskYyhm52BzHyZz5QG3qFjuHxcKo3LUsq77sK/fSc5JG5hcXTqiMS/saAyKBFEuh.', 0);
+                        INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('melis', 'Melis Gulenay', 4123, 'melis@itu.edu.tr', '$6$rounds=656000$ndu2sy9DMg5bVp1D$uPIOHBTnMWBjAjI4PuendQeYY5tNS7RcCfLSpaGxdxXBBcojaK07bMilkSXFC4qx7IqH1IgbcoelFYurcH.JS0', 0);
+                        INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('mert', 'Mert Kartaltepe', 4125, 'mert@itu.edu.tr', '$6$rounds=656000$yi1XAGdkPXFN/S8x$Rayqxk8A7lmsrz/ScCkUn2zBHBd2wxtjpZ3aYBCAPo5WHLmjIyTHUf0oyeLtqys8TdWlSHxgu2zlwFpD.a.G4.', 0);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('E-sport Klubu', 'Sport', 'Online oyun sporlari', 1, 3);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Felsefe Klubu', 'Culture/Art', 'Felsefi akim tartismalari', 1, 4);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Paten Klubu', 'Sport', 'Tekerlekli patenle yapilan tum sporlar', 1, 2);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Bilisim Klubu', 'Profession', 'Turkiye''de bilisim teknolojisi bilincinin arttirilmasi uzerine calismalar', 1, 7);
+                        INSERT INTO APPTAB(CLUBID,USERID) VALUES (1, 4);
+                        INSERT INTO APPTAB(CLUBID,USERID) VALUES (1, 5);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (1, 3, 1);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (2, 4, 1);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (3, 2, 1);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (1, 2, 3);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (1, 6, 0);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (1, 7, 4);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (4, 7, 1);
+                        INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (3, 3, 0);
+                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (1, 'Hearthstone Turnuvasi', 'Odullu Hearthstone turnuvasi', '2017-12-29 20:00:00', 'MED');
+                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (2, 'Platon Hakkinda', 'Eserleri hakkinda tartisma', '2017-12-22 18:00:00', 'FEB');
+                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (3, 'Inline Hokey Maci', 'Hazirlik karsilasmasi', '2017-12-11 19:00:00', 'Spor Salonu');
+                        INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (2, 'Facebook', 'facebook.com/felsefeitu');
+                        """
+            cursor.execute(query)
+
+
         flash("Database initialized.")
 
         return redirect(url_for('link1.home_page'))
