@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block title %}Club Inventory Page{% endblock %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+
+<form  method = "POST" action= "/addclubInventory/{{cid}}">
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="w3-container">
+<div class="w3-display-container">
+    <div class="login">
+    <div class="input-group">
+			   <span class="input-group-addon"><i class="fa fa-diamond fa-fw" aria-hidden="true"></i></span>
+         <input type="text" placeholder="Inventory Name" name="name" class="input-txt" required><br>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i></span>
+      <input type="date" min="{{today}}" placeholder="Register Date (Y-M-D)" name="date" class="input-txt" required><br>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i></span>
+      <input type="time" placeholder="Register Time (H:M)" name="time" class="input-txt" required><br>
+    </div>
+
+  <div class="w3-display-right"><button type="submit" class="w3-btn w3-orange w3-round-xxlarge">Add</button></div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </form>
+
+
+
+{%if all_inventories %}
+<div class="w3-container">
+<br><br>
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="table-container" >
+<h1 class="w3-xlarge"> <strong>{{cname}} Inventory Table</strong> </h1> <br>
+<table class="w3-table-all w3-small w3-centered">
+
+{% for a in all_inventories %}
+<tr class="w3-deep-orange">
+<td>{{a[0]}} </td>
+<td>{{a[1]}} </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+<br>
+
+{% endif %}
+{% endif %}
+
+{% endblock %}

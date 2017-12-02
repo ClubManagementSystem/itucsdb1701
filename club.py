@@ -237,4 +237,38 @@ def balanceSheet(clubId):
         arr = cursor.fetchall()
         return arr
 
+@link2.route('/addclubInventory/<int:clubId>', methods = ['GET', 'POST'])
+@login_required
+def register_inventory(clubId):
+    if request.method == "POST":
+        name = request.form['name']
+        date = request.form['date']
+        time = request.form['time']
+        ts_str = date + " " + time + ":00"
+        ts = datetime.datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S")
+        with dbapi2._connect(current_app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query= "INSERT INTO INVENTORY(CLUBID,INAME,DATE) VALUES (%s, %s, %s)"
+            cursor.execute(query, (clubId,name,ts_str))
+            connection.commit()
+            flash ("Inventory registration is done!")
+            return redirect(url_for('link2.clubInventory', clubId=clubId))
+    else:
+        flash("Access Denied")
+        return redirect(url_for('link2.clubInventory', clubId=clubId))
 
+@link2.route('/clubInventory/<int:clubId>')
+@login_required
+
+def clubInventory(clubId):
+    all_inventories=showallinventory(clubId)
+    cname = getclubname(clubId)[0]
+    return render_template('clubInventory.html', all_inventories = all_inventories, cid=clubId,cname=cname)
+
+def showallinventory(clubId):
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query  = """SELECT INAME,DATE FROM INVENTORY WHERE CLUBID=%s"""
+        cursor.execute(query,(clubId,))
+        arr = cursor.fetchall()
+        return arr

@@ -115,6 +115,7 @@ def initialize_database():
             query = """ CREATE TABLE EVENT (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE ,NAME VARCHAR(40) NOT NULL,
             EXP VARCHAR(200), DATE TIMESTAMP NOT NULL, LOCATION VARCHAR(20)) """
             cursor.execute(query)
+            connection.commit()
 
             query = """DROP TABLE IF EXISTS BALANCE CASCADE"""
             cursor.execute(query)
@@ -123,13 +124,20 @@ def initialize_database():
             EXPL VARCHAR(200)) """
             cursor.execute(query)
 
+            query = """DROP TABLE IF EXISTS INVENTORY CASCADE"""
+            cursor.execute(query)
+
+            query = """ CREATE TABLE INVENTORY (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, INAME VARCHAR(80) NOT NULL, USERNAMEID INTEGER REFERENCES USERDB(ID),DATE TIMESTAMP NOT NULL, AVAILABLE INTEGER DEFAULT 0)"""
+            cursor.execute(query)
+
+
             query = """ INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('ceyda', 'Ceyda Aladag', 123456, 'ceyda@itu.edu.tr', '$6$rounds=656000$2pciOKNmxUaBMP9o$E/9Gs1CKiuCE9wtqxOr3kQskYyhm52BzHyZz5QG3qFjuHxcKo3LUsq77sK/fSc5JG5hcXTqiMS/saAyKBFEuh.', 0);
                         INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('melis', 'Melis Gulenay', 4123, 'melis@itu.edu.tr', '$6$rounds=656000$ndu2sy9DMg5bVp1D$uPIOHBTnMWBjAjI4PuendQeYY5tNS7RcCfLSpaGxdxXBBcojaK07bMilkSXFC4qx7IqH1IgbcoelFYurcH.JS0', 0);
                         INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('mert', 'Mert Kartaltepe', 4125, 'mert@itu.edu.tr', '$6$rounds=656000$yi1XAGdkPXFN/S8x$Rayqxk8A7lmsrz/ScCkUn2zBHBd2wxtjpZ3aYBCAPo5WHLmjIyTHUf0oyeLtqys8TdWlSHxgu2zlwFpD.a.G4.', 0);
-                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('E-sport Klubu', 'Sport', 'Online oyun sporlari', 1, 3);
-                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Felsefe Klubu', 'Culture/Art', 'Felsefi akim tartismalari', 1, 4);
-                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Paten Klubu', 'Sport', 'Tekerlekli patenle yapilan tum sporlar', 1, 2);
-                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Bilisim Klubu', 'Profession', 'Turkiye''de bilisim teknolojisi bilincinin arttirilmasi uzerine calismalar', 1, 7);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('E-sport Kulubu', 'Sport', 'Online oyun sporlari', 1, 3);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Felsefe Kulubu', 'Culture/Art', 'Felsefi akim tartismalari', 1, 4);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Paten Kulubu', 'Sport', 'Tekerlekli patenle yapilan tum sporlar', 1, 2);
+                        INSERT INTO CLUBDB(NAME,TYPE,EXP,ACTIVE,CM) VALUES ('Bilisim Kulubu', 'Profession', 'Turkiye''de bilisim teknolojisi bilincinin arttirilmasi uzerine calismalar', 1, 7);
                         INSERT INTO APPTAB(CLUBID,USERID) VALUES (1, 4);
                         INSERT INTO APPTAB(CLUBID,USERID) VALUES (1, 5);
                         INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (1, 3, 1);
