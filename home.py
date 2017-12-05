@@ -84,10 +84,11 @@ def register():
                 return redirect(url_for('link1.signup'))
             userNumber = request.form['studentno']
             useremail = request.form['email']
-            userrealname = request.form['rname']
+            userrealname = request.form['rname'].title()
             userpsw = pwd_context.encrypt(userpsw0)
             nuser = User(userName,userrealname,userNumber,useremail,userpsw)
             current_app.store.add_user(nuser)
+            flash('Sign up successfully completed.')
         return redirect(url_for('link1.home_page'))
     else:
         flash("Unauthorized Access")

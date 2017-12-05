@@ -22,6 +22,17 @@ def create_event(id):
     cname = getclubname(id)[0]
     return  render_template('create_event.html',cname = cname,cid = id,today = datetime.datetime.today().strftime("%Y-%m-%d"))
 
+@link5.route('/delete_event/<int:cid>/<int:eid>/', methods=['GET', 'POST'])
+def delete_event(cid,eid):
+    if request.method == 'POST':
+        with dbapi2._connect(current_app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """DELETE FROM EVENT WHERE(ID = %s)"""
+                cursor.execute(query,(eid,))
+    else:
+        flash("Unaccepted Method.")
+    return redirect(url_for('link2.clubProfile', id = cid))
+
 @link5.route('/register_event/<int:id>/', methods=['GET', 'POST'])
 def register_event(id):
     if request.method == "POST":
@@ -44,7 +55,7 @@ def getevent(id):
     if id == 0:
         with dbapi2.connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query = """ SELECT CLUBDB.NAME,EVENT.NAME,EVENT.EXP,DATE,LOCATION FROM EVENT,CLUBDB WHERE (CLUBID = CLUBDB.ID) ORDER BY EVENT.DATE """
+            query = """ SELECT CLUBDB.NAME,EVENT.NAME,EVENT.EXP,DATE,LOCATION,EVENT.ID,CLUBDB.ID FROM EVENT,CLUBDB WHERE (CLUBID = CLUBDB.ID) ORDER BY EVENT.DATE """
             cursor.execute(query)
             arr = cursor.fetchall()
             editedarr = []
@@ -58,7 +69,7 @@ def getevent(id):
     else:
         with dbapi2.connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query = """ SELECT NAME,EXP,DATE,LOCATION FROM EVENT WHERE (CLUBID = %s) ORDER BY DATE """
+            query = """ SELECT NAME,EXP,DATE,LOCATION,ID FROM EVENT WHERE (CLUBID = %s) ORDER BY DATE """
             cursor.execute(query,(id,))
             arr = cursor.fetchall()
             editedarr = []

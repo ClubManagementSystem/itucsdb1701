@@ -60,16 +60,6 @@ class UserList:
             connection.commit()
             self.last_key = cursor.lastrowid
 
-#     def get_id(self, name):
-#         with dbapi2._connect(self.dbfile) as connection:
-#             cursor = connection.cursor()
-#             query = "SELECT ID FROM USERDB WHERE (NAME = %s)"
-#             cursor.execute(query, (name,))
-#             usr = cursor.fetchone()
-#             return usr
-
-
-
     def verify_user(self,uname,upsw):
         with dbapi2.connect(self.dbfile) as connection:
             cursor = connection.cursor()

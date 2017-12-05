@@ -172,10 +172,12 @@
 	</thead>
 	{% for e in events %}
 		<tr>
-		<td>{{e[0]}} </td>
+		<td>{{e[0]}}</td>
 		<td>{{e[1]}}</td>
 		<td>{{e[2]}}</td>
 		<td>{{e[3]}}</td>
+    <td><form  method="POST" action="{{ url_for('link5.delete_event', cid= club[0], eid = e[4] ) }}"><button type = "submit"
+		class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash"></span></button></form></td>
 		</tr>
 	{% endfor %}
 	</table>

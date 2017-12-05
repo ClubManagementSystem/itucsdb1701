@@ -37,7 +37,7 @@ def club_application():
 @login_required
 def clubregister():
     if request.method == "POST":
-        name = request.form['name']
+        name = request.form['name'].title()
         typ = request.form['type']
         exp = request.form['exp']
         typesoc1 = request.form.get('typesoc1')
