@@ -28,28 +28,27 @@
   </div>
   </div>
   </div>
-  </form>
+</form>
 
-
-
-{%if all_inventories %}
+{%if availableinventories %}
 <div class="w3-container">
 <br><br>
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="table-container" >
-<h1 class="w3-xlarge"> <strong>{{cname}} Inventory Table</strong> </h1> <br>
+<h1 class="w3-xlarge"> <strong>{{cname}} Inventory Table</strong></h1><br>
 <table class="w3-table-all w3-small w3-centered">
 
-{% for a in all_inventories %}
+{% for a in availableinventories %}
 <tr class="w3-deep-orange">
-<td>{{a[0]}} </td>
 <td>{{a[1]}} </td>
+<td>{{a[2]}} </td>
+<td>{% if a[3] == 1 %}
+{{a[4]}} {% else %} <td><form method="POST" action="/inventoryapp/{{cid}}/{{a[0]}}"><button type="submit" class="w3-btn w3-orange w3-round-xxlarge">Apply</button></form> {% endif %} </td>
 </tr>
 {% endfor %}
 </table>
 </div>
 <br>
-
 {% endif %}
 {% endif %}
 
