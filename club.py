@@ -242,15 +242,11 @@ def balanceSheet(clubId):
 def register_inventory(clubId):
     if request.method == "POST":
         name = request.form['name']
-        date = request.form['date']
-        time = request.form['time']
-        ts_str = date + " " + time + ":00"
-        ts = datetime.datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S")
-
+        price = request.form['price']
         with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query= "INSERT INTO INVENTORY(CLUBID,INAME,DATE,USERNAMEID) VALUES (%s, %s, %s,1)"
-            cursor.execute(query, (clubId,name,ts_str,))
+            query= "INSERT INTO INVENTORY(CLUBID,INAME,PRICE,USERNAMEID) VALUES (%s, %s, %s,1)"
+            cursor.execute(query, (clubId,name,price,))
             connection.commit()
             flash ("Inventory registration is done!")
             return redirect(url_for('link2.clubInventory', clubId=clubId))
@@ -269,7 +265,7 @@ def clubInventory(clubId):
 def showavailableinventories(clubId):
     with dbapi2._connect(current_app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query  = """SELECT INVENTORY.ID,INAME,DATE,AVAILABLE,USERDB.REALNAME FROM INVENTORY,USERDB WHERE (USERDB.ID = INVENTORY.USERNAMEID AND CLUBID=%s)"""
+        query  = """SELECT INVENTORY.ID,INAME,AVAILABLE,PRICE,USERDB.REALNAME FROM INVENTORY,USERDB WHERE (USERDB.ID = INVENTORY.USERNAMEID AND CLUBID=%s)"""
         cursor.execute(query,(clubId,))
         arr = cursor.fetchall()
         print(str(arr))
