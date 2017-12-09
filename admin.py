@@ -23,10 +23,21 @@ def admin_home():
         query = """ SELECT * FROM CLUBDB WHERE (ACTIVE = 0) """
         cursor.execute(query)
         app = cursor.fetchall()
-        print(app)
-        return render_template('admin.html', app = app)
 
-@link4.route('/acceptApp/<int:id>/')
+        query = """ SELECT * FROM CLUBDB WHERE (ACTIVE = 1) """
+        cursor.execute(query)
+        curclubs = cursor.fetchall()
+        return render_template('admin.html', app = app, curclubs = curclubs)
+
+@link4.route('/suspendclub/<int:id>/', methods = ['GET', 'POST'])
+def suspendclub(id):
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """UPDATE CLUBDB SET ACTIVE=0 WHERE (ID = %s) """
+        cursor.execute(query,(id,))
+        return redirect(url_for('link4.admin_home'))
+
+@link4.route('/acceptApp/<int:id>/', methods = ['GET', 'POST'])
 def acceptApp(id):
     if current_user.level == 1:
         with dbapi2.connect(current_app.config['dsn']) as connection:
@@ -36,6 +47,12 @@ def acceptApp(id):
             query = """ SELECT CM FROM CLUBDB WHERE (ID = %s) """
             cursor.execute(query,(id,))
             cmid = cursor.fetchone()[0]
+
+            query = """ SELECT COUNT(*) FROM CLUBMEM WHERE (CLUBID = %s AND USERID = %s) """
+            cursor.execute(query,(id,cmid))
+            count = cursor.fetchone()[0]
+            if count > 0:
+                return redirect(url_for('link4.admin_home'))
             cmlevel = 1
             query = """ INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES(%s,%s,%s) """
             cursor.execute(query,(id,cmid,cmlevel,))
@@ -44,7 +61,7 @@ def acceptApp(id):
         flash("Permission Denied")
         return redirect(url_for('link3.userProfile'))
 
-@link4.route('/declineApp/<int:id>/')
+@link4.route('/declineApp/<int:id>/', methods = ['GET', 'POST'])
 def declineApp(id):
     if current_user.level == 1:
         with dbapi2.connect(current_app.config['dsn']) as connection:

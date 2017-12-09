@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block title %}Member List{% endblock %}
+
+{% block content %}
+
+{% if level > 0 %}
+{%if members %}
+<div class="w3-container">
+<br><br>
+<div class= "col-lg-6 col-lg-offset-3">
+<div class="table-container" >
+<h1 class="w3-xlarge"> <strong><a href="{{ url_for('link2.clubProfile', id=cid) }}">{{cname}}</a> Member List</strong> </h1> <br>
+<table class="w3-table-all w3-small w3-centered">
+
+<tr  class ="w3-orange"><td><strong>Name</strong></td><td><strong>Title</strong></td>
+  {% if level == 1 %} <td><strong>Remove Member</strong></td>{% endif %}
+</tr>
+
+{% for m in members %}
+
+<tr>
+<td>{{m[1]}}</td>
+<td>
+  {%if m[2] == 0%}Member{% endif %}
+  {%if m[2] == 1%}Chairman{% endif %}
+  {%if m[2] == 2%}Vice Chairman{% endif %}
+  {%if m[2] == 3%}Secretary{% endif %}
+  {%if m[2] == 4%}Accountant{% endif %}
+  {%if m[2] == 5%}Clerk{% endif %}
+</td>
+
+{% if level == 1 %}<td>{%if m[2] != 1%}<form  method="POST" action="{{ url_for('link2.deletemember', clubId= cid, userId = m[0] ) }}"><button type = "submit"
+class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></button></form>{% endif%}</td>{% endif%}
+</tr>
+{% endfor %}
+</table>
+</div>
+{% endif %}
+{% endif %}
+
+{% endblock %}

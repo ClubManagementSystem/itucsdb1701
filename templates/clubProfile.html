@@ -6,7 +6,8 @@
 <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
 {% else %}
-	<div class= "col-lg-6 col-lg-offset-3">
+	<div class= "col-sm-6 col-md-4">
+    <div class="thumbnail">
 {% endif %}
 
 <header class="w3-container w3-orange">
@@ -15,19 +16,10 @@
   <br>
 </header>
 
-<ul class="w3-ul w3-hoverable">
-  <li><span class="glyphicon glyphicon-user" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{club[2]}}</li>
-  <li><span class="glyphicon glyphicon-education" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{club[3]}}</li>
-  <li><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<strong>My Student Clubs</strong>
-    {% if clubnames %}
-    {% for c in clubnames %}
-      <p><a href="clubProfile/{{c[0]}}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
-    {% endfor %}
-    {% else %}
-    <p> No membership in any club. </p>
-    {% endif %}
-  </li>
-  <li><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<h1><strong>Board Members</strong></h1>
+<ul class="w3-ul">
+  <li><span class="fa fa-tag" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{club[2]}}</li>
+  <li><span class="fa fa-quote-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{club[3]}}</li>
+  <li><span class="glyphicon glyphicon-bullhorn" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<strong style="color:#E88E0C">Board Members</strong>
     {% if board %}
     	{% for b in board %}
     		{%if b[0] == 1%} <p><strong>Chairman</strong></p> {% endif %}
@@ -35,32 +27,49 @@
     		{%if b[0] == 3%} <p><strong>Secretary</strong></p> {% endif %}
     		{%if b[0] == 4%} <p><strong>Accountant</strong></p> {% endif %}
     		{%if b[0] == 5%} <p><strong>Clerk</strong></p> {% endif %}
-    		<p>{{b[1]}}</p>
-    		<p>{{b[2]}}</p>
+    		<p><span class="fa fa-user" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{b[1]}}</p>
+    		<p><span class="fa fa-at" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{b[2]}}</p>
     	{% endfor %}
     {% else %}
     	<p> Board members are not assigned yet. </p>
     {% endif %}
   </li>
+
+  {% if socmed %}
+  <li>
+    <span class="fa fa-globe" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<strong style="color:#E88E0C">Social Medias</strong><br>
+  {% for s in socmed %}
+
+     {% if s[0] == "Facebook" %} <span class="fa fa-facebook" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+     {% if s[0] == "Instagram" %} <span class="fa fa-instagram" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+     {% if s[0] == "Youtube" %} <span class="fa fa-youtube-play" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+     {% if s[0] == "Twitter" %} <span class="fa fa-twitter" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+     &nbsp;<a href="http://{{s[1]}}">{{s[1]}} </a><br>
+
+  {% endfor %}
+    </li>
+  {% endif %}
 </ul>
 {% if current_user.is_authenticated %}
-<form method="POST" class="w3-button w3-block w3-dark-grey" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
+
 
   	{% if not ismember and not isapplied %}
-		<button type="submit" style="background: none; border:none;padding:0">register</button>
+    <form method="POST" class="w3-button w3-block w3-dark-grey" action="{{ url_for('link2.registerToClub', clubId=club[0]) }}">
+		<button type="submit" style="background: none; border:none;padding:0">Register</button>
+    </form>
   	{% endif %}
 
   	{% if not ismember and isapplied %}
-		<button type="submit" style="background: none; border:none;padding:0" disabled>Waitin for Confirmation</button>
+    <div class="w3-button w3-block w3-dark-grey">
+		<button type="submit" style="background: none; border:none;padding:0" disabled>Waiting for Confirmation</button> </div>
   	{% endif %}
 
-</form>
+
 {% endif %}
 </div>
 
-{% if level >= 1 %}
 </div>
- {% endif %}
+
 {% if level == 1 %}
 <!-- Assign Board Member -->
 <div class="col-sm-6 col-md-4">
@@ -105,7 +114,7 @@
 {% endif%}
 <!-- / Assign Board Member -->
 <!-- Member Applications -->
-{% if level >= 1 %}
+{% if level == 1 %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
 		<header class="w3-container w3-orange">
@@ -129,9 +138,9 @@
 	{% for a in applicants %}
 		<tr>
 		<td>{{a[1]}} </td>
-		<td><form  method="POST" action="{{ url_for('link2.welcomeApply', clubId = club[0], userId = a[0])}}"><button type = "submit" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-ok"></span></button></form></td>
+		<td><form  method="POST" action="{{ url_for('link2.welcomeApply', clubId = club[0], userId = a[0])}}"><button type = "submit" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-ok" style="color:#00E80F"></span></button></form></td>
 		<td><form  method="POST" action="{{ url_for('link2.deleteApply', clubId = club[0], userId = a[0])}}"><button type = "submit"
-		class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash"></span></button></form></td>
+		class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></button></form></td>
 		</tr>
 	{% endfor %}
 	</table>
@@ -148,7 +157,23 @@
   {% endif%}
   <!-- / Member Applications -->
   <!-- Manage Events -->
-{% if level >= 1 %}
+
+
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+    <header class="w3-container w3-orange">
+        <br>
+        <h1 class = "w3-large"><strong>Club Management</strong></h1>
+        <br>
+    </header>
+    <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.clubInventory', clubId = club[0])}}">Inventory</a></div>
+      {% if level >= 1 %}<div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.clubBalance', clubId = club[0])}}">Balance</a></div>
+    <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.memberlist', cid = club[0])}}">Member List</a></div>
+    <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.socmed', cid = club[0])}}">Social Media Management</a></div>
+    {% endif %}
+  </div>
+  </div>
+
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
 		<header class="w3-container w3-orange">
@@ -176,8 +201,8 @@
 		<td>{{e[1]}}</td>
 		<td>{{e[2]}}</td>
 		<td>{{e[3]}}</td>
-    <td><form  method="POST" action="{{ url_for('link5.delete_event', cid= club[0], eid = e[4] ) }}"><button type = "submit"
-		class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash"></span></button></form></td>
+    {% if level >= 1 %}<td><form  method="POST" action="{{ url_for('link5.delete_event', cid= club[0], eid = e[4] ) }}"><button type = "submit"
+		class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></button></form></td>{% endif%}
 		</tr>
 	{% endfor %}
 	</table>
@@ -188,13 +213,14 @@
   		<strong><span class="glyphicon glyphicon-info-sign"></span></strong> There is no upcoming event!
   	</div>
 	{% endif %}
-	<div class="w3-button w3-block w3-dark-grey" >
+	{% if level >= 1 %}<div class="w3-button w3-block w3-dark-grey" >
 		<a href="{{ url_for('link5.create_event', id=club[0]) }}"><span class="glyphicon glyphicon-pencil"></span> Create Event</a>
-	</div>
+	</div>{% endif %}
     </div>
   </div>
-  {% endif%}
-  <!-- / Manage Events -->
+
+
+
 
 
 {% endblock %}

@@ -30,6 +30,11 @@ class User(UserMixin):
             else:
                 self.level = 0
 
+            query = """SELECT CLUBID,CLUBDB.NAME FROM CLUBMEM,USERDB,CLUBDB WHERE(USERDB.ID = USERID AND USERDB.NAME = %s AND CLUBDB.ID = CLUBID)"""
+            cursor.execute(query,(self.name,))
+            arr = cursor.fetchall()
+            self.clubs = arr
+
     def get_id(self):
         with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()

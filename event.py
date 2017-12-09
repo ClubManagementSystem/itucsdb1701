@@ -16,6 +16,10 @@ from urllib.parse import urlparse, urljoin
 from user import getclubname
 from datetime import timedelta
 link5 = Blueprint('link5',__name__)
+@link5.route('/events')
+def events():
+    arr = getevent(0)
+    return render_template('events.html', events = arr)
 
 @link5.route('/create_event/<int:id>/')
 def create_event(id):
@@ -51,7 +55,15 @@ def register_event(id):
         flash ("Event registration is done!")
         return redirect(url_for('link2.clubProfile', id = id))
 
+def cleanevents():
+    with dbapi2.connect(current_app.config['dsn']) as connection:
+        now = datetime.datetime.now()
+        cursor = connection.cursor()
+        query = """DELETE FROM EVENT WHERE(DATE < %s)"""
+        cursor.execute(query,(now,))
+
 def getevent(id):
+    cleanevents()
     if id == 0:
         with dbapi2.connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()

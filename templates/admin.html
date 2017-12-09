@@ -5,7 +5,8 @@
 
 {% if current_user.is_authenticated %}
 {% if current_user.level == 1 %}
-
+<form method="POST">
+<h1 class="w3-xlarge"> Passive Clubs </h1> <br>
 {%if app %}
 <div class="table-container" >
 <table class="table table-hover text-center" border="1">
@@ -24,9 +25,9 @@
 <td>{{a[2]}} </td>
 <td>{{a[3]}} </td>
 <td><a href="acceptApp/{{a[0]}}"
-class="trash"><span class="glyphicon glyphicon-ok"></span></a></td>
+class="trash"><span class="glyphicon glyphicon-ok" style="color:#00E80F"></span></a></td>
 <td><a href="declineApp/{{a[0]}}"
-class="trash"><span class="glyphicon glyphicon-trash"></span></a></td>
+class="trash"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></a></td>
 </tr>
 {% endfor %}
 </table>
@@ -36,6 +37,33 @@ class="trash"><span class="glyphicon glyphicon-trash"></span></a></td>
 <div class="alert alert-info">
   <strong><span class="glyphicon glyphicon-info-sign"></span></strong> There is no pending club applications!
 </div>
+{% endif %}
+<br>
+{% if curclubs %}
+<h1 class="w3-xlarge"> Active Clubs </h1> <br>
+<div class="table-container" >
+<table class="w3-table-all w3-small w3-centered">
+<thead>
+<tr class="w3-orange">
+<th class = "text-center"><strong> Club Name </strong></th>
+<th class = "text-center"><strong>Club Type </strong></th>
+<th class = "text-center"><strong> Club Definition </strong></th>
+<th class = "text-center"><strong> Suspend </strong></th>
+</tr>
+</thead>
+{% for a in curclubs %}
+<tr>
+<td>{{a[1]}} </td>
+<td>{{a[2]}} </td>
+<td>{{a[3]}} </td>
+
+<td><a href="suspendclub/{{a[0]}}"
+class="trash"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></a></td>
+</tr>
+{% endfor %}
+</table>
+</div>
+</form>
 {% endif %}
 {% else %}
 <p> You are not a admin! </p>

@@ -4,7 +4,7 @@
 {% block content %}
 
 {% if current_user.is_authenticated %}
-
+{% if level > 0 %}
 <form  method = "POST" action= "/addclubInventory/{{cid}}">
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="w3-container">
@@ -22,9 +22,9 @@
   </div>
   </div>
   </div>
-  </div>
-</form>
 
+</form>
+{% endif %}
 {%if availableinventories %}
 <div class="w3-container">
 <br><br>
@@ -37,13 +37,23 @@
 <tr class="w3-deep-orange">
 <td>{{a[1]}} </td>
 <td>{{a[3]}}<i class="fa fa-try" aria-hidden="true"></i></td>
-<td>{{a[4]}}</td>
+<td>
+{% if a[5] == uid %}
+<form method="POST" action="/releaseitem/{{cid}}/{{a[0]}}"><button type="submit" class="w3-btn w3-red w3-round-xxlarge">Release</button></form>
+ {% else %}
+{{a[4]}}
+{% endif %}</td>
+{% if level == 1 %}<td> <form  method="POST" action="/deleteitem/{{cid}}/{{a[0]}}"><button type = "submit"
+class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash""></span></button></form></td>{%endif %}
 </tr>
 {% else %}
 <tr class="w3-light-green">
 <td>{{a[1]}}</td>
 <td>{{a[3]}}<i class="fa fa-try" aria-hidden="true"></i></td>
-<td><form method="POST" action="/inventoryapp/{{cid}}/{{a[0]}}"><button type="submit" class="w3-btn w3-green w3-round-xxlarge">Apply</button></form></td></tr>
+<td><form method="POST" action="/inventoryapp/{{cid}}/{{a[0]}}"><button type="submit" class="w3-btn w3-green w3-round-xxlarge">Apply</button></form></td>
+{% if level == 1 %}<td> <form  method="POST" action="/deleteitem/{{cid}}/{{a[0]}}"><button type = "submit"
+class="trash" style="background: none; border:none;padding:0"><span class="glyphicon glyphicon-trash""></span></button></form></td>{%endif %}
+</tr>
 {% endif %}
 {% endfor %}
 </table>
@@ -51,6 +61,10 @@
 </div>
 </div>
 <br>
+{% else %}
+<br>
+<div class="alert alert-warning">No items found in the inventory</div>
+  </div>
 {% endif %}
 {% endif %}
 

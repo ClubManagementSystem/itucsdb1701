@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %} Clubs {% endblock %}
+
+{% block content %}
+<center><div class="w3-large"><strong style="color: #E88E0C;">Upcoming Events</strong></div><br><br>
+
+<div class="row">
+  {% for event in events %}
+<div class="col-sm-6 col-md-4">
+  <div class="thumbnail">
+    <header class="w3-container w3-orange">
+      <div class="w3-display-container">
+      <div class="w3-display-left"><div class="w3-large"><span class="fa fa-eercast fa-spin" aria-hidden="true"></span></div></div>
+        <h1 class = "w3-large"><strong>{{event[1]}}</strong></h1>
+        <h1 class = "w3-medium w3-opacity" style="text-shadow:1px 1px 0 #444">by<b><a href="{{url_for('link2.clubProfile', id = event[6])}}"> {{event[0]}} </a></b></h1>
+        <div class="w3-display-right"><div class="w3-large"><span class="fa fa-eercast fa-spin" aria-hidden="true"></span></div></div>
+      </div>
+    </header>
+    <ul class="w3-ul">
+      <li><span class="fa fa-quote-left" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[2]}}</li>
+      <li><span class="glyphicon glyphicon-calendar" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[3]}}</li>
+      <li><span class="fa fa-map-marker" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[4]}}</li>
+      <li><span class="glyphicon glyphicon-time" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{event[7]}}</li>
+    </ul>
+  </div>
+</div>
+{%endfor%}
+</div>
+</div>
+</body>
+{% endblock %}

@@ -12,13 +12,13 @@
   width: 25%;
   padding-left: 4px;
   padding-right: 4px;
-  
+
   /* Space between tiles */
-  margin-top: 8px;
+  margin-top: 1px;
 }
 
 .col-span {
-  width: 50%;
+  width: 80%;
 }
 
 .my-sizer-element {
@@ -50,7 +50,7 @@
 }
 
 .aspect--16x9 {
-  padding-bottom: 56.25%;
+  padding-bottom: 100%;
 }
 
 .aspect--9x80 {
@@ -64,7 +64,7 @@
 img {
   display: block;
   width: 100%;
-  
+
   max-width: none;
   height: 100%;
   object-fit: cover;

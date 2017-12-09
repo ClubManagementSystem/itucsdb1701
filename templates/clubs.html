@@ -3,11 +3,11 @@
 
 {% block content %}
 <head>
- 
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700">
   <link rel="stylesheet" href="{{ url_for('static', filename = 'css/shuffle.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename = 'css/shuffle-styles.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/prism.css') }}" />  
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/prism.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename = 'css/normalize.css') }}" />
 
 </head>
@@ -37,9 +37,6 @@
             <label class="btn">
               <input type="radio" name="sort-value" value="title" > Title
             </label>
-            <label class="btn">
-              <input type="radio" name="sort-value" value="date-created" > Date Created
-            </label>
           </div>
         </div>
       </div>
@@ -50,20 +47,20 @@
     <div id="grid" class="row my-shuffle-container">
 
 {% for club in clubs %}
-<figure class="col-3@xs col-4@sm col-3@md picture-item" data-groups='["{{club[2]}}", "all"]' data-date-created="2017-04-30" data-title="{{club[1]}}">
-  <div class="picture-item__inner">
-    
+<figure class="col-3@xs col-4@sm col-3@md picture-item" data-groups='["{{club[2]}}", "all"]'  data-title="{{club[1]}}">
+  <a href="{{url_for('link2.clubProfile', id=club[0])}}" rel="noopener">
+
+    <div class="w3-card w3-hover-shadow w3-padding-small">
     <div class="aspect aspect--16x9">
       <div class="aspect__inner">
-        <img src="{{ url_for('static', filename = 'emoji_v1.png') }}" alt="{{club[1]}}" />   
+        <img src="{{ url_for('static', filename = 'emoji_v1.png') }}" alt="{{club[1]}}" />
       </div>
     </div>
-    
     <div class="picture-item__details">
-      <figcaption class="picture-item__title"><a href="{{url_for('link2.clubProfile', id=club[0])}}" rel="noopener">{{club[1]}}</a></figcaption>
+      <figcaption class="picture-item__title">{{club[1]}}</figcaption>
     </div>
-    
-  </div>
+</div>
+  </a>
 </figure>
 {% endfor %}
 
@@ -83,4 +80,3 @@
 
 </body>
 {% endblock %}
-

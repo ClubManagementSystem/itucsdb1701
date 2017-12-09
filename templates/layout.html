@@ -39,6 +39,16 @@ a:hover{
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="w3-hover-ccc"><a style="color: #E88E0C" href="{{ url_for('link2.clubs') }}"><strong>Clubs</strong></a></li>
+				<li class="w3-hover-ccc"><a style="color: #E88E0C" href="{{ url_for('link5.events') }}"><strong>Events</strong></a></li>
+				{% if current_user.clubs %}
+				<li class="w3-hover-ccc w3-center w3-dropdown-hover" style="color: #E88E0C">
+					<div class="w3-button"><strong>My Clubs</strong></div>
+					<div class="w3-dropdown-content w3-bar-block w3-border w3-card">
+				{%for c in current_user.clubs %}
+				<a href="{{ url_for('link2.clubProfile', id = c[0]) }}" class="w3-text-orange w3-bar-item w3-button">{{c[1]}}</a>
+				{% endfor %}
+			</li>
+				{% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
