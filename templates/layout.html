@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Bootstrap Core CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/w3_v2.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/login7.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/component.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap-toggle.min.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/ourstyle.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.min.css')}}" />
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'css/lavishr.css')}}" /> -->
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/w3_v2.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/main.css') }}" />
 <link rel="stylesheet" href="{{ url_for('static', filename = 'css/nivo-slider.css') }}" />
@@ -27,15 +25,12 @@ a:hover{
 }
 </style>
 <body>
-	<!-- Navigation -->
 <nav class="navbar navbar-default navbar-inverse " style="background-color: #444" role="navigation">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <a style="color: #E88E0C;" class="brand-logo" href="{{ url_for('link1.home_page') }}"><img class="w3-opacity w3-hover-opacity-off" src="{{ url_for('static', filename = 'logo_colorful_c_v3.png')}}"></a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="w3-hover-ccc"><a style="color: #E88E0C" href="{{ url_for('link2.clubs') }}"><strong>Clubs</strong></a></li>
@@ -57,13 +52,8 @@ a:hover{
     <li class="w3-hover-sepia"><a style="color: #E88E0C" href="{{ url_for('link3.userProfile') }}"><span class="fa fa-user-circle fa-lg"></span>&nbsp;<strong> {{ current_user.rname }}</strong></a></li>
     <li class="w3-hover-opacity"><a style="color: #FF3A00" href="{{ url_for('link1.logout') }}"><span title="Logout" class="glyphicon glyphicon-log-out"></span></a>
     </li>
-
-
     {% endif %}
         {% if current_user.is_anonymous %}
-    <!-- <button type="button" class="w3-button w3-padding-small w3-orange w3-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."><span class="glyphicon glyphicon-log-in"></span><a style="color: #E88E0C" href="{{ url_for('link1.logout') }}"><button title="Login" class="btn btn-default"></button></a></button> -->
-
-
 
     <li class="dropdown w3-hover-ccc">
           <a style="color: #E88E0C" href="#" class="dropdown-toggle " data-toggle="dropdown"><b>Login</b> <span class="glyphicon glyphicon-log-in"></span></a>
@@ -118,17 +108,6 @@ a:hover{
  <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true">&nbsp;</span>{{ message }}</strong></center></p>
  {% endfor %}
  </strong>
-
-<!-- </div>
-<div class="w3-button w3-padding-small w3-orange w3-right"><span onclick="this.parentElement.style.display='none'"
- >&times;</span>
-	</div> -->
-
-<!-- <div class="alert alert-warning"><strong>
-	{% for message in messages %}
-		<center> {{ message }} </center>
-	{% endfor %}
-	</strong></div> -->
 {% endif %}
 {% endwith %}
 </nav>
@@ -176,15 +155,5 @@ a:hover{
 </body>
 
 
-<!-- <div id ="footer" style = "position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem;
-  text-align: center;">
-
-  <b> &copy TURGUT KORAY BESTE</b>  <i>{{ current_time }}</i>
-
-   </div> -->
 
 </html>
