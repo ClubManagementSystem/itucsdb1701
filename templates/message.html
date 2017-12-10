@@ -1,0 +1,199 @@
+{% extends 'layout.html' %}
+{% block title %} Messages {% endblock %}
+
+{% block content %}
+
+<div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+    <header class="w3-container w3-orange">
+        <br>
+        <h1 class = "w3-large"><strong> Messages</strong></h1>
+        <br>
+    </header>
+
+<table class="table table-hover text-center" border="1">
+  <thead>
+    {% for c in conversations %}
+    <tr>
+      <form action= " {{url_for('link6.getMessages', furom = id, role = role, ti = c[0])}}">
+        <td align = "center"><button type="submit" name = "tu" value = "{{c[0]}}" class="btn">{{c[1]}}</button></td>
+      </form>
+    </tr>
+    {% endfor %}
+
+  </thead>
+  </table>
+
+  <table class="table table-hover text-center" border="1">
+  <thead>
+    <tr>
+      <form method = "POST" action= "{{url_for('link6.createConversation', furom = id, role = role)}}">
+        <td align= "left">
+          <div class="w3-button w3-block w3-dark-grey"><button type = "submit"><span class="glyphicon glyphicon-pencil"> </span>New Conversation</button>
+          </div>
+        </td>
+        <td align= "right">
+          <div class="form-group">
+            <select class="form-control" name="newAdress">
+              <option selected disabled>Select Address</option>
+                {% for a in adresses %}
+                  <option value = "{{a[0]}}">{{ a[1] }}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </td>
+      </form>
+    </tr>
+    <tr>
+      <form method = "POST" action= "{{url_for('link6.deleteConversation', furom = id, role = role)}}">
+        <td align= "left">
+          <div class="w3-button w3-block w3-dark-grey"><button type = "submit"><span class="glyphicon glyphicon-trash"></span>Delete Conversation</button>
+          </div>
+        </td>
+        <td align= "right">
+          <div class="form-group">
+            <select class="form-control" name="newAdress">
+              <option selected disabled>Select Address</option>
+                {% for a in adresses %}
+                  <option value = "{{a[0]}}">{{ a[1] }}</option>
+                {% endfor %}
+            </select>
+          </div>
+        </td>
+      </form>
+    </tr>
+
+  </thead>
+  </table>
+
+    </div>
+
+  </div>
+
+
+  <div class="col-sm-6 col-md-8">
+    <div class="thumbnail">
+    <header class="w3-container w3-orange" border = "0">
+        <br>
+        <h1 class = "w3-large"><strong>{% if messages %} {{name[1]}} {% else %} Select a conversation from the list on the left {% endif %}</strong></h1>
+        <br>
+    </header>
+    <div data-spy="scroll">    
+      {% if messages %}
+      <table class="table table-hover text-center" border="1">
+  <thead>
+    {% for m in messages %}
+      {% if role == 1 %}
+        {% if m[4] %}
+        <tr>
+        <td align= "right">{{m[2]}}</td>
+        </tr>
+        {% else %}
+        <tr>
+        <td align = "left">{{m[2]}}</td>
+        </tr>
+        {% endif %}
+      {% else %}
+        {% if not m[4] %}
+        <tr>
+        <td align= "right">{{m[2]}}</td>
+        </tr>
+        {% else %}
+        <tr>
+        <td align = "left">{{m[2]}}</td>
+        </tr>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </thead>
+  </table>
+    </div>
+<form method="POST" action= " {{url_for('link6.sendMessages', furom = id, role = role, tu = name[0])}}">
+  <div class="form-group col-sm-6">
+    <input type="text" size = "60"  class="form-control" name="message" placeholder="message">
+  </div>
+      <button type="submit" class="btn w3-orange">Send</button>
+</form>
+{% endif %}
+
+    </div>
+    
+  </div>
+<!-- <div class= "col-lg-4 col-lg-offset-0">
+<div class="w3-card-4">
+
+<header class="w3-container w3-orange">
+  <br>
+    <h1 class = "w3-large"><strong>Messages</strong></h1>
+  <br>
+</header>
+
+<ul class="w3-ul w3-hoverable">
+    {% if clubnames %}
+    {% for c in clubnames %}
+      <p><a href="clubProfile/{{c[0]}}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
+    {% endfor %}
+    {% else %}
+    <p> There is no messages </p>
+    {% endif %}
+  </li>
+</ul>
+</div>
+</div>
+
+<div class= "col-lg-8 col-lg-offset-4">
+<div class="w3-card-4">
+
+<header class="w3-container w3-orange">
+  <br>
+    <h1 class = "w3-large"><strong>name</strong></h1>
+  <br>
+</header>
+
+<ul class="w3-ul w3-hoverable">
+    {% if clubnames %}
+    {% for c in clubnames %}
+      <p><a href="clubProfile/{{c[0]}}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
+    {% endfor %}
+    {% else %}
+    <p> There is no messages </p>
+    {% endif %}
+  </li>
+</ul>
+</div>
+</div> -->
+
+<!-- <nav id="navbar-example3" class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <nav class="nav nav-pills flex-column">
+    <a class="nav-link" href="#item-1">Item 1</a>
+    <nav class="nav nav-pills flex-column">
+      <a class="nav-link ml-3 my-1" href="#item-1-1">Item 1-1</a>
+      <a class="nav-link ml-3 my-1" href="#item-1-2">Item 1-2</a>
+    </nav>
+    <a class="nav-link" href="#item-2">Item2</a>
+    <a class="nav-link" href="#item-3">Item3</a>
+    <nav class="nav nav-pills flex-column">
+      <a class="nav-link ml-3 my-1" href="#item-3-1">Item 3-1</a>
+      <a class="nav-link ml-3 my-1" href="#item-3-2">Item 3-2</a>
+    </nav>
+  </nav>
+</nav>
+
+<div data-spy="scroll" data-target="#navbar-example3" data-offset="0">
+  <h4 id="item-1">Item 1</h4>
+  <p>...</p>
+  <h5 id="item-1-1">Item 1-1</h5>
+  <p>...</p>
+  <h5 id="item-1-2">Item 2-2</h5>
+  <p>...</p>
+  <h4 id="item-2">Item 2</h4>
+  <p>...</p>
+  <h4 id="item-3">Item 3</h4>
+  <p>...</p>
+  <h5 id="item-3-1">Item 3-1</h5>
+  <p>...</p>
+  <h5 id="item-3-2">Item 3-2</h5>
+  <p>...</p>
+</div> -->
+{% endblock %}

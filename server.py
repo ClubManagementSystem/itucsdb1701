@@ -12,6 +12,8 @@ from club import link2
 from user import link3
 from admin import link4
 from event import link5
+from message import link6
+from recommend import link7
 from classes import UserList, User
 from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
@@ -25,6 +27,8 @@ app.register_blueprint(link2)
 app.register_blueprint(link3)
 app.register_blueprint(link4)
 app.register_blueprint(link5)
+app.register_blueprint(link6)
+app.register_blueprint(link7)
 app.secret_key = 'gallifrey'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -130,7 +134,12 @@ def initialize_database():
             query = """ CREATE TABLE INVENTORY (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, INAME VARCHAR(80) NOT NULL, USERNAMEID INTEGER REFERENCES USERDB(ID),PRICE INTEGER, AVAILABLE INTEGER DEFAULT 0)"""
             cursor.execute(query)
 
+            query = """DROP TABLE IF EXISTS MESSAGE CASCADE"""
+            cursor.execute(query)
 
+            query = """ CREATE TABLE MESSAGE (ID SERIAL PRIMARY KEY, USERID INT REFERENCES USERDB(ID), CLUBID INT REFERENCES CLUBDB(ID), DATE TIMESTAMP NOT NULL, MSG VARCHAR(160), DIR BOOLEAN) """
+            cursor.execute(query)
+            
             query = """ INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('ceyda', 'Ceyda Aladag', 123456, 'ceyda@itu.edu.tr', '$6$rounds=656000$2pciOKNmxUaBMP9o$E/9Gs1CKiuCE9wtqxOr3kQskYyhm52BzHyZz5QG3qFjuHxcKo3LUsq77sK/fSc5JG5hcXTqiMS/saAyKBFEuh.', 0);
                         INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('melis', 'Melis Gulenay', 4123, 'melis@itu.edu.tr', '$6$rounds=656000$ndu2sy9DMg5bVp1D$uPIOHBTnMWBjAjI4PuendQeYY5tNS7RcCfLSpaGxdxXBBcojaK07bMilkSXFC4qx7IqH1IgbcoelFYurcH.JS0', 0);
                         INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('mert', 'Mert Kartaltepe', 4125, 'mert@itu.edu.tr', '$6$rounds=656000$yi1XAGdkPXFN/S8x$Rayqxk8A7lmsrz/ScCkUn2zBHBd2wxtjpZ3aYBCAPo5WHLmjIyTHUf0oyeLtqys8TdWlSHxgu2zlwFpD.a.G4.', 0);
@@ -152,6 +161,10 @@ def initialize_database():
                         INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (2, 'Platon Hakkinda', 'Eserleri hakkinda tartisma', '2017-12-22 18:00:00', 'FEB');
                         INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (3, 'Inline Hokey Maci', 'Hazirlik karsilasmasi', '2017-12-26 19:00:00', 'Spor Salonu');
                         INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (2, 'Facebook', 'facebook.com/felsefeitu');
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 3, '2017-10-22 18:00:00', 'etkinlik tarihini ogrenebilirmiyim', true);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 3, '2017-10-22 19:00:00', 'hayir', false);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 2, '2017-10-22 19:00:00', 'cunku boyle', true);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 2, '2017-10-22 18:00:00', 'neden boyle', false);
                         """
             cursor.execute(query)
 

@@ -30,6 +30,7 @@
 
 <a href="{{ url_for('link3.editProfile') }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit Profile</a>
 <a href="{{ url_for('link2.club_application') }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-plus"></span>&nbsp;Club Registration</a>
+<a href="{{ url_for('link6.message', furom = current_user.get_id()[0], role = 1) }}" class="w3-button w3-block w3-dark-grey"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Messages</a>
 </div>
 </div>
 
