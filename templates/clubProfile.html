@@ -158,7 +158,7 @@
   <!-- / Member Applications -->
   <!-- Manage Events -->
 
-
+  {% if level >= 0 %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
     <header class="w3-container w3-orange">
@@ -166,14 +166,14 @@
         <h1 class = "w3-large"><strong>Club Management</strong></h1>
         <br>
     </header>
-    <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.clubInventory', clubId = club[0])}}">Inventory</a></div>
+  <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.clubInventory', clubId = club[0])}}">Inventory</a></div>
       {% if level >= 1 %}<div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.clubBalance', clubId = club[0])}}">Balance</a></div>
     <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.memberlist', cid = club[0])}}">Member List</a></div>
     <div class="w3-button w3-block w3-dark-grey" ><a href="{{url_for('link2.socmed', cid = club[0])}}">Social Media Management</a></div>
     {% endif %}
   </div>
   </div>
-
+{% endif %}
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
 		<header class="w3-container w3-orange">

@@ -76,7 +76,7 @@ def clubProfile(id):
         if level:
             level = level[0]
         else:
-            level = 0
+            level = -1
         query = """SELECT COUNT(*) FROM APPTAB WHERE (CLUBID = %s AND USERID = %s)"""
         cursor.execute(query,(id, userId,))
         isapplied = cursor.fetchone()[0]
