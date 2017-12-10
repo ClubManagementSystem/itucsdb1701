@@ -289,6 +289,7 @@ def addsocmed(cid):
 def socmed(cid):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             curuid = current_user.get_id()
+            cname = getclubname(cid)[0]
             cursor = connection.cursor()
             query = """ SELECT LEVEL FROM CLUBMEM WHERE (CLUBID = %s AND USERID = %s)"""
             cursor.execute(query,(cid,curuid,))
@@ -301,7 +302,7 @@ def socmed(cid):
             query = """SELECT TYPESOC, LINK,ID FROM SOCMED WHERE (CLUBID = %s)"""
             cursor.execute(query,(cid,))
             socmed = cursor.fetchall()
-            return render_template('socmed.html', socmed = socmed, level = lvl, cid = cid)
+            return render_template('socmed.html', socmed = socmed, level = lvl, cid = cid, cname = cname)
 
 
 

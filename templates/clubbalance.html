@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
-{% block title %}Club Balance Page{% endblock %}
+{% block title %}{{cname}} Balance Page{% endblock %}
 
 {% block content %}
 
 {% if current_user.is_authenticated %}
-
+<h1 class="w3-xlarge"> <strong>{{cname}} Balance Page</strong> </h1>
 <form  method = "POST" action= "/AddClubBalance/{{cid}}">
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="w3-container">

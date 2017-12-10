@@ -1,9 +1,10 @@
 {% extends 'layout.html' %}
-{% block title %}Club Inventory Page{% endblock %}
+{% block title %}{{cname}} Inventory Page{% endblock %}
 
 {% block content %}
 
 {% if current_user.is_authenticated %}
+<h1 class="w3-xlarge"> <strong>{{cname}} Inventory Page</strong> </h1>
 {% if level > 0 %}
 <form  method = "POST" action= "/addclubInventory/{{cid}}">
 <div class= "col-lg-6 col-lg-offset-3">
@@ -30,7 +31,7 @@
 <br><br>
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="table-container" >
-<h1 class="w3-xlarge"> <strong>{{cname}} Inventory Table</strong></h1><br>
+<h1 class="w3-xlarge"> <strong>Inventory Table</strong></h1><br>
 <table class="w3-table-all w3-small w3-centered">
 {% for a in availableinventories %}
 {% if a[2] == 1 %}

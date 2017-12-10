@@ -13,14 +13,14 @@
   <br>
 </header>
 
-<ul class="w3-ul w3-hoverable">
+<ul class="w3-ul">
   <li><span class="glyphicon glyphicon-user" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.name}}</li>
   <li><span class="fa fa-id-card-o" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.number}}</li>
   <li><span class="fa fa-at" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{current_user.email}}</li>
-  <li><span class="fa  fa-users" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;<strong>My Student Clubs</strong>
+  <li><span class="fa  fa-users" style="color:#E88E0C" aria-hidden="true">&nbsp;My Student Clubs</span>
     {% if clubnames %}
     {% for c in clubnames %}
-      <p><a href="clubProfile/{{c[0]}}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
+      <p><a href="{{ url_for('link2.clubProfile', id = c[0]) }}"><span class="glyphicon glyphicon-triangle-right" style="color:#E88E0C" aria-hidden="true"></span>&nbsp;{{c[1]}}</a></p>
     {% endfor %}
     {% else %}
     <p> No membership in any club. </p>

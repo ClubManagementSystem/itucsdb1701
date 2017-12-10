@@ -150,11 +150,10 @@ def initialize_database():
                         INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (3, 3, 0);
                         INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (1, 'Hearthstone Turnuvasi', 'Odullu Hearthstone turnuvasi', '2017-12-29 20:00:00', 'MED');
                         INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (2, 'Platon Hakkinda', 'Eserleri hakkinda tartisma', '2017-12-22 18:00:00', 'FEB');
-                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (3, 'Inline Hokey Maci', 'Hazirlik karsilasmasi', '2017-12-11 19:00:00', 'Spor Salonu');
+                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (3, 'Inline Hokey Maci', 'Hazirlik karsilasmasi', '2017-12-26 19:00:00', 'Spor Salonu');
                         INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (2, 'Facebook', 'facebook.com/felsefeitu');
                         """
             cursor.execute(query)
-
 
         flash("Database initialized.")
 

@@ -33,6 +33,11 @@ class User(UserMixin):
             query = """SELECT CLUBID,CLUBDB.NAME FROM CLUBMEM,USERDB,CLUBDB WHERE(USERDB.ID = USERID AND USERDB.NAME = %s AND CLUBDB.ID = CLUBID)"""
             cursor.execute(query,(self.name,))
             arr = cursor.fetchall()
+            for a in range(len(arr)):
+                arr[a] = list(arr[a])
+                arr[a][1] = arr[a][1].replace(' Kulubu','')
+                arr[a][1] = arr[a][1].replace(' Club','')
+                arr[a] = tuple(arr[a])
             self.clubs = arr
 
     def get_id(self):

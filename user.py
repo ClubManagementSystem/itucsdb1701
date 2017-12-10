@@ -45,7 +45,13 @@ def getclubname(id):
 @link3.route('/edit')
 @login_required
 def editProfile():
-    return render_template('edit.html')
+    with dbapi2._connect(current_app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        uid = current_user.get_id()
+        query = """ SELECT EMAIL FROM USERDB WHERE (ID = %s) """
+        cursor.execute(query,(uid,))
+        mail=cursor.fetchone()[0]
+    return render_template('edit.html',mail = mail)
 
 
 @link3.route('/edit_profile',methods=['GET', 'POST'])

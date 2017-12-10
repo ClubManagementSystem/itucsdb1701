@@ -24,9 +24,9 @@
 <td>{{a[1]}} </td>
 <td>{{a[2]}} </td>
 <td>{{a[3]}} </td>
-<td><a href="acceptApp/{{a[0]}}"
+<td><a href=" {{url_for('link4.acceptApp', id = a[0])}}"
 class="trash"><span class="glyphicon glyphicon-ok" style="color:#00E80F"></span></a></td>
-<td><a href="declineApp/{{a[0]}}"
+<td><a href="{{url_for('link4.declineApp', id = a[0])}}"
 class="trash"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></a></td>
 </tr>
 {% endfor %}
@@ -57,7 +57,7 @@ class="trash"><span class="glyphicon glyphicon-trash" style="color:#E82200"></sp
 <td>{{a[2]}} </td>
 <td>{{a[3]}} </td>
 
-<td><a href="suspendclub/{{a[0]}}"
+<td><a href="{{url_for('link4.suspendclub', id = a[0])}}""
 class="trash"><span class="glyphicon glyphicon-trash" style="color:#E82200"></span></a></td>
 </tr>
 {% endfor %}

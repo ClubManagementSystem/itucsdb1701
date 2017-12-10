@@ -4,6 +4,7 @@
 {% block content %}
 
 {% if level > 0 %}
+<h1 class="w3-xlarge"> <strong><a href="{{ url_for('link2.clubProfile', id=cid) }}">{{cname}}</a> Social Medias</strong> </h1> <br>
 <form  method = "POST" action= "/addsocmed/{{cid}}">
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="w3-container">
@@ -32,7 +33,7 @@
 <br><br>
 <div class= "col-lg-6 col-lg-offset-3">
 <div class="table-container" >
-<h1 class="w3-xlarge"> <strong><a href="{{ url_for('link2.clubProfile', id=cid) }}">{{cname}}</a> Social Medias</strong> </h1> <br>
+
 <table class="w3-table-all w3-small w3-centered">
 
 <tr  class ="w3-orange"><td><strong>Site</strong></td><td><strong>Link</strong></td>
@@ -41,7 +42,10 @@
 
 {% for s in socmed %}
 <tr>
-<td>{{s[0]}}</td>
+<td>{% if s[0] == "Facebook" %} <span class="fa fa-facebook" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+{% if s[0] == "Instagram" %} <span class="fa fa-instagram" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+{% if s[0] == "Youtube" %} <span class="fa fa-youtube-play" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}
+{% if s[0] == "Twitter" %} <span class="fa fa-twitter" style="color:#E88E0C" aria-hidden="true"></span> {% endif %}</td>
 <td>{{s[1]}}</td>
 <td>
 <form  method="POST" action="{{ url_for('link2.deletesocmed',id = s[2]) }}"><button type = "submit"
