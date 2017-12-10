@@ -150,7 +150,7 @@ def registerToClub(clubId):
                 flash("Request has been sent.")
         return redirect(url_for('link2.clubProfile', id = clubId))
 
-@link2.route('/welcomeApply/<clubId>/<userId>', methods = ['GET', 'POST'])
+@link2.route('/welcomeApply/<int:clubId>/<int:userId>', methods = ['GET', 'POST'])
 @login_required
 def welcomeApply(clubId, userId):
     if request.method == 'POST':
@@ -165,7 +165,7 @@ def welcomeApply(clubId, userId):
         flash("Unaccepted Method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
 
-@link2.route('/deleteApply/<clubId>/<userId>', methods = ['GET', 'POST'])
+@link2.route('/deleteApply/<int:clubId>/<int:userId>', methods = ['GET', 'POST'])
 @login_required
 def deleteApply(clubId, userId):
     if request.method == 'POST':
@@ -243,7 +243,7 @@ def balanceSheet(clubId):
         arr = cursor.fetchall()
         return arr
 
-@link2.route('/deletemember/<clubId>/<userId>', methods = ['GET', 'POST'])
+@link2.route('/deletemember/<int:clubId>/<int:userId>', methods = ['GET', 'POST'])
 @login_required
 def deletemember(clubId, userId):
     if request.method == 'POST':

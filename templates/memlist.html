@@ -22,11 +22,11 @@
 <td>{{m[1]}}</td>
 <td>
   {%if m[2] == 0%}Member{% endif %}
-  {%if m[2] == 1%}Chairman{% endif %}
-  {%if m[2] == 2%}Vice Chairman{% endif %}
-  {%if m[2] == 3%}Secretary{% endif %}
-  {%if m[2] == 4%}Accountant{% endif %}
-  {%if m[2] == 5%}Clerk{% endif %}
+  {%if m[2] == 1%}<strong style="color:#E88E0C">Chairman</strong>{% endif %}
+  {%if m[2] == 2%}<strong>Vice Chairman</strong>{% endif %}
+  {%if m[2] == 3%}<strong>Secretary</strong>{% endif %}
+  {%if m[2] == 4%}<strong>Accountant</strong>{% endif %}
+  {%if m[2] == 5%}<strong>Clerk</strong>{% endif %}
 </td>
 
 {% if level == 1 %}<td>{%if m[2] != 1%}<form  method="POST" action="{{ url_for('link2.deletemember', clubId= cid, userId = m[0] ) }}"><button type = "submit"
