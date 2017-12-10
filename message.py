@@ -138,13 +138,11 @@ def sendMessages(furom, role, tu):
 @link6.route('/createConversation/<int:furom>/<int:role>/', methods = ['POST', 'GET'])
 def createConversation(furom, role):
 	if request.method == 'POST':
-		print("asdasd")
-		tu = request.form['newAdress']
-		print("asdasd123")
-
-		print("ccfurom: " + str(furom))
-		print("ccrole: " + str(role))
-		print("ccnew: " + tu)
+		try:
+			tu = request.form['newAdress']
+		except:
+			flash("Choose somebody to create a conversation")
+			return redirect(url_for('link6.message', furom = furom, role = role))
 		with dbapi2.connect(current_app.config['dsn']) as connection:
 			cursor = connection.cursor()
 			if role == 1:
@@ -160,6 +158,11 @@ def createConversation(furom, role):
 @link6.route('/deleteConversation/<int:furom>/<int:role>/', methods = ['POST', 'GET'])
 def deleteConversation(furom, role):
 	if request.method == 'POST':
+		try:
+			tu = request.form['newAdress']
+		except:
+			flash("Choose somebody to delete the conversation")
+			return redirect(url_for('link6.message', furom = furom, role = role))
 		print("asdasd")
 		tu = request.form['newAdress']
 		print("asdasd123")
