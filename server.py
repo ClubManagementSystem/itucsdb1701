@@ -173,6 +173,7 @@ def initialize_database():
                         INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 2, '2017-10-22 18:00:00', 'neden boyle', false);
                         """
             cursor.execute(query)
+            connection.commit()
 
         flash("Database initialized.")
 

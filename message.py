@@ -23,6 +23,7 @@ def message(furom, role):
 	tu = []
 	messages = []
 	newAdresses = []
+	clearAdresses = []
 	with dbapi2.connect(current_app.config['dsn']) as connection:
 		cursor = connection.cursor()
 		tus = []
@@ -39,8 +40,12 @@ def message(furom, role):
 			cursor.execute(query,(furom,))
 			members = cursor.fetchall()
 			for m in members:
-				temp = [m[0], m[1]]
-				newAdresses.append(temp)
+				if m not in tus:
+					temp = [m[0], m[1]]
+					newAdresses.append(temp)
+				if m in tus:
+					temp = [m[0], m[1]]
+					clearAdresses.append(temp)
 
 		else:
 			print("role = false")
@@ -55,19 +60,24 @@ def message(furom, role):
 			cursor.execute(query,(furom,))
 			members = cursor.fetchall()
 			for m in members:
-				temp = [m[0], m[1]]
-				newAdresses.append(temp)
-
+				if m not in tus:
+					temp = [m[0], m[1]]
+					newAdresses.append(temp)
+				if m in tus:
+					temp = [m[0], m[1]]
+					clearAdresses.append(temp)
+		connection.commit()
 		#messages = cursor.fetchall()
 		print("newAdresses: " + str(newAdresses))
 		# print("messages: " + str(messages))
 
-	return render_template('message.html', conversations = tus, adresses = newAdresses, id = furom, role = role)
+	return render_template('message.html', conversations = tus, adresses = newAdresses, adressesr = clearAdresses, id = furom, role = role)
 
 @link6.route('/getMessages/<furom>/<int:role>/<int:ti>/')
 def getMessages(furom, role, ti):
 	tus = []
 	newAdresses = []
+	clearAdresses = []
 	print("gmrole: " + str(role))
 	with dbapi2.connect(current_app.config['dsn']) as connection:
 		cursor = connection.cursor()
@@ -83,8 +93,12 @@ def getMessages(furom, role, ti):
 			cursor.execute(query,(furom,))
 			members = cursor.fetchall()
 			for m in members:
-				temp = [m[0], m[1]]
-				newAdresses.append(temp)
+				if m not in tus:
+					temp = [m[0], m[1]]
+					newAdresses.append(temp)
+				if m in tus:
+					temp = [m[0], m[1]]
+					clearAdresses.append(temp)
 		else:
 			query = """SELECT USERDB.ID, USERDB.REALNAME FROM MESSAGE, USERDB, CLUBDB WHERE(USERID = USERDB.ID AND CLUBID = %s AND CLUBID = CLUBDB.ID) ORDER BY DATE ASC """
 			cursor.execute(query, (furom,))
@@ -96,8 +110,13 @@ def getMessages(furom, role, ti):
 			cursor.execute(query,(furom,))
 			members = cursor.fetchall()
 			for m in members:
-				temp = [m[0], m[1]]
-				newAdresses.append(temp)
+				if m not in tus:
+					temp = [m[0], m[1]]
+					newAdresses.append(temp)
+				if m in tus:
+					temp = [m[0], m[1]]
+					clearAdresses.append(temp)
+		connection.commit()
 
 	name = []
 	with dbapi2.connect(current_app.config['dsn']) as connection:
@@ -112,8 +131,10 @@ def getMessages(furom, role, ti):
 			messages = cursor.fetchall()
 		name.append(messages[0][0])
 		name.append(messages[0][1])
+		connection.commit()
 	print("message: " + str(messages))
-	return render_template('message.html', conversations = tus, name = name, adresses = newAdresses, id = furom, role = role, messages = messages)
+
+	return render_template('message.html', conversations = tus, name = name, adresses = newAdresses, adressesr = clearAdresses, id = furom, role = role, messages = messages)
 
 @link6.route('/sendMessages/<int:furom>/<int:tu>/<int:role>/', methods = ['POST', 'GET'])
 def sendMessages(furom, role, tu):
@@ -131,6 +152,7 @@ def sendMessages(furom, role, tu):
 			else:
 				query = """INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES(%s, %s, %s, %s, false)"""
 				cursor.execute(query, (tu, furom, datetime.datetime.now(), message,))
+			connection.commit()
 		return redirect(url_for('link6.getMessages', furom = furom, role = role, ti = tu))
 	else:
 		return "sendmessage method fault"
@@ -151,6 +173,7 @@ def createConversation(furom, role):
 			else:
 				query = """INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES(%s, %s, %s, %s, false)"""
 				cursor.execute(query, (tu, furom, datetime.datetime.now(), "Conversation Created",))
+			connection.commit()
 		return redirect(url_for('link6.getMessages', furom = furom, role = role, ti = tu))
 	else:
 		return "hatali method"
@@ -178,6 +201,7 @@ def deleteConversation(furom, role):
 			else:
 				query = """DELETE FROM MESSAGE WHERE(USERID = %s)"""
 				cursor.execute(query, (tu,))
+			connection.commit()
 		return redirect(url_for('link6.message', furom = furom, role = role))
 	else:
 		return "hatali method"

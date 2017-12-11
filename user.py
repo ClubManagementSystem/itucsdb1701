@@ -72,12 +72,14 @@ def updateProfile():
                     cursor = connection.cursor()
                     query = """UPDATE USERDB SET PSW=%s WHERE(ID=%s)"""
                     cursor.execute(query,(userpsw,userid,))
+                    connection.commit()
         if useremail!= None:
             userid=current_user.get_id()
             with dbapi2._connect(current_app.config['dsn']) as connection:
                 cursor = connection.cursor()
                 query = """UPDATE USERDB SET EMAIL=%s WHERE(ID=%s)"""
                 cursor.execute(query,(useremail,userid,))
+                connection.commit()
         else:
             return redirect(url_for('link3.userProfile'))
     return redirect(url_for('link3.userProfile'))

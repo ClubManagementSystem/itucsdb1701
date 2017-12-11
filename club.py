@@ -119,6 +119,7 @@ def addclub(n,t,e,i,ts1,ts2,l1,l2):
             cursor = connection.cursor()
             query = """INSERT INTO CLUBDB (NAME,TYPE,EXP,CM) VALUES (%s, %s, %s, %s)"""
             cursor.execute(query,(n,t,e,i,))
+            connection.commit()
             query = """SELECT ID FROM CLUBDB WHERE (NAME = %s)"""
             cursor.execute(query,(n,))
             clubid = cursor.fetchone()
@@ -128,12 +129,14 @@ def addclub(n,t,e,i,ts1,ts2,l1,l2):
                 cursor = connection.cursor()
                 query = """INSERT INTO SOCMED (CLUBID,TYPESOC,LINK) VALUES (%s, %s, %s)"""
                 cursor.execute(query,(clubid[0],ts1,l1,))
+                connection.commit()
                 return
     if l2 and ts2:
             with dbapi2._connect(current_app.config['dsn']) as connection:
                 cursor = connection.cursor()
                 query = """INSERT INTO SOCMED (CLUBID,TYPESOC,LINK) VALUES (%s, %s, %s)"""
                 cursor.execute(query,(clubid[0],ts2,l2,))
+                connection.commit()
                 return
     return
 
@@ -147,6 +150,7 @@ def registerToClub(clubId):
                 cursor = connection.cursor()
                 query = """INSERT INTO APPTAB (CLUBID,USERID) VALUES (%s, %s)"""
                 cursor.execute(query,(clubId, userId,))
+                connection.commit()
                 flash("Request has been sent.")
         return redirect(url_for('link2.clubProfile', id = clubId))
 
@@ -161,6 +165,7 @@ def welcomeApply(clubId, userId):
 
                 query = """INSERT INTO CLUBMEM (CLUBID, USERID, LEVEL) VALUES (%s, %s, 0)"""
                 cursor.execute(query,(clubId, userId,))
+                connection.commit()
     else:
         flash("Unaccepted Method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
@@ -173,6 +178,7 @@ def deleteApply(clubId, userId):
                 cursor = connection.cursor()
                 query = """DELETE FROM APPTAB WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(clubId, userId,))
+                connection.commit()
     else:
         flash("Unaccepted Method.")
     return redirect(url_for('link2.clubProfile', id = clubId))
@@ -189,9 +195,11 @@ def assignBoard(clubId):
                 if temp:
                     query = """ UPDATE CLUBMEM SET LEVEL = 0 WHERE (LEVEL = %s) """
                     cursor.execute(query, (request.form['role'],))
+                    connection.commit()
 
                 query = """UPDATE CLUBMEM SET LEVEL = %s WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(request.form['role'],clubId, request.form['member'],))
+                connection.commit()
     else:
         flash("Method Error.")
     return redirect(url_for('link2.clubProfile', id = clubId))
@@ -224,6 +232,7 @@ def totalbalance(clubId):
         query = """SELECT SUM (AMOUNT) FROM BALANCE WHERE CLUBID = %s"""
         cursor.execute(query,(clubId,))
         arr = cursor.fetchone()
+        connection.commit()
         if arr == None:
             return 0
         return arr[0]
@@ -233,6 +242,7 @@ def addtobalance(clubId,amount,expl):
         cursor = connection.cursor()
         query = """INSERT INTO BALANCE (CLUBID,AMOUNT,EXPL) VALUES (%s, %s, %s)"""
         cursor.execute(query,(clubId,amount,expl,))
+        connection.commit()
         return
 
 def balanceSheet(clubId):
@@ -255,6 +265,7 @@ def deletemember(clubId, userId):
                 cursor = connection.cursor()
                 query = """DELETE FROM CLUBMEM WHERE(CLUBID = %s AND USERID = %s)"""
                 cursor.execute(query,(clubId, userId,))
+                connection.commit()
     else:
         flash("Unaccepted Method.")
     return redirect(url_for('link2.memberlist', cid = clubId))
@@ -270,6 +281,7 @@ def deletesocmed(id):
                 clubId = cursor.fetchone()[0]
                 query = """DELETE FROM SOCMED WHERE(ID = %s)"""
                 cursor.execute(query,(id,))
+                connection.commit()
                 return redirect(url_for('link2.socmed', cid=clubId))
 
 @link2.route('/addsocmed/<int:cid>', methods = ['GET', 'POST'])
@@ -282,6 +294,7 @@ def addsocmed(cid):
                 cursor = connection.cursor()
                 query = """INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (%s,%s,%s)"""
                 cursor.execute(query,(cid,typesoc,link))
+                connection.commit()
                 return redirect(url_for('link2.socmed', cid=cid))
 
 @link2.route('/socmed/<int:cid>')
@@ -376,6 +389,7 @@ def releaseitem(cid,id):
             cursor = connection.cursor()
             query  = """UPDATE INVENTORY SET AVAILABLE=0 WHERE (ID = %s)  """
             cursor.execute(query,(id,))
+            connection.commit()
             return redirect(url_for('link2.clubInventory',clubId=cid))
 
 @link2.route('/deleteitem/<int:cid>/<int:id>', methods = ['GET', 'POST'])
@@ -385,6 +399,7 @@ def deleteitem(cid,id):
             cursor = connection.cursor()
             query  = """DELETE FROM INVENTORY WHERE (ID = %s)  """
             cursor.execute(query,(id,))
+            connection.commit()
             return redirect(url_for('link2.clubInventory',clubId=cid))
 
 @link2.route('/inventoryapp/<int:cid>/<int:id>', methods = ['GET', 'POST'])
@@ -395,4 +410,5 @@ def apply_inventory(cid,id):
             cursor = connection.cursor()
             query  = """UPDATE INVENTORY SET AVAILABLE=1,USERNAMEID=%s WHERE (ID = %s)  """
             cursor.execute(query,(uid,id,))
+            connection.commit()
             return redirect(url_for('link2.clubInventory',clubId=cid))

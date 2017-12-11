@@ -35,6 +35,7 @@ def suspendclub(id):
         cursor = connection.cursor()
         query = """UPDATE CLUBDB SET ACTIVE=0 WHERE (ID = %s) """
         cursor.execute(query,(id,))
+        connection.commit()
         return redirect(url_for('link4.admin_home'))
 
 @link4.route('/acceptApp/<int:id>/', methods = ['GET', 'POST'])
@@ -56,6 +57,7 @@ def acceptApp(id):
             cmlevel = 1
             query = """ INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES(%s,%s,%s) """
             cursor.execute(query,(id,cmid,cmlevel,))
+            connection.commit()
         return redirect(url_for('link4.admin_home'))
     else:
         flash("Permission Denied")
@@ -68,6 +70,7 @@ def declineApp(id):
             cursor = connection.cursor()
             query = """DELETE FROM CLUBDB WHERE (ID = %s)"""
             cursor.execute(query,(id,))
+            connection.commit()
         return redirect(url_for('link4.admin_home'))
     else:
         flash("Permission Denied")
