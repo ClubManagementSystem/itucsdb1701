@@ -112,7 +112,7 @@ def initialize_database():
             query = """DROP TABLE IF EXISTS EVENT CASCADE"""
             cursor.execute(query)
 
-            query = """ CREATE TABLE EVENT (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE ,NAME VARCHAR(40) NOT NULL,
+            query = """ CREATE TABLE EVENT (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, NAME VARCHAR(40) NOT NULL,
             EXP VARCHAR(200), DATE TIMESTAMP NOT NULL, LOCATION VARCHAR(20)) """
             cursor.execute(query)
             connection.commit()
@@ -139,7 +139,7 @@ def initialize_database():
             query = """DROP TABLE IF EXISTS MESSAGE CASCADE"""
             cursor.execute(query)
 
-            query = """ CREATE TABLE MESSAGE (ID SERIAL PRIMARY KEY, USERID INT REFERENCES USERDB(ID), CLUBID INT REFERENCES CLUBDB(ID), DATE TIMESTAMP NOT NULL, MSG VARCHAR(160), DIR BOOLEAN) """
+            query = """ CREATE TABLE MESSAGE (ID SERIAL PRIMARY KEY, USERID INT REFERENCES USERDB(ID), CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, DATE TIMESTAMP NOT NULL, MSG VARCHAR(160), DIR BOOLEAN) """
             cursor.execute(query)
 
             query = """ INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('ceyda', 'Ceyda Aladag', 123456, 'ceyda@itu.edu.tr', '$6$rounds=656000$2pciOKNmxUaBMP9o$E/9Gs1CKiuCE9wtqxOr3kQskYyhm52BzHyZz5QG3qFjuHxcKo3LUsq77sK/fSc5JG5hcXTqiMS/saAyKBFEuh.', 0);
@@ -160,13 +160,15 @@ def initialize_database():
                         INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (4, 7, 1);
                         INSERT INTO CLUBMEM(CLUBID,USERID,LEVEL) VALUES (3, 3, 0);
                         INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (1, 'Hearthstone Turnuvasi', 'Odullu Hearthstone turnuvasi', '2017-12-29 20:00:00', 'MED');
-                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (2, 'Platon Hakkinda', 'Eserleri hakkinda tartisma', '2017-12-22 18:00:00', 'FEB');
+                        INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (2, 'Platon Hakkinda', 'Eserleri hakkinda tartisma', '2017-12-24 18:00:00', 'FEB');
                         INSERT INTO EVENT(CLUBID,NAME,EXP,DATE,LOCATION) VALUES (3, 'Inline Hokey Maci', 'Hazirlik karsilasmasi', '2017-12-26 19:00:00', 'Spor Salonu');
                         INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (2, 'Facebook', 'facebook.com/felsefeitu');
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 3, '2017-10-22 18:00:00', 'etkinlik tarihini ogrenebilirmiyim', true);
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 3, '2017-10-22 19:00:00', 'hayir', false);
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 2, '2017-10-22 19:00:00', 'cunku boyle', true);
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (1, 2, '2017-10-22 18:00:00', 'neden boyle', false);
+                        INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (1, 'Twitter', 'twitter.com/esporitu');
+                        INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (1, 'Facebook', 'facebook.com/esporitu');
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 1, '2017-10-22 18:00:00', 'etkinlige en gec kacta gelebiliriz ogrenebilir miyim?', true);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 1, '2017-10-22 19:00:00', 'oglen 12 de', false);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 2, '2017-10-22 19:00:00', 'selam', true);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 2, '2017-10-22 18:00:00', 'selam hocam', false);
                         """
             cursor.execute(query)
             connection.commit()
