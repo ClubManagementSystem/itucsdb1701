@@ -134,12 +134,18 @@ def initialize_database():
             query = """ CREATE TABLE INVENTORY (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, INAME VARCHAR(80) NOT NULL, USERNAMEID INTEGER REFERENCES USERDB(ID),PRICE INTEGER, AVAILABLE INTEGER DEFAULT 0)"""
             cursor.execute(query)
 
+            query = """DROP TABLE IF EXISTS NOTICE CASCADE"""
+            cursor.execute(query)
+
+            query = """ CREATE TABLE NOTICE (ID SERIAL PRIMARY KEY, CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, TITLE VARCHAR(80) NOT NULL, EXP VARCHAR(200), DATE TIMESTAMP NOT NULL)"""
+            cursor.execute(query)
+
             query = """DROP TABLE IF EXISTS MESSAGE CASCADE"""
             cursor.execute(query)
 
             query = """ CREATE TABLE MESSAGE (ID SERIAL PRIMARY KEY, USERID INT REFERENCES USERDB(ID), CLUBID INT REFERENCES CLUBDB(ID), DATE TIMESTAMP NOT NULL, MSG VARCHAR(160), DIR BOOLEAN) """
             cursor.execute(query)
-            
+
             query = """ INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('ceyda', 'Ceyda Aladag', 123456, 'ceyda@itu.edu.tr', '$6$rounds=656000$2pciOKNmxUaBMP9o$E/9Gs1CKiuCE9wtqxOr3kQskYyhm52BzHyZz5QG3qFjuHxcKo3LUsq77sK/fSc5JG5hcXTqiMS/saAyKBFEuh.', 0);
                         INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('melis', 'Melis Gulenay', 4123, 'melis@itu.edu.tr', '$6$rounds=656000$ndu2sy9DMg5bVp1D$uPIOHBTnMWBjAjI4PuendQeYY5tNS7RcCfLSpaGxdxXBBcojaK07bMilkSXFC4qx7IqH1IgbcoelFYurcH.JS0', 0);
                         INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('mert', 'Mert Kartaltepe', 4125, 'mert@itu.edu.tr', '$6$rounds=656000$yi1XAGdkPXFN/S8x$Rayqxk8A7lmsrz/ScCkUn2zBHBd2wxtjpZ3aYBCAPo5WHLmjIyTHUf0oyeLtqys8TdWlSHxgu2zlwFpD.a.G4.', 0);

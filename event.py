@@ -37,6 +37,16 @@ def delete_event(cid,eid):
         flash("Unaccepted Method.")
     return redirect(url_for('link2.clubProfile', id = cid))
 
+@link5.route('/addnotice/<int:cid>/')
+def addnotice(cid):
+    cname = getclubname(cid)[0]
+    return render_template('addnotice.html',cname = cname,cid = cid)
+
+@link5.route('/savenotice/<int:cid>/', methods=['GET', 'POST'])
+def savenotice(cid):
+    if request.method == 'POST':
+        return
+
 @link5.route('/register_event/<int:id>/', methods=['GET', 'POST'])
 def register_event(id):
     if request.method == "POST":
@@ -77,7 +87,7 @@ def getevent(id):
                 a[3] = a[3].strftime("%d %B %Y, %A")
                 a = tuple(a)
                 editedarr.append(a)
-            return editedarr;
+            return editedarr
     else:
         with dbapi2.connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
@@ -91,4 +101,4 @@ def getevent(id):
                 a[2] = a[2].strftime("%d %B %Y, %A")
                 a = tuple(a)
                 editedarr.append(a)
-            return editedarr;
+            return editedarr

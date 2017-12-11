@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block title %} Add Notice {% endblock %}
+
+{% block content %}
+ <form  method = "POST" action= "{{url_for('link5.savenotice', cid = cid)}}">
+  <div class="container" align = "center">
+    <div class="login">
+        <h1 class="w3-xlarge"> <strong>Create an Notification for {{cname}}</strong> </h1> <br>
+    <div class="input-group">
+			   <span class="input-group-addon"><i class="glyphicon glyphicon-font" aria-hidden="true"></i></span>
+         <input type="text" placeholder="Notification Title" name="title" class="input-txt" required><br>
+    </div>
+    <br>
+    <div class="input-group">
+         <span class="input-group-addon"><i class="fa fa-quote-left fa-fw" aria-hidden="true"></i></span>
+      <textarea maxlength="2000" rows"4" cols"50" class="input-txt"  placeholder="Notification Details" name="exp" required></textarea><br>
+    </div>
+    <br>
+      <button type="submit" class="btn">Create</button>
+    </div>
+  </div>
+  </div>
+</form>
+{% endblock %}
