@@ -10,7 +10,7 @@ from flask import render_template, Response
 from flask import request, current_app
 from classes import User
 from home import link1
-from event import getevent
+from event import getevent,getnotices
 from passlib.apps import custom_app_context as pwd_context
 from flask_login.utils import login_required
 from flask_login import login_manager, login_user, logout_user,current_user
@@ -99,8 +99,10 @@ def clubProfile(id):
         cursor.execute(query,(id,))
         socmed = cursor.fetchall()
 
+        notices = getnotices(id)
+        print(str(notices))
 
-    return render_template('clubProfile.html',socmed = socmed, events = events, club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
+    return render_template('clubProfile.html',notices = notices,socmed = socmed, events = events, club = club, members = members, ismember = ismember, isapplied = isapplied, level = level, applicants = applicant, board = board)
 
 @link2.route('/next/<arg>')
 def clubProfileNext(arg):

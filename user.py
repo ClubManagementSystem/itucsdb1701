@@ -25,7 +25,6 @@ def userProfile():
         clubnames.append(tuple([i[0],cn[0]]))
     return render_template('profile.html',clubnames = clubnames)
 
-
 def userclub(id):
     with dbapi2._connect(current_app.config['dsn']) as connection:
             cursor = connection.cursor()
