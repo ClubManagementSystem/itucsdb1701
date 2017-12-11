@@ -76,7 +76,6 @@ class UserList:
             query = "SELECT NAME, PSW FROM USERDB WHERE (NAME = %s)"
             cursor.execute(query, (uname,))
             usr = cursor.fetchone()
-            print (usr)
             if usr == None:
                 return -2 # user yok
 

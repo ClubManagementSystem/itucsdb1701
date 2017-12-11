@@ -13,7 +13,6 @@ from user import link3
 from admin import link4
 from event import link5
 from message import link6
-from recommend import link7
 from classes import UserList, User
 from flask_login import login_manager, current_user
 from flask_login.login_manager import LoginManager
@@ -28,7 +27,6 @@ app.register_blueprint(link3)
 app.register_blueprint(link4)
 app.register_blueprint(link5)
 app.register_blueprint(link6)
-app.register_blueprint(link7)
 app.secret_key = 'gallifrey'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -41,12 +39,10 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    # do stuff
     flash("Unauthorized Access. Please Sign In or Sign Up!")
     return redirect(url_for('link1.home_page'))
 
 def get_elephantsql_dsn(vcap_services):
-    """Returns the data source name for ElephantSQL."""
     parsed = json.loads(vcap_services)
     uri = parsed["elephantsql"][0]["credentials"]["uri"]
     match = re.match('postgres://(.*?):(.*?)@(.*?)(:(\d+))?/(.*)', uri)

@@ -19,7 +19,6 @@ link6 = Blueprint('link6',__name__)
 
 @link6.route('/message/<furom>/<int:role>/') # clubname = 0 if dir == true
 def message(furom, role):
-	print("furom: " + furom)
 	tu = []
 	messages = []
 	newAdresses = []
@@ -48,7 +47,6 @@ def message(furom, role):
 					clearAdresses.append(temp)
 
 		else:
-			print("role = false")
 			query = """SELECT USERDB.ID, USERDB.REALNAME FROM MESSAGE, USERDB, CLUBDB WHERE(USERID = USERDB.ID AND CLUBID = %s AND CLUBID = CLUBDB.ID) ORDER BY DATE ASC """
 			cursor.execute(query, (furom,))
 			temp = cursor.fetchall()
@@ -67,9 +65,6 @@ def message(furom, role):
 					temp = [m[0], m[1]]
 					clearAdresses.append(temp)
 		connection.commit()
-		#messages = cursor.fetchall()
-		print("newAdresses: " + str(newAdresses))
-		# print("messages: " + str(messages))
 
 	return render_template('message.html', conversations = tus, adresses = newAdresses, adressesr = clearAdresses, id = furom, role = role)
 
@@ -78,7 +73,6 @@ def getMessages(furom, role, ti):
 	tus = []
 	newAdresses = []
 	clearAdresses = []
-	print("gmrole: " + str(role))
 	with dbapi2.connect(current_app.config['dsn']) as connection:
 		cursor = connection.cursor()
 		tus = []
@@ -132,18 +126,13 @@ def getMessages(furom, role, ti):
 		name.append(messages[0][0])
 		name.append(messages[0][1])
 		connection.commit()
-	print("message: " + str(messages))
 
 	return render_template('message.html', conversations = tus, name = name, adresses = newAdresses, adressesr = clearAdresses, id = furom, role = role, messages = messages)
 
 @link6.route('/sendMessages/<int:furom>/<int:tu>/<int:role>/', methods = ['POST', 'GET'])
 def sendMessages(furom, role, tu):
 	if request.method == 'POST':
-		print("asdasd")
 		message = request.form['message']
-		print("asdasd123")
-	
-		print("message: " + message)
 		with dbapi2.connect(current_app.config['dsn']) as connection:
 			cursor = connection.cursor()
 			if role == 1:
@@ -186,13 +175,7 @@ def deleteConversation(furom, role):
 		except:
 			flash("Choose somebody to delete the conversation")
 			return redirect(url_for('link6.message', furom = furom, role = role))
-		print("asdasd")
 		tu = request.form['newAdress']
-		print("asdasd123")
-
-		print("ccfurom: " + str(furom))
-		print("ccrole: " + str(role))
-		print("ccnew: " + tu)
 		with dbapi2.connect(current_app.config['dsn']) as connection:
 			cursor = connection.cursor()
 			if role == 1:
