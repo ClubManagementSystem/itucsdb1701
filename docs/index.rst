@@ -1,17 +1,22 @@
-Welcome to itucsdb's documentation!
+Welcome to Clava's documentation!
 ===================================
 
-:Team: Team Name
+.. figure:: clava.png
+   :scale: 25 %
+   :alt: logo
+
+
+:Team: Clava
 
 :Members:
+   * Turgut Can Aydınalev
+   * Bülent Koray Öz
+   * Beste Burcu Bayhan
 
-   * Member 1
-   * Member 2
-   * Member 3
-   * Member 4
-   * Member 5
 
-**project description goes here (a few paragraphs)**
+**Clava** is a social platform that provides necessary communication and management services for student clubs
+features with member list, event management, inventory management, balance and club board member information.
+
 
 Contents:
 
