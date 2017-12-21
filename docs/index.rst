@@ -18,10 +18,9 @@ Welcome to Clava's documentation!
 features with member list, event management, inventory management, balance and club board member information.
 
 
-Contents:
-
 .. toctree::
    :maxdepth: 1
-
+   :caption: Table of Contents
+   
    user/index
    developer/index
