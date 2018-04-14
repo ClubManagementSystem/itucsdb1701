@@ -139,7 +139,7 @@ def initialize_database():
             query = """DROP TABLE IF EXISTS MESSAGE CASCADE"""
             cursor.execute(query)
 
-            query = """ CREATE TABLE MESSAGE (ID SERIAL PRIMARY KEY, USERID INT REFERENCES USERDB(ID), CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, DATE TIMESTAMP NOT NULL, MSG VARCHAR(160), DIR BOOLEAN) """
+            query = """ CREATE TABLE MESSAGE (ID SERIAL PRIMARY KEY, USERID INT REFERENCES USERDB(ID), CLUBID INT REFERENCES CLUBDB(ID) ON DELETE CASCADE, DATE TIMESTAMP NOT NULL, MSG VARCHAR(160), DIR BOOLEAN, READ BOOLEAN DEFAULT FALSE) """
             cursor.execute(query)
 
             query = """ INSERT INTO USERDB(NAME,REALNAME,NUMBER,EMAIL,PSW,LEVEL) VALUES ('ceyda', 'Ceyda Aladag', 123456, 'ceyda@itu.edu.tr', '$6$rounds=656000$2pciOKNmxUaBMP9o$E/9Gs1CKiuCE9wtqxOr3kQskYyhm52BzHyZz5QG3qFjuHxcKo3LUsq77sK/fSc5JG5hcXTqiMS/saAyKBFEuh.', 0);
@@ -165,10 +165,10 @@ def initialize_database():
                         INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (2, 'Facebook', 'facebook.com/felsefeitu');
                         INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (1, 'Twitter', 'twitter.com/esporitu');
                         INSERT INTO SOCMED(CLUBID,TYPESOC,LINK) VALUES (1, 'Facebook', 'facebook.com/esporitu');
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 1, '2017-10-22 18:00:00', 'etkinlige en gec kacta gelebiliriz ogrenebilir miyim?', true);
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 1, '2017-10-22 19:00:00', 'oglen 12 de', false);
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 2, '2017-10-22 19:00:00', 'selam', true);
-                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR) VALUES (2, 2, '2017-10-22 18:00:00', 'selam hocam', false);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR, READ) VALUES (2, 1, '2017-10-22 18:00:00', 'etkinlige en gec kacta gelebiliriz ogrenebilir miyim?', true, false);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR, READ) VALUES (2, 1, '2017-10-22 19:00:00', 'oglen 12 de', false, false);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR, READ) VALUES (2, 2, '2017-10-22 19:00:00', 'selam', true, false);
+                        INSERT INTO MESSAGE(USERID, CLUBID, DATE, MSG, DIR, READ) VALUES (2, 2, '2017-10-22 18:00:00', 'selam hocam', false, false);
                         """
             cursor.execute(query)
             connection.commit()
@@ -193,4 +193,4 @@ if __name__ == '__main__':
 
     REMEMBER_COOKIE_DURATION = timedelta(seconds = 10)
     app.store = UserList(os.path.join(os.path.dirname(__file__),app.config['dsn']))
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', debug=debug)
