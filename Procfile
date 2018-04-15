@@ -1,1 +1,2 @@
-web: python server.py
+web: gunicorn app:app
+release: python3 manage.py db upgrade
