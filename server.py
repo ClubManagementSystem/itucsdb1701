@@ -57,6 +57,9 @@ def initdbVerification(key,kay):
         initialize_database()
     return redirect(url_for('link1.home_page'))
 
+@app.route('/deneme')
+def deneme():
+    return render_template('deneme.html')
 
 def initialize_database():
         with dbapi2.connect(app.config['dsn']) as connection:
