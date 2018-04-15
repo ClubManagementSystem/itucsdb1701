@@ -179,18 +179,18 @@ def initialize_database():
 
 
 if __name__ == '__main__':
-    VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
-    if VCAP_APP_PORT is not None:
-        port, debug = int(VCAP_APP_PORT), False
-    else:
-        port, debug = 5000, True
-    VCAP_SERVICES = os.getenv('VCAP_SERVICES')
-    if VCAP_SERVICES is not None:
-        app.config['dsn'] = get_elephantsql_dsn(VCAP_SERVICES)
-    else:
-        app.config['dsn'] = """user='vagrant' password='vagrant'
-                               host='localhost' port=5432 dbname='itucsdb'"""
+    # VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
+    # if VCAP_APP_PORT is not None:
+    #     port, debug = int(VCAP_APP_PORT), False
+    # else:
+    #     port, debug = 5000, True
+    # VCAP_SERVICES = os.getenv('VCAP_SERVICES')
+    # if VCAP_SERVICES is not None:
+    #     app.config['dsn'] = get_elephantsql_dsn(VCAP_SERVICES)
+    # else:
+    #     app.config['dsn'] = """user='vagrant' password='vagrant'
+    #                            host='localhost' port=5432 dbname='itucsdb'"""
 
     REMEMBER_COOKIE_DURATION = timedelta(seconds = 10)
-    app.store = UserList(os.path.join(os.path.dirname(__file__),app.config['dsn']))
-    app.run(host='0.0.0.0', debug=debug)
+    #app.store = UserList(os.path.join(os.path.dirname(__file__),app.config['dsn']))
+    app.run(host='0.0.0.0', debug= False)
